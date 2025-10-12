@@ -27,33 +27,28 @@ interface MenuData {
 const MenuPage: React.FC = () => {
     const { language } = useLocalization();
     const menuContent = content.menu;
-    const [menuData, setMenuData] = useState<MenuData | null>(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
     const [openCategoryIndex, setOpenCategoryIndex] = useState<number | null>(0);
     const [isViewerOpen, setIsViewerOpen] = useState(false);
+    const [menuData, setMenuData] = useState<MenuData | null>(null);
+    const [isLoadingMenu, setIsLoadingMenu] = useState(true);
 
     useEffect(() => {
-        const fetchMenuData = async () => {
-            try {
-                // Fetch the JSON data from the public folder
-                const response = await fetch('/menu_data.json');
+        fetch('/menu_data.json')
+            .then(response => {
                 if (!response.ok) {
-                    throw new Error(`Failed to load menu: ${response.statusText}`);
+                    throw new Error(`HTTP error! status: ${response.status}`);
                 }
-                const data: MenuData = await response.json();
+                return response.json();
+            })
+            .then(data => {
                 setMenuData(data);
-            } catch (err) {
-                console.error('Error fetching menu data:', err);
-                setError(err instanceof Error ? err.message : 'An unknown error occurred.');
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchMenuData();
-    }, []); // Empty dependency array ensures this runs once on mount
-
+                setIsLoadingMenu(false);
+            })
+            .catch(error => {
+                console.error("Failed to fetch menu data:", error);
+                setIsLoadingMenu(false);
+            });
+    }, []);
 
     const handleToggleCategory = (index: number) => {
         setOpenCategoryIndex(openCategoryIndex === index ? null : index);
@@ -81,18 +76,18 @@ const MenuPage: React.FC = () => {
     ];
 
     const renderMenuContent = () => {
-        if (loading) {
+        if (isLoadingMenu) {
             return (
-                <div className="text-center py-20">
+                <div className="text-center py-12">
                     <p className="text-lg text-gray-700">Loading menu...</p>
                 </div>
             );
         }
-
-        if (error || !menuData) {
+    
+        if (!menuData) {
             return (
-                <div className="text-center py-20">
-                    <p className="text-lg text-red-600">Could not load menu. Please try again later.</p>
+                <div className="text-center py-12">
+                    <p className="text-lg text-red-600">Failed to load menu. Please try again later.</p>
                 </div>
             );
         }

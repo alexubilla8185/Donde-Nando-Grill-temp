@@ -204,7 +204,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ isMobileMenuOpen }) => {
                         value={input}
                         onChange={handleInputChange}
                         placeholder={chatbotContent.inputPlaceholder[language]}
-                        className="flex-grow w-full px-4 py-2 bg-gray-100 border-transparent rounded-full focus:outline-none focus:ring-2 focus:ring-brand-red text-sm"
+                        className="flex-grow w-full px-4 py-2 bg-gray-100 border-transparent rounded-full focus:outline-none focus:ring-2 focus:ring-brand-red text-sm text-gray-900"
                         disabled={isLoading}
                     />
                     <button

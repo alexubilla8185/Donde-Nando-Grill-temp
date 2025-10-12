@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { useLocalization } from '../hooks/useLocalization';
+import { useLocalization } from '../hooks/useLocalization.ts';
 // FIX: Added .ts extension to aid module resolution.
 import { content } from '../constants/content.ts';
 // FIX: Added .tsx extension to aid module resolution.
