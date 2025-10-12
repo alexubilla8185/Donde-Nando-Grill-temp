@@ -49,7 +49,7 @@ export const content = {
     address: 'A 700 metros al norte de la Rotonda Los Encuentros, Chinandega, Nicaragua',
     googleMapsUrl: 'https://www.google.com/maps/place/Donde+Nando+Grill/@12.6392078,-87.1354388,17z/data=!3m1!4b1!4m6!3m5!1s0x8f0d8a9b233a788b:0xd411802e88a0b503!8m2!3d12.6392078!4d-87.1328639!16s%2Fg%2F11b6x_k8n5?entry=ttu',
     phone: '+505 8470 9484',
-    email: 'dondenando@gmail.com',
+    email: 'dondnando@gmail.com',
     facebook: 'https://www.facebook.com/dondenandogrill',
     instagram: 'https://www.instagram.com/dondenandogrill',
   },
