@@ -121,6 +121,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ isMobileMenuOpen }) => {
             setMessages(prev => [...prev, errorMessage]);
         } finally {
             setIsLoading(false);
+            setShowSuggestions(true);
         }
     };
 
@@ -128,7 +129,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ isMobileMenuOpen }) => {
         <>
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className={`fixed bottom-6 right-6 bg-brand-red text-white p-3 rounded-full shadow-lg hover:bg-red-800 transition-all duration-300 z-50 ${
+                className={`fixed bottom-6 right-6 bg-brand-red text-white p-3 rounded-full shadow-lg hover:bg-red-800 transition-all duration-300 z-50 animate-initial-bounce hover:scale-110 active:scale-95 ${
                     isMobileMenuOpen ? 'opacity-0 scale-75 pointer-events-none' : 'opacity-100 scale-100'
                 }`}
                 aria-label="Open chatbot"
@@ -153,7 +154,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ isMobileMenuOpen }) => {
 
                 <div className="flex-grow p-4 overflow-y-auto space-y-4 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
                     {messages.map((msg, index) => (
-                        <div key={index} className={`flex items-end gap-2 ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
+                        <div key={index} className={`flex items-end gap-2 animate-fade-in-up ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
                             {msg.sender === 'model' && (
                                 <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center font-bold text-brand-red shrink-0">N</div>
                             )}
@@ -174,7 +175,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ isMobileMenuOpen }) => {
                         </div>
                     ))}
                     {isLoading && (
-                         <div className="flex items-end gap-2 justify-start">
+                         <div className="flex items-end gap-2 justify-start animate-fade-in-up">
                             <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center font-bold text-brand-red shrink-0">N</div>
                             <div className="bg-gray-200 text-brand-text rounded-2xl rounded-bl-none px-4 py-2">
                                 <div className="flex space-x-1">
@@ -232,13 +233,6 @@ const Chatbot: React.FC<ChatbotProps> = ({ isMobileMenuOpen }) => {
                     background-color: #D1D5DB;
                     border-radius: 10px;
                     border: 3px solid #F3F4F6;
-                }
-                 @keyframes fade-in-scale {
-                    0% { transform: scale(0.95); opacity: 0; }
-                    100% { transform: scale(1); opacity: 1; }
-                }
-                .animate-fade-in-scale {
-                    animation: fade-in-scale 0.3s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
                 }
             `}</style>
         </>

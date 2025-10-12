@@ -34,10 +34,10 @@ const Footer: React.FC = () => {
           <div className="md:col-span-1">
              <h3 className="font-bold text-lg mb-4">Contacto</h3>
              <div className="flex justify-center md:justify-start space-x-6">
-                <a href={contactInfo.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="text-gray-400 hover:text-white transition-colors"><FacebookIcon /></a>
-                <a href={contactInfo.instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-gray-400 hover:text-white transition-colors"><InstagramIcon /></a>
-                <a href={`mailto:${contactInfo.email}`} aria-label="Email" className="text-gray-400 hover:text-white transition-colors"><MailIcon /></a>
-                <a href={`tel:${contactInfo.phone.replace(/\s/g, '')}`} aria-label="Phone" className="text-gray-400 hover:text-white transition-colors"><PhoneIcon /></a>
+                <a href={contactInfo.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="text-gray-400 hover:text-white transition-all hover:scale-110"><FacebookIcon /></a>
+                <a href={contactInfo.instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-gray-400 hover:text-white transition-all hover:scale-110"><InstagramIcon /></a>
+                <a href={`mailto:${contactInfo.email}`} aria-label="Email" className="text-gray-400 hover:text-white transition-all hover:scale-110"><MailIcon /></a>
+                <a href={`tel:${contactInfo.phone.replace(/\s/g, '')}`} aria-label="Phone" className="text-gray-400 hover:text-white transition-all hover:scale-110"><PhoneIcon /></a>
              </div>
           </div>
         </div>

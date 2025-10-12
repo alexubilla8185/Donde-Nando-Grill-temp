@@ -50,10 +50,46 @@
       /* Apply base font to the body */
       body {
         font-family: 'Roboto', sans-serif;
+        /* Fix for animations causing horizontal scroll */
+        overflow-x: hidden;
       }
       /* Ensure smooth scrolling */
       html {
         scroll-behavior: smooth;
+      }
+
+      /* --- Custom Animations & Micro-interactions --- */
+      @keyframes fade-in {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+      @keyframes fade-in-up {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes pop-in {
+        from { transform: scale(0.95); opacity: 0; }
+        to { transform: scale(1); opacity: 1; }
+      }
+      @keyframes initial-bounce {
+        0%, 100% { transform: translateY(0) scale(1); }
+        50% { transform: translateY(-8px) scale(1.05); }
+      }
+
+      .animate-fade-in { animation: fade-in 0.6s ease-out forwards; }
+      .animate-fade-in-up { animation: fade-in-up 0.6s ease-out forwards; }
+      .animate-pop-in { animation: pop-in 0.3s cubic-bezier(0.165, 0.84, 0.44, 1) forwards; }
+      .animate-initial-bounce { animation: initial-bounce 1.5s ease-in-out 2s; } /* 2s delay */
+
+      /* For scroll-triggered animations */
+      .scroll-animate {
+        opacity: 0;
+        transform: translateY(24px);
+        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+      }
+      .scroll-animate.is-visible {
+        opacity: 1;
+        transform: translateY(0);
       }
     </style>
   <script type="importmap">

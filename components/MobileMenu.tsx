@@ -55,7 +55,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose, onShareClick }
                     </div>
                     <nav className="flex flex-col space-y-6 text-xl text-brand-text flex-grow">
                         {navLinks.map(link => (
-                            <a key={link.key} href={link.href} onClick={(e) => handleNavClick(e, link.href)} className="hover:text-brand-red transition-colors">
+                            <a key={link.key} href={link.href} onClick={(e) => handleNavClick(e, link.href)} className="hover:text-brand-red transition-all duration-200 hover:translate-x-2">
                                 {link.text}
                             </a>
                         ))}

@@ -1,54 +1,17 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useLocalization } from '../hooks/useLocalization.ts';
 import { content } from '../constants/content.ts';
 import { ChevronSimpleIcon } from '../components/icons.tsx';
 import ImageViewerModal from '../components/ImageViewerModal.tsx';
+import { menuData } from '../constants/menu.ts';
 
-// Define types for the menu data for type safety
-interface MenuItem {
-    name_es: string;
-    name_en: string;
-    price: number;
-    notes_es?: string;
-    notes_en?: string;
-}
-
-interface MenuSection {
-    title_es: string;
-    title_en: string;
-    items: MenuItem[];
-}
-
-interface MenuData {
-    menu_sections: MenuSection[];
-}
 
 const MenuPage: React.FC = () => {
     const { language } = useLocalization();
     const menuContent = content.menu;
     const [openCategoryIndex, setOpenCategoryIndex] = useState<number | null>(0);
     const [isViewerOpen, setIsViewerOpen] = useState(false);
-    const [menuData, setMenuData] = useState<MenuData | null>(null);
-    const [isLoadingMenu, setIsLoadingMenu] = useState(true);
-
-    useEffect(() => {
-        fetch('/menu_data.json')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                setMenuData(data);
-                setIsLoadingMenu(false);
-            })
-            .catch(error => {
-                console.error("Failed to fetch menu data:", error);
-                setIsLoadingMenu(false);
-            });
-    }, []);
 
     const handleToggleCategory = (index: number) => {
         setOpenCategoryIndex(openCategoryIndex === index ? null : index);
@@ -76,22 +39,6 @@ const MenuPage: React.FC = () => {
     ];
 
     const renderMenuContent = () => {
-        if (isLoadingMenu) {
-            return (
-                <div className="text-center py-12">
-                    <p className="text-lg text-gray-700">Loading menu...</p>
-                </div>
-            );
-        }
-    
-        if (!menuData) {
-            return (
-                <div className="text-center py-12">
-                    <p className="text-lg text-red-600">Failed to load menu. Please try again later.</p>
-                </div>
-            );
-        }
-
         return (
             <div className="max-w-4xl mx-auto">
                 {menuData.menu_sections.map((category, index) => (
@@ -113,7 +60,7 @@ const MenuPage: React.FC = () => {
                                 {category.items.map(item => {
                                     const notes = language === 'es' ? item.notes_es : item.notes_en;
                                     return (
-                                        <div key={item.name_en} className="flex flex-col items-start">
+                                        <div key={item.name_en} className="p-2 -m-2 rounded-lg hover:bg-gray-50 transition-colors duration-200">
                                             <div className="w-full flex justify-between items-baseline border-b border-dotted border-gray-300 pb-2">
                                                 <p className="text-lg text-gray-800 pr-4">{language === 'es' ? item.name_es : item.name_en}</p>
                                                 <p className="text-lg font-bold text-brand-text whitespace-nowrap">{`C$${item.price}`}</p>

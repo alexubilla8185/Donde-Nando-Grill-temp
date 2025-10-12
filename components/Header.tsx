@@ -42,34 +42,35 @@ const Header: React.FC<HeaderProps> = ({ currentRoute, isMobileMenuOpen, setMobi
 
     const isHomePageTop = currentRoute === 'home' && !isScrolled;
     const headerClasses = `fixed top-0 left-0 w-full z-40 transition-all duration-300 ${isHomePageTop ? 'bg-transparent' : 'bg-white shadow-md'}`;
-    const navLinkClasses = `transition-colors duration-300 hover:text-brand-red ${isHomePageTop ? 'text-white' : 'text-brand-text'}`;
+    const navLinkClasses = `transition-all duration-300 hover:text-brand-red ${isHomePageTop ? 'text-white' : 'text-brand-text'}`;
     const activeLinkClasses = `text-brand-red`;
 
     return (
         <>
             <header className={headerClasses}>
                 <div className="container mx-auto px-6 h-20 flex justify-between items-center">
-                    <a href="#/home" onClick={(e) => handleNavClick(e, '#/home')} className={`font-serif font-bold text-2xl ${navLinkClasses}`}>
+                    <a href="#/home" onClick={(e) => handleNavClick(e, '#/home')} className={`font-serif font-bold text-2xl ${navLinkClasses} transition-transform duration-300 hover:scale-105`}>
                         Donde Nando Grill
                     </a>
                     <nav className="hidden md:flex items-center space-x-8">
                         {navLinks.map(link => (
-                            <a key={link.key} href={link.href} onClick={(e) => handleNavClick(e, link.href)} className={`${navLinkClasses} ${currentRoute === link.key ? activeLinkClasses : ''}`}>
+                            <a key={link.key} href={link.href} onClick={(e) => handleNavClick(e, link.href)} className={`group ${navLinkClasses} ${currentRoute === link.key ? activeLinkClasses : ''}`}>
                                 {link.text}
+                                <span className={`block max-w-0 group-hover:max-w-full transition-all duration-300 h-0.5 bg-brand-red mt-0.5 ${currentRoute === link.key ? 'max-w-full' : ''}`}></span>
                             </a>
                         ))}
                     </nav>
                     <div className="flex items-center space-x-4">
-                        <button onClick={() => setLanguage(language === 'es' ? 'en' : 'es')} className={`text-sm font-bold ${navLinkClasses}`}>
+                        <button onClick={() => setLanguage(language === 'es' ? 'en' : 'es')} className={`text-sm font-bold ${navLinkClasses} transition-transform hover:scale-110`}>
                             {language === 'es' ? 'EN' : 'ES'}
                         </button>
                         <div className="hidden md:block">
-                          <button onClick={() => setShareModalOpen(true)} className="text-brand-red hover:opacity-75 transition-opacity" aria-label="Share">
+                          <button onClick={() => setShareModalOpen(true)} className="text-brand-red transition-all duration-200 hover:scale-110 hover:-rotate-6" aria-label="Share">
                             <ShareNetworkIcon className="w-6 h-6" />
                           </button>
                         </div>
                         <div className="md:hidden">
-                            <button onClick={() => setMobileMenuOpen(true)} className={navLinkClasses}>
+                            <button onClick={() => setMobileMenuOpen(true)} className={`${navLinkClasses} transition-transform duration-200 hover:scale-110 hover:rotate-6`}>
                                 <MenuIcon className="w-6 h-6" />
                             </button>
                         </div>

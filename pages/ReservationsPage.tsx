@@ -84,11 +84,11 @@ const ReservationsPage: React.FC = () => {
             <div className="space-y-6">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-700">{resContent.form.name[language]}</label>
-                <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} required className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-red focus:border-brand-red text-gray-900" />
+                <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} required className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-red focus:border-brand-red text-gray-900 transition-all duration-200" />
               </div>
               <div>
                 <label htmlFor="contact" className="block text-sm font-medium text-gray-700">{resContent.form.contact[language]}</label>
-                <input type="text" id="contact" name="contact" value={formData.contact} onChange={handleChange} required className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-red focus:border-brand-red text-gray-900" />
+                <input type="text" id="contact" name="contact" value={formData.contact} onChange={handleChange} required className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-red focus:border-brand-red text-gray-900 transition-all duration-200" />
               </div>
               
               <div>
@@ -123,20 +123,20 @@ const ReservationsPage: React.FC = () => {
                 {reservationType === 'dine-in' && (
                     <div>
                       <label htmlFor="partySize" className="block text-sm font-medium text-gray-700">{resContent.form.partySize[language]}</label>
-                      <input type="number" id="partySize" name="partySize" value={formData.partySize} onChange={handleChange} required={reservationType === 'dine-in'} min="1" className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-red focus:border-brand-red text-gray-900" />
+                      <input type="number" id="partySize" name="partySize" value={formData.partySize} onChange={handleChange} required={reservationType === 'dine-in'} min="1" className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-red focus:border-brand-red text-gray-900 transition-all duration-200" />
                     </div>
                 )}
                 <div>
                   <label htmlFor="date" className="block text-sm font-medium text-gray-700">{resContent.form.date[language]}</label>
-                  <input type="date" id="date" name="date" value={formData.date} onChange={handleChange} required className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-red focus:border-brand-red text-gray-900" />
+                  <input type="date" id="date" name="date" value={formData.date} onChange={handleChange} required className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-red focus:border-brand-red text-gray-900 transition-all duration-200" />
                 </div>
                 <div>
                   <label htmlFor="time" className="block text-sm font-medium text-gray-700">{resContent.form.time[language]}</label>
-                  <input type="time" id="time" name="time" value={formData.time} onChange={handleChange} required className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-red focus:border-brand-red text-gray-900" />
+                  <input type="time" id="time" name="time" value={formData.time} onChange={handleChange} required className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-red focus:border-brand-red text-gray-900 transition-all duration-200" />
                 </div>
               </div>
               <div>
-                <button type="submit" className="w-full bg-brand-red text-white font-bold py-3 px-6 rounded-md hover:bg-red-800 transition-colors duration-300">
+                <button type="submit" className="w-full bg-brand-red text-white font-bold py-3 px-6 rounded-md hover:bg-red-800 transition-all duration-300 hover:scale-105 active:scale-95">
                   {resContent.form.submit[language]}
                 </button>
               </div>

@@ -48,9 +48,8 @@ const ShareModal: React.FC<ShareModalProps> = ({ isOpen, onClose, url }) => {
       aria-labelledby="share-modal-title"
     >
       <div 
-        className="bg-white p-6 rounded-lg shadow-xl max-w-md w-full relative transform transition-all duration-300 scale-95 opacity-0 animate-fade-in-scale"
+        className="bg-white p-6 rounded-lg shadow-xl max-w-md w-full relative animate-pop-in"
         onClick={(e) => e.stopPropagation()}
-        style={{ animationFillMode: 'forwards' }}
       >
         <button 
           onClick={onClose} 
@@ -93,23 +92,12 @@ const ShareModal: React.FC<ShareModalProps> = ({ isOpen, onClose, url }) => {
           />
           <button 
             onClick={copyToClipboard}
-            className={`w-32 text-white font-bold px-4 py-2 rounded-r-md transition-colors duration-300 ${copied ? 'bg-green-600' : 'bg-brand-red hover:bg-red-800'}`}
+            className={`w-32 text-white font-bold px-4 py-2 rounded-r-md transition-all duration-300 active:scale-95 ${copied ? 'bg-green-600' : 'bg-brand-red hover:bg-red-800'}`}
           >
             {copied ? modalContent.copiedButton[language] : modalContent.copyButton[language]}
           </button>
         </div>
       </div>
-      <style>
-        {`
-          @keyframes fade-in-scale {
-            0% { transform: scale(0.95); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-          }
-          .animate-fade-in-scale {
-            animation: fade-in-scale 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
-          }
-        `}
-      </style>
     </div>
   );
 };

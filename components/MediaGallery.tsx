@@ -17,6 +17,30 @@ const MediaGallery: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const timeoutRef = useRef<number | null>(null);
   const AUTOPLAY_DELAY = 5000;
+  const sectionRef = useRef<HTMLElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
+  }, []);
 
   const resetTimeout = useCallback(() => {
     if (timeoutRef.current) {
@@ -50,7 +74,7 @@ const MediaGallery: React.FC = () => {
   }, [currentIndex, nextSlide, resetTimeout]);
 
   return (
-    <section id="gallery" className="py-20 bg-brand-bg">
+    <section id="gallery" ref={sectionRef} className={`py-20 bg-brand-bg scroll-animate ${isVisible ? 'is-visible' : ''}`}>
       <div className="container mx-auto px-6">
         <div className="max-w-4xl mx-auto text-center mb-12">
           <h2 className="text-4xl font-serif font-bold text-brand-text mb-4">

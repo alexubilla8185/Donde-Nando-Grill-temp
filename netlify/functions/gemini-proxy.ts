@@ -1,6 +1,6 @@
 
 import { GoogleGenAI } from "@google/genai";
-import menuData from '../../menu_data.json';
+import { menuData } from '../../constants/menu.ts';
 
 interface RequestBody {
     message: string;
