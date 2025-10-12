@@ -1,7 +1,8 @@
+
 import React from 'react';
 import { useLocalization } from '../hooks/useLocalization.ts';
 import { content } from '../constants/content.ts';
-import { CloseIcon, ShareIcon } from './icons.tsx';
+import { CloseIcon, ShareNetworkIcon } from './icons.tsx';
 import Logo from './Logo.tsx';
 
 interface MobileMenuProps {
@@ -60,12 +61,20 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose, onShareClick }
                             </a>
                         ))}
                     </nav>
-                    <div className="border-t pt-6 space-y-4">
-                        <button onClick={handleShare} className="w-full flex items-center justify-center text-lg text-brand-text hover:text-brand-red transition-colors">
-                           <ShareIcon className="w-5 h-5 mr-2"/> {language === 'es' ? 'Compartir' : 'Share'}
+                    <div className="border-t pt-6 flex items-center justify-between">
+                        <button onClick={handleShare} className="flex items-center text-lg text-brand-text hover:text-brand-red transition-colors">
+                           <ShareNetworkIcon className="w-5 h-5 mr-2"/> {language === 'es' ? 'Compartir' : 'Share'}
                         </button>
-                         <button onClick={() => setLanguage(language === 'es' ? 'en' : 'es')} className="w-full text-lg font-bold text-brand-text hover:text-brand-red transition-colors">
-                            {language === 'es' ? 'Switch to English' : 'Cambiar a Español'}
+                         <button 
+                            onClick={() => setLanguage(language === 'es' ? 'en' : 'es')} 
+                            className="flex items-center space-x-2 text-lg text-brand-text"
+                            aria-label={`Switch to ${language === 'es' ? 'English' : 'Español'}`}
+                         >
+                            <span className={`font-bold transition-colors ${language === 'es' ? 'text-brand-red' : 'text-gray-400'}`}>ES</span>
+                            <div className="w-10 h-5 bg-gray-200 rounded-full p-0.5 flex items-center">
+                                <div className={`w-4 h-4 bg-white rounded-full shadow-md transform transition-transform duration-300 ${language === 'es' ? 'translate-x-0' : 'translate-x-5'}`}></div>
+                            </div>
+                            <span className={`font-bold transition-colors ${language === 'en' ? 'text-brand-red' : 'text-gray-400'}`}>EN</span>
                         </button>
                     </div>
                 </div>

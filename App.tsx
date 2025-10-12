@@ -15,6 +15,7 @@ const AppContent: React.FC = () => {
     // FIX: Forcibly set 'home' as initial route to address user's complaint.
     // This overrides any initial URL hash.
     const [route, setRoute] = useState('home');
+    const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     useEffect(() => {
         // Sync the URL hash with the initial state and set up the listener.
@@ -52,12 +53,16 @@ const AppContent: React.FC = () => {
 
     return (
         <div className="flex flex-col min-h-screen bg-brand-bg">
-            <Header currentRoute={route} />
+            <Header
+              currentRoute={route}
+              isMobileMenuOpen={isMobileMenuOpen}
+              setMobileMenuOpen={setMobileMenuOpen}
+            />
             <main className="flex-grow">
                 {renderPage()}
             </main>
             <Footer />
-            <Chatbot />
+            <Chatbot isMobileMenuOpen={isMobileMenuOpen} />
         </div>
     );
 };

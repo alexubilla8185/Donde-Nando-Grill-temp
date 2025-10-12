@@ -8,7 +8,11 @@ interface Message {
     text: string;
 }
 
-const Chatbot: React.FC = () => {
+interface ChatbotProps {
+    isMobileMenuOpen: boolean;
+}
+
+const Chatbot: React.FC<ChatbotProps> = ({ isMobileMenuOpen }) => {
     const { language } = useLocalization();
     const chatbotContent = content.chatbot;
 
@@ -25,6 +29,13 @@ const Chatbot: React.FC = () => {
         setShowSuggestions(false);
         setInput('');
     }, [language]);
+
+    // Close chat window if mobile menu is opened
+    useEffect(() => {
+        if (isMobileMenuOpen && isOpen) {
+            setIsOpen(false);
+        }
+    }, [isMobileMenuOpen, isOpen]);
 
     // Effect to show the initial greeting when the chat is opened and empty
     useEffect(() => {
@@ -117,8 +128,11 @@ const Chatbot: React.FC = () => {
         <>
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="fixed bottom-6 right-6 bg-brand-red text-white p-3 rounded-full shadow-lg hover:bg-red-800 transition-colors duration-300 z-50 animate-fade-in-scale"
+                className={`fixed bottom-6 right-6 bg-brand-red text-white p-3 rounded-full shadow-lg hover:bg-red-800 transition-all duration-300 z-50 ${
+                    isMobileMenuOpen ? 'opacity-0 scale-75 pointer-events-none' : 'opacity-100 scale-100'
+                }`}
                 aria-label="Open chatbot"
+                aria-hidden={isMobileMenuOpen}
             >
                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2v10z"/>
