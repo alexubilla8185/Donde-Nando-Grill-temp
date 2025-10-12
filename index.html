@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Donde Nando Grill</title>
+
+    <!-- Favicon and App Icons -->
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#A21927" />
+
+    <!-- Social Share / Open Graph Meta Tags -->
+    <meta property="og:title" content="Donde Nando Grill" />
+    <meta property="og:description" content="An elegant and professional website for Donde Nando Grill, a Central American restaurant in Chinandega, Nicaragua. Features language support for Spanish and English, beautiful design, and reservation functionality." />
+    <meta property="og:image" content="https://donde-nando-grill.netlify.app/web-app-manifest-512x512.png" />
+    <meta property="og:url" content="https://donde-nando-grill.netlify.app/" />
+    <meta property="og:type" content="website" />
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Donde Nando Grill" />
+    <meta name="twitter:description" content="An elegant and professional website for Donde Nando Grill, a Central American restaurant in Chinandega, Nicaragua. Features language support for Spanish and English, beautiful design, and reservation functionality." />
+    <meta name="twitter:image" content="https://donde-nando-grill.netlify.app/web-app-manifest-512x512.png" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              'brand-red': '#A21927',
+              'brand-bg': '#F8F8F8',
+              'brand-text': '#1A1A1A',
+            },
+            fontFamily: {
+              'serif': ['Playfair Display', 'serif'],
+              'sans': ['Roboto', 'sans-serif'],
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      /* Apply base font to the body */
+      body {
+        font-family: 'Roboto', sans-serif;
+      }
+      /* Ensure smooth scrolling */
+      html {
+        scroll-behavior: smooth;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-type-animation": "https://aistudiocdn.com/react-type-animation@^3.2.0",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.24.0"
+  }
+}
+</script>
+</head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+
+    <!-- Netlify Forms placeholders for build-time detection -->
+    <form name="reservations" netlify netlify-honeypot="bot-field" hidden>
+      <input type="text" name="name" />
+      <input type="text" name="contact" />
+      <input type="number" name="partySize" />
+      <input type="date" name="date" />
+      <input type="time" name="time" />
+      <input type="radio" name="reservation-type" value="dine-in" />
+      <input type="radio" name="reservation-type" value="takeout" />
+    </form>
+    <form name="chatbot" netlify netlify-honeypot="bot-field" hidden>
+        <input type="text" name="message" />
+    </form>
+  </body>
+</html>
