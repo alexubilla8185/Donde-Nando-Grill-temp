@@ -1,6 +1,6 @@
 // FIX: Provided full content for the constants file to resolve module not found errors.
 export const content = {
-  appUrl: 'https://donde-nando-grill.netlify.app',
+  appUrl: 'https://dondenandogrill.netlify.app',
   nav: {
     home: { es: 'Inicio', en: 'Home' },
     menu: { es: 'Menú', en: 'Menu' },
