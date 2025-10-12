@@ -132,7 +132,8 @@ const Chatbot: React.FC<ChatbotProps> = ({ isMobileMenuOpen }) => {
                 className={`fixed bottom-6 right-6 bg-brand-red text-white p-3 rounded-full shadow-lg hover:bg-red-800 transition-all duration-300 z-50 animate-initial-bounce hover:scale-110 active:scale-95 ${
                     isMobileMenuOpen ? 'opacity-0 scale-75 pointer-events-none' : 'opacity-100 scale-100'
                 }`}
-                aria-label="Open chatbot"
+                aria-label={isOpen ? "Close chatbot" : "Open chatbot"}
+                aria-expanded={isOpen}
                 aria-hidden={isMobileMenuOpen}
             >
                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" viewBox="0 0 24 24" fill="currentColor">
@@ -144,6 +145,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ isMobileMenuOpen }) => {
                 className={`fixed bottom-24 right-6 w-[90vw] max-w-sm h-[60vh] max-h-[500px] bg-white rounded-lg shadow-2xl flex flex-col transition-all duration-300 z-50 ${
                     isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'
                 }`}
+                aria-hidden={!isOpen}
             >
                 <div className="bg-brand-text text-white p-4 flex justify-between items-center rounded-t-lg">
                     <h3 className="font-bold text-lg">{chatbotContent.headerTitle[language]}</h3>
@@ -152,11 +154,11 @@ const Chatbot: React.FC<ChatbotProps> = ({ isMobileMenuOpen }) => {
                     </button>
                 </div>
 
-                <div className="flex-grow p-4 overflow-y-auto space-y-4 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+                <div role="log" aria-live="polite" className="flex-grow p-4 overflow-y-auto space-y-4 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
                     {messages.map((msg, index) => (
                         <div key={index} className={`flex items-end gap-2 animate-fade-in-up ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
                             {msg.sender === 'model' && (
-                                <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center font-bold text-brand-red shrink-0">N</div>
+                                <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center font-bold text-brand-red shrink-0" aria-hidden="true">N</div>
                             )}
                             <div
                                 className={`rounded-2xl px-4 py-2 max-w-[80%] ${
@@ -168,7 +170,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ isMobileMenuOpen }) => {
                                 <p className="text-sm">{msg.text}</p>
                             </div>
                              {msg.sender === 'user' && (
-                                <div className="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center font-bold text-white shrink-0">
+                                <div className="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center font-bold text-white shrink-0" aria-hidden="true">
                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>
                                 </div>
                             )}
@@ -176,7 +178,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ isMobileMenuOpen }) => {
                     ))}
                     {isLoading && (
                          <div className="flex items-end gap-2 justify-start animate-fade-in-up">
-                            <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center font-bold text-brand-red shrink-0">N</div>
+                            <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center font-bold text-brand-red shrink-0" aria-hidden="true">N</div>
                             <div className="bg-gray-200 text-brand-text rounded-2xl rounded-bl-none px-4 py-2">
                                 <div className="flex space-x-1">
                                     <span className="w-2 h-2 bg-gray-500 rounded-full animate-pulse [animation-delay:-0.3s]"></span>
@@ -200,8 +202,10 @@ const Chatbot: React.FC<ChatbotProps> = ({ isMobileMenuOpen }) => {
                 )}
 
                 <form onSubmit={handleSendMessage} className="p-3 border-t flex items-center gap-2">
+                    <label htmlFor="chatbot-input" className="sr-only">{chatbotContent.inputPlaceholder[language]}</label>
                     <input
                         type="text"
+                        id="chatbot-input"
                         value={input}
                         onChange={handleInputChange}
                         placeholder={chatbotContent.inputPlaceholder[language]}

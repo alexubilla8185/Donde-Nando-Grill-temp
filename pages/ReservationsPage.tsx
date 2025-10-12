@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useLocalization } from '../hooks/useLocalization.ts';
 import { content } from '../constants/content.ts';
 
@@ -18,6 +18,8 @@ const ReservationsPage: React.FC = () => {
   const resContent = content.reservations;
   const [submitted, setSubmitted] = useState(false);
   const [reservationType, setReservationType] = useState<ReservationType>('dine-in');
+  const successRef = useRef<HTMLDivElement>(null);
+
 
   const [formData, setFormData] = useState<FormData>({
       name: '',
@@ -27,6 +29,12 @@ const ReservationsPage: React.FC = () => {
       time: '',
       'reservation-type': 'dine-in'
   });
+
+  useEffect(() => {
+    if (submitted && successRef.current) {
+      successRef.current.focus();
+    }
+  }, [submitted]);
 
   const encode = (data: { [key: string]: any }) => {
     return Object.keys(data)
@@ -75,7 +83,7 @@ const ReservationsPage: React.FC = () => {
             {resContent.title[language]}
           </h2>
           {submitted ? (
-             <div className="text-center bg-green-100 text-green-800 p-4 rounded-lg">
+             <div ref={successRef} tabIndex={-1} role="alert" className="text-center bg-green-100 text-green-800 p-4 rounded-lg">
                 <p className="font-bold text-lg">{getSuccessMessage()}</p>
             </div>
           ) : (
@@ -92,31 +100,33 @@ const ReservationsPage: React.FC = () => {
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700">{resContent.form.reservationType[language]}</label>
-                <div className="mt-2 flex space-x-6">
-                  <label className="flex items-center cursor-pointer">
-                    <input
-                      type="radio"
-                      name="reservation-type"
-                      value="dine-in"
-                      checked={reservationType === 'dine-in'}
-                      onChange={handleRadioChange}
-                      className="h-4 w-4 text-brand-red border-gray-300 focus:ring-brand-red"
-                    />
-                    <span className="ml-2 text-gray-700">{resContent.form.dineIn[language]}</span>
-                  </label>
-                  <label className="flex items-center cursor-pointer">
-                    <input
-                      type="radio"
-                      name="reservation-type"
-                      value="takeout"
-                      checked={reservationType === 'takeout'}
-                      onChange={handleRadioChange}
-                      className="h-4 w-4 text-brand-red border-gray-300 focus:ring-brand-red"
-                    />
-                    <span className="ml-2 text-gray-700">{resContent.form.takeout[language]}</span>
-                  </label>
-                </div>
+                <fieldset>
+                  <legend className="block text-sm font-medium text-gray-700">{resContent.form.reservationType[language]}</legend>
+                  <div className="mt-2 flex space-x-6">
+                    <label className="flex items-center cursor-pointer">
+                      <input
+                        type="radio"
+                        name="reservation-type"
+                        value="dine-in"
+                        checked={reservationType === 'dine-in'}
+                        onChange={handleRadioChange}
+                        className="h-4 w-4 text-brand-red border-gray-300 focus:ring-brand-red"
+                      />
+                      <span className="ml-2 text-gray-700">{resContent.form.dineIn[language]}</span>
+                    </label>
+                    <label className="flex items-center cursor-pointer">
+                      <input
+                        type="radio"
+                        name="reservation-type"
+                        value="takeout"
+                        checked={reservationType === 'takeout'}
+                        onChange={handleRadioChange}
+                        className="h-4 w-4 text-brand-red border-gray-300 focus:ring-brand-red"
+                      />
+                      <span className="ml-2 text-gray-700">{resContent.form.takeout[language]}</span>
+                    </label>
+                  </div>
+                </fieldset>
               </div>
 
               <div className={`grid grid-cols-1 ${reservationType === 'dine-in' ? 'md:grid-cols-3' : 'md:grid-cols-2'} gap-6`}>

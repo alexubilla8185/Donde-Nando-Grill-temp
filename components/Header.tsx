@@ -49,28 +49,44 @@ const Header: React.FC<HeaderProps> = ({ currentRoute, isMobileMenuOpen, setMobi
         <>
             <header className={headerClasses}>
                 <div className="container mx-auto px-6 h-20 flex justify-between items-center">
-                    <a href="#/home" onClick={(e) => handleNavClick(e, '#/home')} className={`font-serif font-bold text-2xl ${navLinkClasses} transition-transform duration-300 hover:scale-105`}>
+                    <a href="#/home" onClick={(e) => handleNavClick(e, '#/home')} className={`font-serif font-bold text-2xl ${navLinkClasses} transition-transform duration-300 hover:scale-105 rounded-sm`}>
                         Donde Nando Grill
                     </a>
-                    <nav className="hidden md:flex items-center space-x-8">
+                    <nav className="hidden md:flex items-center space-x-8" aria-label="Main navigation">
                         {navLinks.map(link => (
-                            <a key={link.key} href={link.href} onClick={(e) => handleNavClick(e, link.href)} className={`group ${navLinkClasses} ${currentRoute === link.key ? activeLinkClasses : ''}`}>
+                            <a 
+                                key={link.key} 
+                                href={link.href} 
+                                onClick={(e) => handleNavClick(e, link.href)} 
+                                className={`group ${navLinkClasses} ${currentRoute === link.key ? activeLinkClasses : ''} rounded-sm`}
+                                aria-current={currentRoute === link.key ? 'page' : undefined}
+                            >
                                 {link.text}
                                 <span className={`block max-w-0 group-hover:max-w-full transition-all duration-300 h-0.5 bg-brand-red mt-0.5 ${currentRoute === link.key ? 'max-w-full' : ''}`}></span>
                             </a>
                         ))}
                     </nav>
                     <div className="flex items-center space-x-4">
-                        <button onClick={() => setLanguage(language === 'es' ? 'en' : 'es')} className={`text-sm font-bold ${navLinkClasses} transition-transform hover:scale-110`}>
+                        <button 
+                            onClick={() => setLanguage(language === 'es' ? 'en' : 'es')} 
+                            className={`text-sm font-bold ${navLinkClasses} transition-transform hover:scale-110 rounded-sm`}
+                            aria-label={`Switch to ${language === 'es' ? 'English' : 'Español'}`}
+                        >
                             {language === 'es' ? 'EN' : 'ES'}
                         </button>
                         <div className="hidden md:block">
-                          <button onClick={() => setShareModalOpen(true)} className="text-brand-red transition-all duration-200 hover:scale-110 hover:-rotate-6" aria-label="Share">
+                          <button onClick={() => setShareModalOpen(true)} className="text-brand-red transition-all duration-200 hover:scale-110 hover:-rotate-6 rounded-sm" aria-label="Share this page">
                             <ShareNetworkIcon className="w-6 h-6" />
                           </button>
                         </div>
                         <div className="md:hidden">
-                            <button onClick={() => setMobileMenuOpen(true)} className={`${navLinkClasses} transition-transform duration-200 hover:scale-110 hover:rotate-6`}>
+                            <button 
+                                onClick={() => setMobileMenuOpen(true)} 
+                                className={`${navLinkClasses} transition-transform duration-200 hover:scale-110 hover:rotate-6 rounded-sm`}
+                                aria-label="Open navigation menu"
+                                aria-controls="mobile-menu"
+                                aria-expanded={isMobileMenuOpen}
+                            >
                                 <MenuIcon className="w-6 h-6" />
                             </button>
                         </div>

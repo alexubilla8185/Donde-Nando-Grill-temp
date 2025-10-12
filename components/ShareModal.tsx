@@ -1,10 +1,12 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useLocalization } from '../hooks/useLocalization.ts';
 // FIX: Added .ts extension to aid module resolution.
 import { content } from '../constants/content.ts';
 // FIX: Added .tsx extension to aid module resolution.
 import { FacebookIcon, MailIcon, WhatsAppIcon, CloseIcon } from './icons.tsx';
+import { useFocusTrap } from '../hooks/useFocusTrap.ts';
+
 
 interface ShareModalProps {
   isOpen: boolean;
@@ -16,6 +18,9 @@ const ShareModal: React.FC<ShareModalProps> = ({ isOpen, onClose, url }) => {
   const { language } = useLocalization();
   const modalContent = content.shareModal;
   const [copied, setCopied] = useState(false);
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  useFocusTrap(modalRef, isOpen);
 
   useEffect(() => {
     if (!isOpen) {
@@ -43,13 +48,14 @@ const ShareModal: React.FC<ShareModalProps> = ({ isOpen, onClose, url }) => {
     <div 
       className="fixed inset-0 bg-black bg-opacity-60 z-50 flex justify-center items-center p-4 transition-opacity duration-300"
       onClick={onClose}
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="share-modal-title"
     >
       <div 
+        ref={modalRef}
         className="bg-white p-6 rounded-lg shadow-xl max-w-md w-full relative animate-pop-in"
         onClick={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="share-modal-title"
       >
         <button 
           onClick={onClose} 
@@ -96,6 +102,9 @@ const ShareModal: React.FC<ShareModalProps> = ({ isOpen, onClose, url }) => {
           >
             {copied ? modalContent.copiedButton[language] : modalContent.copyButton[language]}
           </button>
+        </div>
+        <div className="sr-only" aria-live="polite" aria-atomic="true">
+            {copied ? `${modalContent.copiedButton[language]}!` : ''}
         </div>
       </div>
     </div>

@@ -91,6 +91,29 @@
         opacity: 1;
         transform: translateY(0);
       }
+
+      /* --- Accessibility Enhancements --- */
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border-width: 0;
+      }
+      /* High-visibility focus ring for keyboard users */
+      *:focus-visible {
+          outline: 3px solid #db5865; /* A slightly lighter version of brand-red for visibility on dark backgrounds */
+          outline-offset: 2px;
+          border-radius: 2px;
+      }
+      /* Remove default outline for elements when focus-visible is supported, preventing double outlines */
+      *:focus {
+          outline: none;
+      }
     </style>
   <script type="importmap">
 {
@@ -104,6 +127,7 @@
 </script>
 </head>
   <body>
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:top-2 focus:left-2 focus:bg-white focus:text-brand-text focus:p-2 focus:rounded-md shadow-lg">Skip to main content</a>
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>
 

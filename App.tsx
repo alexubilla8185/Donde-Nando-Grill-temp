@@ -58,7 +58,7 @@ const AppContent: React.FC = () => {
               isMobileMenuOpen={isMobileMenuOpen}
               setMobileMenuOpen={setMobileMenuOpen}
             />
-            <main className="flex-grow">
+            <main id="main-content" className="flex-grow">
                 {renderPage()}
             </main>
             <Footer />

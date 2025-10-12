@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { CloseIcon, ChevronLeftIcon, ChevronRightIcon } from './icons.tsx';
+import { useFocusTrap } from '../hooks/useFocusTrap.ts';
 
 interface ImageViewerModalProps {
   isOpen: boolean;
@@ -10,6 +11,11 @@ interface ImageViewerModalProps {
 
 const ImageViewerModal: React.FC<ImageViewerModalProps> = ({ isOpen, onClose, images, startIndex = 0 }) => {
   const [currentIndex, setCurrentIndex] = useState(startIndex);
+  const modalRef = useRef<HTMLDivElement>(null);
+  // Add state for touch handling
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+
+  useFocusTrap(modalRef, isOpen);
 
   useEffect(() => {
     if (isOpen) {
@@ -24,6 +30,28 @@ const ImageViewerModal: React.FC<ImageViewerModalProps> = ({ isOpen, onClose, im
   const handlePrev = useCallback(() => {
     setCurrentIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
   }, [images.length]);
+
+  // Touch handlers for swipe gestures
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStart === null) return;
+    
+    const touchEnd = e.changedTouches[0].clientX;
+    const diff = touchStart - touchEnd;
+    const swipeThreshold = 50; // Min pixels to be considered a swipe
+
+    if (diff > swipeThreshold) {
+      handleNext();
+    } else if (diff < -swipeThreshold) {
+      handlePrev();
+    }
+    
+    setTouchStart(null); // Reset on swipe end
+  };
+
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -51,12 +79,16 @@ const ImageViewerModal: React.FC<ImageViewerModalProps> = ({ isOpen, onClose, im
     <div
       className="fixed inset-0 bg-black bg-opacity-80 z-50 flex justify-center items-center p-4 transition-opacity duration-300 animate-fade-in"
       onClick={onClose}
-      role="dialog"
-      aria-modal="true"
     >
       <div
+        ref={modalRef}
         className="relative w-full h-full max-w-4xl max-h-[90vh] flex flex-col items-center justify-center"
         onClick={(e) => e.stopPropagation()}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Image viewer"
       >
         <button
           onClick={onClose}
@@ -69,15 +101,16 @@ const ImageViewerModal: React.FC<ImageViewerModalProps> = ({ isOpen, onClose, im
         <div className="relative w-full h-full flex items-center justify-center">
           {/* Main Image */}
           <img
+            key={currentIndex}
             src={images[currentIndex]}
             alt={`Menu page ${currentIndex + 1}`}
-            className="max-w-full max-h-full object-contain rounded-lg"
+            className="max-w-full max-h-full object-contain rounded-lg animate-fade-in-image"
           />
 
           {/* Prev Button */}
           <button
             onClick={handlePrev}
-            className="absolute left-0 top-1/2 -translate-y-1/2 bg-black bg-opacity-40 text-white rounded-full p-2 hover:bg-opacity-60 transition-colors hidden md:block"
+            className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 bg-black bg-opacity-40 text-white rounded-full p-2 hover:bg-opacity-60 transition-colors"
             aria-label="Previous image"
           >
             <ChevronLeftIcon className="w-8 h-8" />
@@ -86,7 +119,7 @@ const ImageViewerModal: React.FC<ImageViewerModalProps> = ({ isOpen, onClose, im
           {/* Next Button */}
           <button
             onClick={handleNext}
-            className="absolute right-0 top-1/2 -translate-y-1/2 bg-black bg-opacity-40 text-white rounded-full p-2 hover:bg-opacity-60 transition-colors hidden md:block"
+            className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 bg-black bg-opacity-40 text-white rounded-full p-2 hover:bg-opacity-60 transition-colors"
             aria-label="Next image"
           >
             <ChevronRightIcon className="w-8 h-8" />
@@ -94,7 +127,11 @@ const ImageViewerModal: React.FC<ImageViewerModalProps> = ({ isOpen, onClose, im
         </div>
 
         {/* Counter */}
-        <div className="absolute bottom-2 text-white bg-black bg-opacity-60 px-3 py-1 rounded-full text-sm">
+        <div 
+            className="absolute bottom-2 text-white bg-black bg-opacity-60 px-3 py-1 rounded-full text-sm"
+            aria-live="polite"
+            aria-atomic="true"
+        >
           {currentIndex + 1} / {images.length}
         </div>
       </div>
@@ -106,6 +143,13 @@ const ImageViewerModal: React.FC<ImageViewerModalProps> = ({ isOpen, onClose, im
           }
           .animate-fade-in {
             animation: fade-in 0.3s ease;
+          }
+          @keyframes fade-in-image {
+            from { opacity: 0.3; }
+            to { opacity: 1; }
+          }
+          .animate-fade-in-image {
+            animation: fade-in-image 0.2s ease-in-out;
           }
         `}
       </style>

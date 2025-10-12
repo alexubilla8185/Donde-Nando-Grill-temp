@@ -4,11 +4,11 @@ import { content } from '../constants/content.ts';
 import { ChevronLeftIcon, ChevronRightIcon } from './icons.tsx';
 
 const images = [
-  "https://images.unsplash.com/photo-1546964124-0cce460f38ef?q=80&w=2070&auto=format&fit=crop", // Tomahawk
-  "https://images.unsplash.com/photo-1615937691194-97dbd3f3dc29?q=80&w=2070&auto=format&fit=crop", // Porterhouse
-  "https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=2069&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1998&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1600891964092-4316c288032e?q=80&w=2070&auto=format&fit=crop"
+  { src: "https://images.unsplash.com/photo-1546964124-0cce460f38ef?q=80&w=2070&auto=format&fit=crop", alt: "A large tomahawk steak resting on a wooden board, garnished with herbs." },
+  { src: "https://images.unsplash.com/photo-1615937691194-97dbd3f3dc29?q=80&w=2070&auto=format&fit=crop", alt: "A thick-cut porterhouse steak, perfectly grilled and seasoned." },
+  { src: "https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=2069&auto=format&fit=crop", alt: "Sliced grilled steak served with a side of french fries and sauce." },
+  { src: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1998&auto=format&fit=crop", alt: "A juicy cheeseburger with lettuce, tomato, and cheese on a sesame seed bun." },
+  { src: "https://images.unsplash.com/photo-1600891964092-4316c288032e?q=80&w=2070&auto=format&fit=crop", alt: "A delicious plate of grilled meat with sides of corn, asparagus, and potatoes." }
 ];
 
 const MediaGallery: React.FC = () => {
@@ -86,24 +86,24 @@ const MediaGallery: React.FC = () => {
         </div>
       </div>
       
-      <div className="relative max-w-6xl mx-auto group" aria-roledescription="carousel">
+      <div className="relative max-w-6xl mx-auto group" aria-roledescription="carousel" aria-label="Gallery of restaurant dishes">
         <div className="overflow-hidden">
           <div 
             className="flex transition-transform ease-out duration-500"
             style={{ transform: `translateX(-${currentIndex * 100}%)` }}
             aria-live="off"
           >
-            {images.map((src, index) => (
+            {images.map((image, index) => (
               <div 
-                key={src} 
+                key={image.src} 
                 className="flex-shrink-0 w-full"
                 role="group"
                 aria-roledescription="slide"
                 aria-label={`${index + 1} of ${images.length}`}
               >
                 <img 
-                  src={src} 
-                  alt={`Donde Nando Grill gallery image ${index + 1}`}
+                  src={image.src} 
+                  alt={image.alt}
                   className="w-full h-[60vh] object-cover"
                 />
               </div>
