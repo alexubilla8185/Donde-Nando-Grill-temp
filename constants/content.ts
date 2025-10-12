@@ -8,7 +8,7 @@ export const content = {
     contact: { es: 'Contacto', en: 'Contact' },
   },
   hero: {
-    headline: { es: 'Donde Nando Grill', en: 'Donde Nando Grill' },
+    headline: { es: 'Pasión por la Parrilla', en: 'Passion for the Grill' },
     subheadline: { es: 'El auténtico sabor de la parrilla nicaragüense. Carnes de primera, ambiente familiar y momentos inolvidables.', en: 'The authentic taste of Nicaraguan grill. Premium meats, family atmosphere, and unforgettable moments.' },
     ctaMenu: { es: 'Ver Menú', en: 'View Menu' },
     ctaReserve: { es: 'Reservar Mesa', en: 'Book a Table' },
