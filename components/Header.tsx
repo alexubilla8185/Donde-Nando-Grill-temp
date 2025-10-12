@@ -5,7 +5,6 @@ import { content } from '../constants/content.ts';
 import MobileMenu from './MobileMenu.tsx';
 import ShareModal from './ShareModal.tsx';
 import { MenuIcon, ShareNetworkIcon } from './icons.tsx';
-import Logo from './Logo.tsx';
 
 interface HeaderProps {
     currentRoute: string;
@@ -50,8 +49,8 @@ const Header: React.FC<HeaderProps> = ({ currentRoute, isMobileMenuOpen, setMobi
         <>
             <header className={headerClasses}>
                 <div className="container mx-auto px-6 h-20 flex justify-between items-center">
-                    <a href="#/home" onClick={(e) => handleNavClick(e, '#/home')} className={`flex items-center transition-colors duration-300 ${isHomePageTop ? 'text-white' : 'text-brand-text'}`}>
-                        <Logo className="h-16 w-auto" />
+                    <a href="#/home" onClick={(e) => handleNavClick(e, '#/home')} className={`font-serif font-bold text-2xl ${navLinkClasses}`}>
+                        Donde Nando Grill
                     </a>
                     <nav className="hidden md:flex items-center space-x-8">
                         {navLinks.map(link => (

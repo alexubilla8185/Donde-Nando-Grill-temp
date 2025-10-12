@@ -3,7 +3,6 @@ import React from 'react';
 import { useLocalization } from '../hooks/useLocalization.ts';
 import { content } from '../constants/content.ts';
 import { CloseIcon, ShareNetworkIcon } from './icons.tsx';
-import Logo from './Logo.tsx';
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -47,8 +46,8 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose, onShareClick }
             >
                 <div className="p-6 flex flex-col h-full">
                     <div className="flex justify-between items-center mb-8">
-                        <a href="#/home" onClick={(e) => handleNavClick(e, '#/home')} className="block">
-                           <Logo className="h-12 w-auto text-brand-text" />
+                        <a href="#/home" onClick={(e) => handleNavClick(e, '#/home')} className="font-serif font-bold text-xl text-brand-text">
+                           Donde Nando Grill
                         </a>
                         <button onClick={onClose} className="text-brand-text">
                             <CloseIcon className="w-6 h-6"/>
