@@ -1,5 +1,4 @@
 import React from 'react';
-import { TypeAnimation } from 'react-type-animation';
 import { useLocalization } from '../hooks/useLocalization.ts';
 import { content } from '../constants/content.ts';
 import { ChevronDownIcon } from './icons.tsx';
@@ -29,12 +28,7 @@ const Hero: React.FC = () => {
       <div className="absolute inset-0 bg-black opacity-60"></div>
       <div className="relative z-10 p-6">
         <h1 className="text-6xl md:text-8xl font-serif font-bold mb-4">
-           <TypeAnimation
-            sequence={[heroContent.headline[language]]}
-            wrapper="span"
-            speed={30}
-            cursor={false}
-            />
+           <span>{heroContent.headline[language]}</span>
         </h1>
         <p className="text-xl md:text-2xl max-w-3xl mx-auto mb-8">
             {heroContent.subheadline[language]}

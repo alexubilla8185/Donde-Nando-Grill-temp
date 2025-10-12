@@ -60,8 +60,10 @@ export const content = {
     featuredTitle: { es: 'Platillos Estrella', en: 'Featured Dishes' },
     sidesNote: { es: 'Todos nuestros platos fuertes incluyen dos acompañamientos a su elección.', en: 'All our main courses include two side dishes of your choice.' },
     menuImages: [
-      'https://images.unsplash.com/photo-1565299585323-15d11e3835e4?q=80&w=1974&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?q=80&w=1980&auto=format&fit=crop',
+      'https://i.ibb.co/hL5gD5f/menu-1.jpg',
+      'https://i.ibb.co/Yd4B3pc/menu-2.jpg',
+      'https://i.ibb.co/z5wF2k3/menu-3.jpg',
+      'https://i.ibb.co/tYHk7Cz/menu-4.jpg'
     ],
   },
   shareModal: {
