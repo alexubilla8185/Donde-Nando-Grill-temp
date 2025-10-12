@@ -57,7 +57,7 @@ const ContactPage: React.FC = () => {
             {/* Map */}
             <div className="rounded-lg shadow-lg overflow-hidden">
                 <iframe 
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3523.3026736578854!2d-87.1203872!3d12.6233081!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8f70f182fbef2a9d%3A0xbe61a3df3a7ad7bf!2sRotonda%20Los%20Encuentros!5e1!3m2!1sen!2sus!4v1760299455629!5m2!1sen!2sus" 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3523.3026736578854!2d-87.1203872!3d12.6233081!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8f70f182fbef2a9d%3A0xbe61a3df3a7ad7bf!2sRotonda%20Los%20Encuentros!5e1!3m2!1sen!2sus!4v1760311562929!5m2!1sen!2sus" 
                     width="100%" 
                     height="100%" 
                     style={{ border: 0, minHeight: '400px' }} 
