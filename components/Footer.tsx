@@ -18,11 +18,14 @@ const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
           <div className="md:col-span-1">
             <h3 className="font-bold text-lg mb-4">{footerContent.address[language]}</h3>
-            <p 
-              className="text-gray-400"
+            <a
+              href={contactInfo.googleMapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-400 hover:text-white transition-colors"
             >
               {contactInfo.address}
-            </p>
+            </a>
           </div>
           <div className="md:col-span-1">
             <h3 className="font-bold text-lg mb-4">{footerContent.hours[language]}</h3>

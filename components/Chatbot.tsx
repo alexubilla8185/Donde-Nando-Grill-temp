@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { GoogleGenAI } from '@google/genai';
 import { useLocalization } from '../hooks/useLocalization.ts';
 import { content } from '../constants/content.ts';
 import { CloseIcon } from './icons.tsx';
@@ -84,19 +83,29 @@ const Chatbot: React.FC = () => {
         setIsLoading(true);
 
         try {
-            const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-            const systemInstruction = `You are a helpful and friendly chatbot for a Nicaraguan restaurant called 'Donde Nando Grill'. Your goal is to answer customer questions about the restaurant. Be concise and friendly. The user's current language preference is '${language === 'es' ? 'Spanish' : 'English'}', so you MUST respond in that language. Restaurant info: Name: Donde Nando Grill. Cuisine: Nicaraguan Grill/Steakhouse. Location: ${content.contact.address}. Hours: ${content.footer.openingHours[language]}. Specialties: Churrasco, Tomahawk steak. To make a reservation, direct them to the reservation page on the website.`;
-
-            const response = await ai.models.generateContent({
-                model: "gemini-2.5-flash",
-                contents: currentInput,
-                config: { systemInstruction },
+            const response = await fetch('/.netlify/functions/gemini-proxy', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ message: currentInput, language }),
             });
 
-            const modelMessage: Message = { sender: 'model', text: response.text };
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => ({ error: 'Failed to parse error response' }));
+                throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.error || 'Unknown error'}`);
+            }
+
+            const data = await response.json();
+
+            if (data.error) {
+                throw new Error(data.error);
+            }
+
+            const modelMessage: Message = { sender: 'model', text: data.text };
             setMessages(prev => [...prev, modelMessage]);
         } catch (error) {
-            console.error("Error communicating with Gemini API:", error);
+            console.error("Error communicating with Gemini API proxy:", error);
             const errorMessage: Message = { sender: 'model', text: chatbotContent.errorMessage[language] };
             setMessages(prev => [...prev, errorMessage]);
         } finally {

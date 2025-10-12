@@ -46,12 +46,12 @@ export const content = {
   contact: {
     title: { es: 'Contáctanos', en: 'Contact Us' },
     subtitle: { es: 'Estamos para servirte. ¡Visítanos o llámanos!', en: 'We are here to serve you. Visit or call us!' },
-    address: 'De la rotonda universitaria, 2km al sur, Managua, Nicaragua',
-    googleMapsUrl: 'https://www.google.com/maps/place/Donde+Nando+Grill/@12.6301198,-87.1190228,15z/data=!4m2!3m1!1s0x0:0x1fb73700e6e01f28?sa=X&ved=2ahUKEwj2_o_v_o_DAxX_mIQIHd_iAJAQ_BJ6BAgOEAA',
-    phone: '+505 8888 8888',
-    email: 'contacto@dondenandogrill.com',
-    facebook: 'https://facebook.com/dondenandogrill',
-    instagram: 'https://instagram.com/dondenandogrill',
+    address: 'A 700 metros al norte de la Rotonda Los Encuentros, Chinandega, Nicaragua',
+    googleMapsUrl: 'https://www.google.com/maps/place/Donde+Nando+Grill/@12.6392078,-87.1354388,17z/data=!3m1!4b1!4m6!3m5!1s0x8f0d8a9b233a788b:0xd411802e88a0b503!8m2!3d12.6392078!4d-87.1328639!16s%2Fg%2F11b6x_k8n5?entry=ttu',
+    phone: '+505 8470 9484',
+    email: 'dondenando@gmail.com',
+    facebook: 'https://www.facebook.com/dondenandogrill',
+    instagram: 'https://www.instagram.com/dondenandogrill',
   },
   menu: {
     title: { es: 'Nuestro Menú', en: 'Our Menu' },
