@@ -59,44 +59,6 @@ export const content = {
     viewOriginalMenu: { es: 'Ver Menú Original', en: 'View Original Menu' },
     featuredTitle: { es: 'Platillos Estrella', en: 'Featured Dishes' },
     sidesNote: { es: 'Todos nuestros platos fuertes incluyen dos acompañamientos a su elección.', en: 'All our main courses include two side dishes of your choice.' },
-    dishes: {
-      churrasco_nica: {
-        name: { es: 'Churrasco Nica', en: 'Nica Churrasco' },
-        description: { es: 'El clásico corte nicaragüense, jugoso y lleno de sabor, servido con gallo pinto, tajadas y ensalada.', en: 'The classic Nicaraguan cut, juicy and full of flavor, served with gallo pinto, fried plantains, and salad.' },
-      },
-      tomahawk: {
-        name: { es: 'Tomahawk Steak', en: 'Tomahawk Steak' },
-        description: { es: 'Un impresionante corte con hueso de 32oz, perfecto para compartir. Madurado a la perfección y asado a la parrilla.', en: 'An impressive 32oz bone-in cut, perfect for sharing. Aged to perfection and grilled.' },
-      },
-    },
-    categories: [
-      {
-        name: { es: 'Carnes a la Parrilla', en: 'Grilled Meats' },
-        items: [
-          { name: { es: 'Churrasco de Res (8oz)', en: 'Beef Churrasco (8oz)' }, price: 'C$350' },
-          { name: { es: 'Puyazo Importado (10oz)', en: 'Imported Sirloin (10oz)' }, price: 'C$450' },
-          { name: { es: 'Filete de Pollo', en: 'Chicken Fillet' }, price: 'C$280' },
-          { name: { es: 'Costillas de Cerdo BBQ', en: 'BBQ Pork Ribs' }, price: 'C$380' },
-          { name: { es: 'Lomo de Cerdo', en: 'Pork Loin' }, price: 'C$320' },
-        ],
-      },
-      {
-        name: { es: 'Entradas', en: 'Appetizers' },
-        items: [
-          { name: { es: 'Chorizo Criollo', en: 'Creole Sausage' }, price: 'C$150' },
-          { name: { es: 'Queso Frito', en: 'Fried Cheese' }, price: 'C$180' },
-          { name: { es: 'Tacos de Res (3)', en: 'Beef Tacos (3)' }, price: 'C$200' },
-        ],
-      },
-      {
-        name: { es: 'Bebidas', en: 'Drinks' },
-        items: [
-          { name: { es: 'Gaseosa', en: 'Soda' }, price: 'C$40' },
-          { name: { es: 'Cerveza Nacional', en: 'National Beer' }, price: 'C$50' },
-          { name: { es: 'Jugo Natural', en: 'Natural Juice' }, price: 'C$60' },
-        ],
-      },
-    ],
     menuImages: [
       'https://images.unsplash.com/photo-1565299585323-15d11e3835e4?q=80&w=1974&auto=format&fit=crop',
       'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?q=80&w=1980&auto=format&fit=crop',

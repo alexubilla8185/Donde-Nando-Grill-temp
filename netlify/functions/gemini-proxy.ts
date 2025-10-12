@@ -1,15 +1,5 @@
 import { GoogleGenAI } from "@google/genai";
-
-// Content needed for the system prompt, kept within the function to be self-contained.
-const functionContent = {
-    contact: {
-        address: 'A 700 metros al norte de la Rotonda Los Encuentros, Chinandega, Nicaragua',
-        phone: '+505 8470 9484',
-    },
-    footer: {
-        openingHours: { es: 'Mar - Dom: 12pm - 10pm', en: 'Tue - Sun: 12pm - 10pm' },
-    }
-};
+import menuData from '../../menu_data.json';
 
 interface RequestBody {
     message: string;
@@ -36,9 +26,29 @@ export const handler = async (event: { httpMethod: string; body: string }) => {
         }
 
         const ai = new GoogleGenAI({ apiKey });
+        
+        // This complete menu_data.json is the primary knowledge base for the Gemini API. Use its structure (item names, categories, and prices) to answer all customer menu-related queries conversationally, enabling the high-value AI-Powered Solutions phase.
+        const menuJsonString = JSON.stringify(menuData);
 
-        const langSpecificHours = functionContent.footer.openingHours[language];
-        const systemInstruction = `You are a helpful and friendly chatbot for a Nicaraguan restaurant called 'Donde Nando Grill'. Your goal is to answer customer questions about the restaurant. Be concise and friendly. The user's current language preference is '${language === 'es' ? 'Spanish' : 'English'}', so you MUST respond in that language. Restaurant info: Name: Donde Nando Grill. Cuisine: Nicaraguan Grill/Steakhouse. Location: ${functionContent.contact.address}. Phone: ${functionContent.contact.phone}. Hours: ${langSpecificHours}. Specialties: Churrasco, Tomahawk steak. To make a reservation, direct them to the reservation page on the website.`;
+        const restaurantInfo = {
+            address: 'A 700 metros al norte de la Rotonda Los Encuentros, Chinandega, Nicaragua',
+            phone: '+505 8470 9484',
+            openingHours: { es: 'Mar - Dom: 12pm - 10pm', en: 'Tue - Sun: 12pm - 10pm' },
+        };
+
+        const langSpecificHours = restaurantInfo.openingHours[language];
+        const systemInstruction = `You are a helpful and friendly chatbot for a Nicaraguan restaurant called 'Donde Nando Grill'. Your goal is to answer customer questions about the restaurant. Be concise and friendly. The user's current language preference is '${language === 'es' ? 'Spanish' : 'English'}', so you MUST respond in that language.
+    
+        Here is the restaurant's information:
+        - Name: Donde Nando Grill
+        - Cuisine: Nicaraguan Grill/Steakhouse
+        - Location: ${restaurantInfo.address}
+        - Phone: ${restaurantInfo.phone}
+        - Hours: ${langSpecificHours}
+
+        Here is the complete menu in JSON format: ${menuJsonString}. 
+        
+        Use this JSON data as your primary knowledge source to answer all menu-related questions. When asked about the menu, you can summarize categories or provide specific item details like price (prices are in Nicaraguan Córdoba, symbol C$) and descriptions. Do not just output the raw JSON. For reservations, direct the user to the website's reservation page.`;
 
         const response = await ai.models.generateContent({
             model: "gemini-2.5-flash",
