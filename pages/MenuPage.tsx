@@ -70,7 +70,6 @@ const MenuPage: React.FC = () => {
             name_en: 'Nica Churrasco',
             description_es: 'El clásico corte nicaragüense, jugoso y lleno de sabor, servido con gallo pinto, tajadas y ensalada.',
             description_en: 'The classic Nicaraguan cut, juicy and full of flavor, served with gallo pinto, fried plantains, and salad.',
-            imgSrc: "https://images.unsplash.com/photo-1592894869939-5ed53a5c6875?q=80&w=1974&auto=format&fit=crop"
         },
         {
             key: 'tomahawk',
@@ -78,7 +77,6 @@ const MenuPage: React.FC = () => {
             name_en: 'Tomahawk Steak',
             description_es: 'Un impresionante corte con hueso de 32oz, perfecto para compartir. Madurado a la perfección y asado a la parrilla.',
             description_en: 'An impressive 32oz bone-in cut, perfect for sharing. Aged to perfection and grilled.',
-            imgSrc: "https://images.unsplash.com/photo-1626201349372-aca5905b1f2a?q=80&w=1974&auto=format&fit=crop"
         }
     ];
 
@@ -161,12 +159,9 @@ const MenuPage: React.FC = () => {
                     <h2 className="text-4xl font-serif font-bold text-brand-text text-center mb-12">{menuContent.featuredTitle[language]}</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                         {featuredDishes.map(dish => (
-                            <div key={dish.key} className="flex flex-col md:flex-row items-center bg-brand-bg rounded-lg shadow-lg overflow-hidden">
-                                <img src={dish.imgSrc} alt={dish[language === 'es' ? 'name_es' : 'name_en']} className="w-full md:w-1/2 h-64 object-cover" />
-                                <div className="p-8">
-                                    <h3 className="text-2xl font-serif font-bold text-brand-text mb-2">{dish[language === 'es' ? 'name_es' : 'name_en']}</h3>
-                                    <p className="text-gray-700">{dish[language === 'es' ? 'description_es' : 'description_en']}</p>
-                                </div>
+                            <div key={dish.key} className="bg-brand-bg rounded-lg shadow-lg overflow-hidden p-8">
+                                <h3 className="text-2xl font-serif font-bold text-brand-text mb-2">{dish[language === 'es' ? 'name_es' : 'name_en']}</h3>
+                                <p className="text-gray-700">{dish[language === 'es' ? 'description_es' : 'description_en']}</p>
                             </div>
                         ))}
                     </div>

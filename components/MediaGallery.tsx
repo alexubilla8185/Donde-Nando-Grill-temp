@@ -4,8 +4,8 @@ import { content } from '../constants/content.ts';
 import { ChevronLeftIcon, ChevronRightIcon } from './icons.tsx';
 
 const images = [
-  "https://images.unsplash.com/photo-1551028150-64b9f398f678?q=80&w=1974&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1621852004132-61395535b607?q=80&w=1974&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1546964124-0cce460f38ef?q=80&w=2070&auto=format&fit=crop", // Tomahawk
+  "https://images.unsplash.com/photo-1598515214211-89d3c7373014?q=80&w=2070&auto=format&fit=crop", // NY Strip
   "https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=2069&auto=format&fit=crop",
   "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1998&auto=format&fit=crop",
   "https://images.unsplash.com/photo-1600891964092-4316c288032e?q=80&w=2070&auto=format&fit=crop"
