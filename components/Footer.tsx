@@ -1,9 +1,8 @@
 import React from 'react';
 import { useLocalization } from '../hooks/useLocalization.ts';
-// FIX: Added .ts extension to aid module resolution.
 import { content } from '../constants/content.ts';
-// FIX: Added .tsx extension to aid module resolution.
 import { FacebookIcon, InstagramIcon, MailIcon, PhoneIcon } from './icons.tsx';
+import OpeningHours from './OpeningHours.tsx';
 
 const Footer: React.FC = () => {
     const { language } = useLocalization();
@@ -30,10 +29,8 @@ const Footer: React.FC = () => {
           
           <div className="md:col-span-2 flex flex-col items-center text-center">
             <h3 className="font-bold text-lg mb-4">{footerContent.hours[language]}</h3>
-            <div className="flex flex-col gap-y-1 text-gray-400">
-                 {footerContent.openingHours[language].map(line => (
-                    <p key={line}>{line}</p>
-                 ))}
+            <div className="w-full max-w-xs">
+                <OpeningHours baseTextColor="text-gray-400" highlightTextColor="text-white" />
             </div>
           </div>
           

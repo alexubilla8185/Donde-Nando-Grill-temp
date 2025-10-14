@@ -1,6 +1,5 @@
 import React from 'react';
 
-// FIX: Replaced placeholder with a complete content object to resolve module errors.
 type LocalizedString = {
   es: string;
   en: string;
@@ -10,6 +9,16 @@ interface LocalizedSuggestion {
     chip: LocalizedString;
     prompt: LocalizedString;
 }
+
+// FIX: Added a structured type for opening hours to support dynamic display.
+export interface HoursEntry {
+    days: LocalizedString;
+    hours: string;
+    dayIndices: number[];
+    open: number;
+    close: number;
+}
+
 
 interface Content {
   appUrl: string;
@@ -56,11 +65,8 @@ interface Content {
   footer: {
     address: LocalizedString;
     hours: LocalizedString;
-    openingHours: {
-        es: string[];
-        en: string[];
-    };
   };
+  openingHours: HoursEntry[];
   shareModal: {
     title: LocalizedString;
     subTitle: LocalizedString;
@@ -149,17 +155,23 @@ export const content: Content = {
   footer: {
     address: { es: 'Dirección', en: 'Address' },
     hours: { es: 'Horario', en: 'Hours' },
-    openingHours: {
-        es: [
-            'Domingo a Miércoles: 12:00 PM - 9:00 PM',
-            'Jueves a Sábado: 12:00 PM - 11:00 PM',
-        ],
-        en: [
-            'Sunday to Wednesday: 12:00 PM - 9:00 PM',
-            'Thursday to Saturday: 12:00 PM - 11:00 PM',
-        ],
-    },
   },
+  openingHours: [
+    {
+        days: { es: 'Domingo - Miércoles', en: 'Sunday - Wednesday' },
+        hours: '12:00 PM - 9:00 PM',
+        dayIndices: [0, 1, 2, 3],
+        open: 12,
+        close: 21
+    },
+    {
+        days: { es: 'Jueves - Sábado', en: 'Thursday - Saturday' },
+        hours: '12:00 PM - 11:00 PM',
+        dayIndices: [4, 5, 6],
+        open: 12,
+        close: 23
+    }
+  ],
   shareModal: {
     title: { es: 'Compartir', en: 'Share' },
     subTitle: { es: '¡Comparta la experiencia con sus amigos!', en: 'Share the experience with your friends!' },

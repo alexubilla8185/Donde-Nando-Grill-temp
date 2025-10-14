@@ -2,6 +2,7 @@ import React from 'react';
 import { useLocalization } from '../hooks/useLocalization.ts';
 import { content } from '../constants/content.ts';
 import { MailIcon, PhoneIcon, ClockIcon } from '../components/icons.tsx';
+import OpeningHours from '../components/OpeningHours.tsx';
 
 const ContactPage: React.FC = () => {
   const { language } = useLocalization();
@@ -54,12 +55,10 @@ const ContactPage: React.FC = () => {
                 </div>
                  <div className="flex items-start">
                   <p className="font-semibold w-24 shrink-0">{footerContent.hours[language]}:</p>
-                  <div className="flex">
-                    <ClockIcon className="w-4 h-4 mr-2 shrink-0 mt-1" />
-                    <div className="flex flex-col">
-                      {footerContent.openingHours[language].map(line => (
-                        <span key={line}>{line}</span>
-                      ))}
+                  <div className="flex items-start gap-x-2">
+                    <ClockIcon className="w-4 h-4 shrink-0 mt-1" />
+                    <div className="w-full">
+                       <OpeningHours />
                     </div>
                   </div>
                 </div>
