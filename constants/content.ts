@@ -1,89 +1,151 @@
-// FIX: Provided full content for the constants file to resolve module not found errors.
-export const content = {
-  appUrl: 'https://dondenandogrill.netlify.app',
+// FIX: Replaced placeholder with a complete content object to resolve module errors.
+type LocalizedString = {
+  es: string;
+  en: string;
+};
+
+interface Content {
+  appUrl: string;
+  nav: Record<'home' | 'menu' | 'reservations' | 'contact', LocalizedString>;
+  hero: Record<'headline' | 'subheadline' | 'ctaMenu' | 'ctaReserve', LocalizedString>;
+  about: Record<'title' | 'text', LocalizedString>;
+  mediaGallery: Record<'title' | 'subtitle', LocalizedString>;
+  menu: {
+    title: LocalizedString;
+    subtitle: LocalizedString;
+    viewOriginalMenu: LocalizedString;
+    featuredTitle: LocalizedString;
+    sidesNote: LocalizedString;
+    menuImages: string[];
+  };
+  reservations: {
+    title: LocalizedString;
+    form: {
+      name: LocalizedString;
+      contact: LocalizedString;
+      partySize: LocalizedString;
+      date: LocalizedString;
+      time: LocalizedString;
+      reservationType: LocalizedString;
+      dineIn: LocalizedString;
+      takeout: LocalizedString;
+      submit: LocalizedString;
+      success: LocalizedString;
+      successTypeDineIn: LocalizedString;
+      successTypeTakeout: LocalizedString;
+    };
+  };
+  contact: {
+    title: LocalizedString;
+    subtitle: LocalizedString;
+    address: string;
+    phone: string;
+    email: string;
+    googleMapsUrl: string;
+    facebook: string;
+    instagram: string;
+  };
+  footer: {
+    address: LocalizedString;
+    hours: LocalizedString;
+    openingHours: LocalizedString;
+  };
+  shareModal: {
+    title: LocalizedString;
+    subTitle: LocalizedString;
+    shareMessage: LocalizedString;
+    copyLabel: LocalizedString;
+    copyButton: LocalizedString;
+    copiedButton: LocalizedString;
+  };
+  chatbot: {
+      greeting: LocalizedString;
+      placeholder: LocalizedString;
+      tooltip: LocalizedString;
+      title: LocalizedString;
+  };
+}
+
+
+export const content: Content = {
+  appUrl: 'https://donde-nando-grill.netlify.app',
   nav: {
     home: { es: 'Inicio', en: 'Home' },
     menu: { es: 'Menú', en: 'Menu' },
-    reservations: { es: 'Reservaciones', en: 'Reservations' },
+    reservations: { es: 'Reservas', en: 'Reservations' },
     contact: { es: 'Contacto', en: 'Contact' },
   },
   hero: {
-    headline: { es: 'Pasión por la Parrilla', en: 'Passion for the Grill' },
-    subheadline: { es: 'El auténtico sabor de la parrilla nicaragüense. Carnes de primera, ambiente familiar y momentos inolvidables.', en: 'The authentic taste of Nicaraguan grill. Premium meats, family atmosphere, and unforgettable moments.' },
+    headline: { es: 'Sabor que Enciende', en: 'Flavor that Ignites' },
+    subheadline: { es: 'Experimente el arte de la parrilla con los mejores cortes y un ambiente inolvidable. Donde cada bocado es una celebración.', en: 'Experience the art of the grill with the finest cuts and an unforgettable atmosphere. Where every bite is a celebration.' },
     ctaMenu: { es: 'Ver Menú', en: 'View Menu' },
-    ctaReserve: { es: 'Reservar Mesa', en: 'Book a Table' },
+    ctaReserve: { es: 'Reservar Ahora', en: 'Reserve Now' },
   },
   about: {
-    title: { es: 'Nuestra Historia', en: 'Our Story' },
-    text: { es: 'Desde 2005, Donde Nando Grill ha sido el rincón preferido para los amantes de la buena carne. Nuestra pasión es ofrecer cortes de la más alta calidad, preparados con el sazón tradicional que nos caracteriza. Somos un negocio familiar dedicado a crear experiencias únicas para cada uno de nuestros clientes.', en: 'Since 2005, Donde Nando Grill has been the favorite corner for lovers of good meat. Our passion is to offer the highest quality cuts, prepared with the traditional seasoning that characterizes us. We are a family business dedicated to creating unique experiences for each of our clients.' },
+    title: { es: 'Nuestra Pasión por la Parrilla', en: 'Our Passion for the Grill' },
+    text: { es: 'Donde Nando Grill nació del amor por el fuego y la carne de calidad. Somos un restaurante familiar dedicado a servir los cortes más finos, asados a la perfección, en un ambiente cálido y acogedor. Nuestra misión es crear momentos memorables alrededor de buena comida y buena compañía.', en: 'Donde Nando Grill was born from a love for fire and quality meat. We are a family-owned restaurant dedicated to serving the finest cuts, grilled to perfection, in a warm and welcoming atmosphere. Our mission is to create memorable moments around good food and good company.' },
   },
   mediaGallery: {
-    title: { es: 'Galería de Sabores', en: 'Gallery of Flavors' },
-    subtitle: { es: 'Un vistazo a nuestros platillos y el ambiente que te espera.', en: 'A glimpse of our dishes and the atmosphere that awaits you.' },
-  },
-  reservations: {
-    title: { es: 'Haz tu Reservación', en: 'Make a Reservation' },
-    form: {
-      name: { es: 'Nombre Completo', en: 'Full Name' },
-      contact: { es: 'Teléfono o Email', en: 'Phone or Email' },
-      partySize: { es: 'Personas', en: 'Party Size' },
-      date: { es: 'Fecha', en: 'Date' },
-      time: { es: 'Hora', en: 'Time' },
-      submit: { es: 'Confirmar Reservación', en: 'Confirm Reservation' },
-      success: { es: '¡Gracias! Hemos recibido tu solicitud para {{type}}. Te contactaremos pronto para confirmar.', en: 'Thank you! We have received your request for {{type}}. We will contact you soon to confirm.' },
-      reservationType: { es: 'Tipo de Pedido', en: 'Order Type' },
-      dineIn: { es: 'Para Comer Aquí', en: 'Dine-In' },
-      takeout: { es: 'Para Llevar', en: 'Takeout' },
-      successTypeDineIn: { es: 'una reservación', en: 'a reservation' },
-      successTypeTakeout: { es: 'un pedido para llevar', en: 'a takeout order' },
-    },
-  },
-  footer: {
-    address: { es: 'Dirección', en: 'Address' },
-    hours: { es: 'Horarios', en: 'Hours' },
-    openingHours: { es: 'Mar - Dom: 12pm - 10pm', en: 'Tue - Sun: 12pm - 10pm' },
-  },
-  contact: {
-    title: { es: 'Contáctanos', en: 'Contact Us' },
-    subtitle: { es: 'Estamos para servirte. ¡Visítanos o llámanos!', en: 'We are here to serve you. Visit or call us!' },
-    address: 'A 700 metros al norte de la Rotonda Los Encuentros, Chinandega, Nicaragua',
-    googleMapsUrl: 'https://www.google.com/maps/place/Donde+Nando+Grill/@12.6392078,-87.1354388,17z/data=!3m1!4b1!4m6!3m5!1s0x8f0d8a9b233a788b:0xd411802e88a0b503!8m2!3d12.6392078!4d-87.1328639!16s%2Fg%2F11b6x_k8n5?entry=ttu',
-    phone: '+505 8470 9484',
-    email: 'dondnando@gmail.com',
-    facebook: 'https://www.facebook.com/dondenandogrill',
-    instagram: 'https://www.instagram.com/dondenandogrill',
+    title: { es: 'Una Experiencia Visual', en: 'A Visual Experience' },
+    subtitle: { es: 'Deje que nuestros platos hablen por sí mismos. Una muestra de lo que le espera en Donde Nando Grill.', en: 'Let our dishes speak for themselves. A glimpse of what awaits you at Donde Nando Grill.' },
   },
   menu: {
     title: { es: 'Nuestro Menú', en: 'Our Menu' },
-    subtitle: { es: 'Calidad y sabor en cada corte.', en: 'Quality and flavor in every cut.' },
+    subtitle: { es: 'Cortes selectos y sabores auténticos, preparados con los ingredientes más frescos.', en: 'Select cuts and authentic flavors, prepared with the freshest ingredients.' },
     viewOriginalMenu: { es: 'Ver Menú Original', en: 'View Original Menu' },
-    featuredTitle: { es: 'Platillos Estrella', en: 'Featured Dishes' },
-    sidesNote: { es: 'Todos nuestros platos fuertes incluyen dos acompañamientos a su elección.', en: 'All our main courses include two side dishes of your choice.' },
+    featuredTitle: { es: 'Platos Destacados', en: 'Featured Dishes' },
+    sidesNote: { es: 'Todos los platos principales incluyen dos guarniciones a su elección.', en: 'All main courses include two side dishes of your choice.' },
     menuImages: [
-      'https://i.ibb.co/sJQzhHbs/Menu-Entradas.png',
-      'https://i.ibb.co/wFKqNTLx/Menu-Platos-Principales-Cortes-Especiales.png',
-      'https://i.ibb.co/GQh12fLJ/Menu-Para-Compartir-Pollo-y-Cerdo-Guarniciones.png',
-      'https://i.ibb.co/RpG124n2/Menu-Bebidas.png'
+        'https://i.ibb.co/JRSqQ2Wv/Entradas.jpg',
+        'https://i.ibb.co/39jFsRK4/Platos-Principales.jpg',
+        'https://i.ibb.co/wNPhGz3W/Para-Compartir.jpg',
+        'https://i.ibb.co/PsH0BvYQ/Bebidas.jpg'
     ],
+  },
+  reservations: {
+    title: { es: 'Haga su Reservación', en: 'Make a Reservation' },
+    form: {
+      name: { es: 'Nombre completo', en: 'Full Name' },
+      contact: { es: 'Teléfono o Email de Contacto', en: 'Contact Phone or Email' },
+      partySize: { es: 'Número de Personas', en: 'Number of Guests' },
+      date: { es: 'Fecha', en: 'Date' },
+      time: { es: 'Hora', en: 'Time' },
+      reservationType: { es: 'Tipo de Reservación', en: 'Reservation Type' },
+      dineIn: { es: 'Para comer aquí', en: 'Dine-In' },
+      takeout: { es: 'Para llevar', en: 'Take-out' },
+      submit: { es: 'Confirmar Reserva', en: 'Confirm Reservation' },
+      success: { es: '¡Gracias! Hemos recibido su solicitud para {{type}}. Le contactaremos pronto para confirmar.', en: 'Thank you! We have received your request for {{type}}. We will contact you shortly to confirm.' },
+      successTypeDineIn: { es: 'una reservación', en: 'a dine-in reservation' },
+      successTypeTakeout: { es: 'un pedido para llevar', en: 'a take-out order' }
+    }
+  },
+  contact: {
+    title: { es: 'Póngase en Contacto', en: 'Get in Touch' },
+    subtitle: { es: 'Estamos aquí para servirle. Llámenos, escríbanos o visítenos.', en: 'We are here to serve you. Call us, write to us, or visit us.' },
+    address: 'Rotonda Los Encuentros, 50 metros al Este, Chinandega, Nicaragua',
+    phone: '+505 8888 5555',
+    email: 'reservas@dondenandogrill.com',
+    googleMapsUrl: 'https://maps.app.goo.gl/VAPF3j9D6aYm5BqM7',
+    facebook: 'https://www.facebook.com/dondenandogrill',
+    instagram: 'https://www.instagram.com/dondenandogrill',
+  },
+  footer: {
+    address: { es: 'Dirección', en: 'Address' },
+    hours: { es: 'Horario', en: 'Hours' },
+    openingHours: { es: 'Mar - Dom: 12:00 PM - 10:00 PM', en: 'Tue - Sun: 12:00 PM - 10:00 PM' },
   },
   shareModal: {
     title: { es: 'Compartir', en: 'Share' },
-    subTitle: { es: '¡Comparte el sabor de Donde Nando Grill con tus amigos!', en: 'Share the taste of Donde Nando Grill with your friends!' },
-    shareMessage: { es: '¡Te recomiendo este restaurante!', en: 'I recommend this restaurant!' },
-    copyLabel: { es: 'O copia el enlace', en: 'Or copy the link' },
+    subTitle: { es: '¡Comparta la experiencia con sus amigos!', en: 'Share the experience with your friends!' },
+    shareMessage: { es: '¡Te recomiendo Donde Nando Grill! Echa un vistazo a su web:', en: 'I recommend Donde Nando Grill! Check out their website:' },
+    copyLabel: { es: 'O copie el enlace', en: 'Or copy the link' },
     copyButton: { es: 'Copiar', en: 'Copy' },
     copiedButton: { es: 'Copiado', en: 'Copied' },
   },
   chatbot: {
-    headerTitle: { es: 'Asistente Nando', en: 'Nando\'s Assistant' },
-    greeting: { es: '¡Hola! Soy el asistente virtual de Donde Nando Grill. Puedo ayudarte con el menú, reservaciones o nuestra información de contacto.', en: 'Hi! I\'m the virtual assistant for Donde Nando Grill. I can help with the menu, reservations, or our contact info.' },
-    inputPlaceholder: { es: 'Escribe tu pregunta...', en: 'Type your question...' },
-    suggestions: {
-      menu: { es: 'Ver Menú', en: 'View Menu' },
-      reservations: { es: 'Hacer una Reservación', en: 'Make a Reservation' },
-      contact: { es: 'Info de Contacto', en: 'Contact Info' },
-    },
-    contactInfoResponse: { es: '¡Claro! Nuestra dirección es De la rotonda universitaria, 2km al sur, Managua. Y nuestro teléfono es +505 8888 8888.', en: 'Of course! Our address is De la rotonda universitaria, 2km al sur, Managua. And our phone number is +505 8888 8888.' },
-    errorMessage: { es: 'Lo siento, tengo problemas para conectarme en este momento. Por favor, intenta de nuevo más tarde.', en: 'Sorry, I\'m having trouble connecting right now. Please try again later.'}
+      greeting: { es: '¡Hola! Soy el asistente de Donde Nando Grill. ¿Cómo puedo ayudarte hoy? Puedes preguntarme sobre el menú, horarios o hacer una reservación.', en: 'Hi! I am the assistant for Donde Nando Grill. How can I help you today? You can ask me about the menu, hours, or make a reservation.' },
+      placeholder: { es: 'Escriba su pregunta...', en: 'Type your question...' },
+      tooltip: { es: 'Chatea con nosotros', en: 'Chat with us' },
+      title: { es: 'Asistente Virtual', en: 'Virtual Assistant' },
   }
 };

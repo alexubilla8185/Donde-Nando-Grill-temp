@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useLocalization } from '../hooks/useLocalization.ts';
 import { content } from '../constants/content.ts';
@@ -10,17 +9,18 @@ const ContactPage: React.FC = () => {
 
   return (
     <>
-      <section id="contact" className="py-20 bg-brand-bg pt-24">
+      <div className="bg-brand-red pt-20">
+        <div className="container mx-auto px-6 py-16 text-center text-white">
+          <h1 className="text-5xl md:text-6xl font-serif font-bold mb-4 animate-fade-in">
+            {contactContent.title[language]}
+          </h1>
+          <p className="text-xl text-gray-200 animate-fade-in" style={{ animationDelay: '200ms' }}>
+            {contactContent.subtitle[language]}
+          </p>
+        </div>
+      </div>
+      <section id="contact" className="py-20 bg-brand-bg">
         <div className="container mx-auto px-6">
-          <div className="max-w-4xl mx-auto text-center mb-12">
-            <h2 className="text-4xl font-serif font-bold text-brand-text mb-4">
-              {contactContent.title[language]}
-            </h2>
-            <p className="text-lg text-gray-700">
-              {contactContent.subtitle[language]}
-            </p>
-          </div>
-
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-stretch">
             {/* Contact Info */}
             <div className="bg-white p-8 rounded-lg shadow-lg flex flex-col">

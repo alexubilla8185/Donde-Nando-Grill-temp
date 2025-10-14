@@ -1,4 +1,5 @@
 
+
 import React from 'react';
 
 interface IconProps {
@@ -80,4 +81,14 @@ export const WhatsAppIcon: React.FC<IconProps> = ({ className = "w-6 h-6" }) => 
   <svg className={className} fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
     <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21h.01c5.46 0 9.91-4.45 9.91-9.91s-4.45-9.91-9.91-9.91zM17.14 15.45c-.21.13-.75.37-1.16.51-.42.14-.85.22-1.3.16-.45-.06-1.12-.41-2.13-1.36-.8-.75-1.34-1.68-1.5-1.97-.16-.29-.02-.45.13-.59.13-.13.29-.34.42-.48.13-.14.18-.25.27-.42.09-.17.04-.31-.02-.42s-.42-.99-.57-1.36c-.15-.37-.31-.31-.42-.31h-.38c-.11 0-.29.04-.45.22-.16.17-.6.57-.6 1.45 0 .87.61 1.68.7 1.81.09.13 1.21 1.86 2.92 2.59.39.17.69.27.92.34.48.16.85.13 1.16.08.35-.06.75-.31.85-.6.11-.29.11-.54.08-.59-.04-.05-.16-.08-.34-.17zm-5.1-6.81c.33 0 .61.27.61.61s-.27.61-.61.61-.61-.27-.61-.61.28-.61.61-.61zm-2.5 0c.33 0 .61.27.61.61s-.27.61-.61.61-.61-.27-.61-.61.28-.61.61-.61zm5 0c.33 0 .61.27.61.61s-.27.61-.61.61-.61-.27-.61-.61.28-.61.61-.61z"></path>
   </svg>
+);
+
+// FIX: Added ChatIcon for the chatbot FAB.
+export const ChatIcon: React.FC<IconProps> = ({ className = "w-6 h-6" }) => (
+    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+);
+
+// FIX: Added SendIcon for the chatbot input.
+export const SendIcon: React.FC<IconProps> = ({ className = "w-6 h-6" }) => (
+    <svg className={className} fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path></svg>
 );

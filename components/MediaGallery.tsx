@@ -5,7 +5,6 @@ import { ChevronLeftIcon, ChevronRightIcon } from './icons.tsx';
 
 const images = [
   { src: "https://images.unsplash.com/photo-1546964124-0cce460f38ef?q=80&w=2070&auto=format&fit=crop", alt: "A large tomahawk steak resting on a wooden board, garnished with herbs." },
-  { src: "https://images.unsplash.com/photo-1615937691194-97dbd3f3dc29?q=80&w=2070&auto=format&fit=crop", alt: "A thick-cut porterhouse steak, perfectly grilled and seasoned." },
   { src: "https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=2069&auto=format&fit=crop", alt: "Sliced grilled steak served with a side of french fries and sauce." },
   { src: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1998&auto=format&fit=crop", alt: "A juicy cheeseburger with lettuce, tomato, and cheese on a sesame seed bun." },
   { src: "https://images.unsplash.com/photo-1600891964092-4316c288032e?q=80&w=2070&auto=format&fit=crop", alt: "A delicious plate of grilled meat with sides of corn, asparagus, and potatoes." }

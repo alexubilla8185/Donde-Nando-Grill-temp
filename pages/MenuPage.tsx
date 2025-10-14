@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useLocalization } from '../hooks/useLocalization.ts';
 import { content } from '../constants/content.ts';
@@ -82,16 +81,18 @@ const MenuPage: React.FC = () => {
     return (
         <>
             {/* Page Header */}
-            <div className="pt-20 bg-brand-text">
+            <div className="bg-brand-red pt-20">
                 <div className="container mx-auto px-6 py-16 text-center">
-                    <h1 className="text-5xl md:text-6xl font-serif font-bold text-white mb-4">{menuContent.title[language]}</h1>
-                    <p className="text-xl text-gray-300 mb-6">{menuContent.subtitle[language]}</p>
-                    <button
-                        onClick={handleOpenViewer}
-                        className="bg-transparent border-2 border-white text-white font-bold py-2 px-6 rounded-md hover:bg-white hover:text-brand-text transition-colors duration-300"
-                    >
-                        {menuContent.viewOriginalMenu[language]}
-                    </button>
+                    <h1 className="text-5xl md:text-6xl font-serif font-bold text-white mb-4 animate-fade-in">{menuContent.title[language]}</h1>
+                    <p className="text-xl text-gray-200 mb-6 animate-fade-in" style={{ animationDelay: '200ms' }}>{menuContent.subtitle[language]}</p>
+                    <div className="animate-fade-in" style={{ animationDelay: '400ms' }}>
+                        <button
+                            onClick={handleOpenViewer}
+                            className="bg-transparent border-2 border-white text-white font-bold py-2 px-6 rounded-md hover:bg-white hover:text-brand-text transition-colors duration-300"
+                        >
+                            {menuContent.viewOriginalMenu[language]}
+                        </button>
+                    </div>
                 </div>
             </div>
 

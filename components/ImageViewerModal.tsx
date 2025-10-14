@@ -12,7 +12,6 @@ interface ImageViewerModalProps {
 const ImageViewerModal: React.FC<ImageViewerModalProps> = ({ isOpen, onClose, images, startIndex = 0 }) => {
   const [currentIndex, setCurrentIndex] = useState(startIndex);
   const modalRef = useRef<HTMLDivElement>(null);
-  // Add state for touch handling
   const [touchStart, setTouchStart] = useState<number | null>(null);
 
   useFocusTrap(modalRef, isOpen);
@@ -31,7 +30,6 @@ const ImageViewerModal: React.FC<ImageViewerModalProps> = ({ isOpen, onClose, im
     setCurrentIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
   }, [images.length]);
 
-  // Touch handlers for swipe gestures
   const handleTouchStart = (e: React.TouchEvent) => {
     setTouchStart(e.targetTouches[0].clientX);
   };
@@ -41,7 +39,7 @@ const ImageViewerModal: React.FC<ImageViewerModalProps> = ({ isOpen, onClose, im
     
     const touchEnd = e.changedTouches[0].clientX;
     const diff = touchStart - touchEnd;
-    const swipeThreshold = 50; // Min pixels to be considered a swipe
+    const swipeThreshold = 50;
 
     if (diff > swipeThreshold) {
       handleNext();
@@ -49,19 +47,14 @@ const ImageViewerModal: React.FC<ImageViewerModalProps> = ({ isOpen, onClose, im
       handlePrev();
     }
     
-    setTouchStart(null); // Reset on swipe end
+    setTouchStart(null);
   };
-
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowRight') {
-        handleNext();
-      } else if (e.key === 'ArrowLeft') {
-        handlePrev();
-      } else if (e.key === 'Escape') {
-        onClose();
-      }
+      if (e.key === 'ArrowRight') handleNext();
+      else if (e.key === 'ArrowLeft') handlePrev();
+      else if (e.key === 'Escape') onClose();
     };
 
     if (isOpen) {
@@ -77,29 +70,31 @@ const ImageViewerModal: React.FC<ImageViewerModalProps> = ({ isOpen, onClose, im
 
   return (
     <div
-      className="fixed inset-0 bg-black bg-opacity-80 z-50 flex justify-center items-center p-4 transition-opacity duration-300 animate-fade-in"
+      className="fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4 transition-opacity duration-300 animate-fade-in"
       onClick={onClose}
     >
       <div
         ref={modalRef}
-        className="relative w-full h-full max-w-4xl max-h-[90vh] flex flex-col items-center justify-center"
+        className="relative w-full h-full max-w-4xl max-h-[90vh] flex flex-col"
         onClick={(e) => e.stopPropagation()}
-        onTouchStart={handleTouchStart}
-        onTouchEnd={handleTouchEnd}
         role="dialog"
         aria-modal="true"
         aria-label="Image viewer"
       >
         <button
           onClick={onClose}
-          className="absolute -top-2 -right-2 md:top-0 md:right-0 bg-black bg-opacity-50 text-white rounded-full p-2 hover:bg-opacity-75 z-20"
+          className="absolute top-0 right-0 bg-black bg-opacity-50 text-white rounded-full p-2 hover:bg-opacity-75 z-20"
           aria-label="Close viewer"
         >
           <CloseIcon className="w-6 h-6" />
         </button>
 
-        <div className="relative w-full h-full flex items-center justify-center">
-          {/* Main Image */}
+        {/* Main Image Container */}
+        <div 
+          className="flex-grow relative w-full flex items-center justify-center min-h-0"
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
           <img
             key={currentIndex}
             src={images[currentIndex]}
@@ -107,7 +102,6 @@ const ImageViewerModal: React.FC<ImageViewerModalProps> = ({ isOpen, onClose, im
             className="max-w-full max-h-full object-contain rounded-lg animate-fade-in-image"
           />
 
-          {/* Prev Button */}
           <button
             onClick={handlePrev}
             className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 bg-black bg-opacity-40 text-white rounded-full p-2 hover:bg-opacity-60 transition-colors"
@@ -116,7 +110,6 @@ const ImageViewerModal: React.FC<ImageViewerModalProps> = ({ isOpen, onClose, im
             <ChevronLeftIcon className="w-8 h-8" />
           </button>
 
-          {/* Next Button */}
           <button
             onClick={handleNext}
             className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 bg-black bg-opacity-40 text-white rounded-full p-2 hover:bg-opacity-60 transition-colors"
@@ -124,16 +117,38 @@ const ImageViewerModal: React.FC<ImageViewerModalProps> = ({ isOpen, onClose, im
           >
             <ChevronRightIcon className="w-8 h-8" />
           </button>
+          
+          <div 
+              className="absolute bottom-2 text-white bg-black bg-opacity-60 px-3 py-1 rounded-full text-sm"
+              aria-live="polite"
+              aria-atomic="true"
+          >
+            {currentIndex + 1} / {images.length}
+          </div>
         </div>
-
-        {/* Counter */}
-        <div 
-            className="absolute bottom-2 text-white bg-black bg-opacity-60 px-3 py-1 rounded-full text-sm"
-            aria-live="polite"
-            aria-atomic="true"
-        >
-          {currentIndex + 1} / {images.length}
-        </div>
+        
+        {/* Thumbnail Strip */}
+        {images.length > 1 && (
+          <div className="flex-shrink-0 mt-4 overflow-x-auto">
+            <div className="flex justify-center items-center space-x-3 p-2">
+              {images.map((imgSrc, index) => (
+                <button
+                  key={imgSrc}
+                  onClick={() => setCurrentIndex(index)}
+                  className={`flex-shrink-0 w-16 h-16 md:w-20 md:h-20 rounded-md overflow-hidden transition-all duration-200 ring-2 ring-offset-2 ring-offset-black/50 ${currentIndex === index ? 'ring-brand-red' : 'ring-transparent hover:ring-white/70'}`}
+                  aria-label={`View image ${index + 1}`}
+                  aria-current={currentIndex === index ? 'true' : 'false'}
+                >
+                  <img
+                    src={imgSrc}
+                    alt={`Thumbnail for menu page ${index + 1}`}
+                    className="w-full h-full object-cover"
+                  />
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
       <style>
         {`
@@ -150,6 +165,21 @@ const ImageViewerModal: React.FC<ImageViewerModalProps> = ({ isOpen, onClose, im
           }
           .animate-fade-in-image {
             animation: fade-in-image 0.2s ease-in-out;
+          }
+          /* Custom scrollbar for thumbnails */
+          .overflow-x-auto::-webkit-scrollbar {
+            height: 8px;
+          }
+          .overflow-x-auto::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.2);
+            border-radius: 4px;
+          }
+          .overflow-x-auto::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.4);
+            border-radius: 4px;
+          }
+          .overflow-x-auto::-webkit-scrollbar-thumb:hover {
+            background: rgba(255,255,255,0.6);
           }
         `}
       </style>

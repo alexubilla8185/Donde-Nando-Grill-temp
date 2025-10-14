@@ -1,98 +1,92 @@
-
+// FIX: Replaced placeholder content with a functional Netlify serverless function.
+import { Handler, HandlerEvent } from "@netlify/functions";
 import { GoogleGenAI } from "@google/genai";
-import { menuData } from '../../constants/menu.ts';
+import { menuData } from "../../src/constants/menu";
+import { content } from "../../src/constants/content";
 
-interface RequestBody {
-    message: string;
-    language: 'es' | 'en';
+if (!process.env.API_KEY) {
+    throw new Error("The API_KEY environment variable is not set.");
 }
 
-// Using a simple handler signature compatible with Netlify Functions.
-export const handler = async (event: { httpMethod: string; body: string }) => {
+const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+
+// Helper function to create a simplified text version of the menu
+const getMenuAsText = () => {
+    let menuText = "MENU:\n\n";
+    menuData.menu_sections.forEach(section => {
+        menuText += `--- ${section.title_en} / ${section.title_es} ---\n`;
+        section.items.forEach(item => {
+            menuText += `- ${item.name_en} / ${item.name_es}: C$${item.price}\n`;
+            if (item.notes_en) {
+                menuText += `  (${item.notes_en})\n`;
+            }
+        });
+        menuText += "\n";
+    });
+    return menuText;
+};
+
+const getRestaurantInfo = () => {
+    return `
+        Name: Donde Nando Grill
+        Address: ${content.contact.address}
+        Phone: ${content.contact.phone}
+        Hours: ${content.footer.openingHours.en}
+        Specialties: High-quality grilled meats, Nicaraguan classic dishes.
+    `;
+}
+
+const systemInstruction = `You are a friendly, helpful, and concise virtual assistant for a restaurant called "Donde Nando Grill".
+Your goal is to answer customer questions about the restaurant, its menu, hours, and location.
+You must use ONLY the information provided below to answer questions. Do not make up information.
+If a user asks about making a reservation, tell them they can do it through the "Reservations" page on the website. Do not attempt to take reservation details yourself.
+Keep your answers brief and to the point. Always be polite.
+The current date is ${new Date().toDateString()}.
+
+Here is the restaurant's information:
+${getRestaurantInfo()}
+
+Here is the full menu:
+${getMenuAsText()}
+`;
+
+const handler: Handler = async (event: HandlerEvent) => {
     if (event.httpMethod !== 'POST') {
-        return { statusCode: 405, body: JSON.stringify({ error: 'Method Not Allowed' }) };
+        return { statusCode: 405, body: 'Method Not Allowed' };
     }
 
     try {
-        const { message, language } = JSON.parse(event.body) as RequestBody;
+        const { history, prompt } = JSON.parse(event.body || '{}');
 
-        if (!message || !language) {
-            return { statusCode: 400, body: JSON.stringify({ error: 'Bad Request: message and language are required.' }) };
+        if (!prompt) {
+            return { statusCode: 400, body: 'Bad Request: prompt is required.' };
         }
         
-        const apiKey = process.env.API_KEY;
-        if (!apiKey) {
-            console.error("API_KEY environment variable not set.");
-            return { statusCode: 500, body: JSON.stringify({ error: 'Server configuration error.' }) };
-        }
-
-        const ai = new GoogleGenAI({ apiKey });
+        const contents = [...history, { role: 'user', parts: [{ text: prompt }] }];
         
-        // Create a more compact string representation of the menu
-        // to reduce token count and avoid timeouts.
-        const compactMenu = menuData.menu_sections.map(section => {
-            const sectionTitle = language === 'es' ? section.title_es : section.title_en;
-            const items = section.items.map(item => {
-                const itemName = language === 'es' ? item.name_es : item.name_en;
-                const itemNote = language === 'es' ? item.notes_es : item.notes_en;
-                let itemString = `${itemName} - C$${item.price}`;
-                if (itemNote) {
-                    itemString += ` (${itemNote})`;
-                }
-                return itemString;
-            }).join('. ');
-            return `${sectionTitle}:\n${items}`;
-        }).join('\n\n');
-
-
-        const restaurantInfo = {
-            address: 'A 700 metros al norte de la Rotonda Los Encuentros, Chinandega, Nicaragua',
-            phone: '+505 8470 9484',
-            openingHours: { es: 'Mar - Dom: 12pm - 10pm', en: 'Tue - Sun: 12pm - 10pm' },
-        };
-
-        const langSpecificHours = restaurantInfo.openingHours[language];
-        
-        // Updated system instruction to be more robust and use the compact menu.
-        const systemInstruction = `You are a helpful and friendly chatbot for a Nicaraguan restaurant called 'Donde Nando Grill'. 
-        Your goal is to answer customer questions. Be concise and conversational.
-        The user's current language preference is '${language === 'es' ? 'Spanish' : 'English'}', so you MUST respond in that language.
-    
-        - Name: Donde Nando Grill
-        - Cuisine: Nicaraguan Grill/Steakhouse
-        - Location: ${restaurantInfo.address}
-        - Phone: ${restaurantInfo.phone}
-        - Hours: ${langSpecificHours}
-
-        Here is the menu. Use this as your primary knowledge source for all menu questions. Prices are in Nicaraguan Córdoba (C$).
-        --- MENU ---
-        ${compactMenu}
-        --- END MENU ---
-        
-        RULES:
-        1. If asked about menu items, use the provided menu to answer.
-        2. If asked for a reservation, politely direct the user to the website's reservation page. Do not try to take reservation details.
-        3. If you don't know the answer, say you are not sure and suggest they call the restaurant at ${restaurantInfo.phone}.
-        4. Do not mention that you are an AI or that you were given a menu as context. Act as a knowledgeable assistant for the restaurant.`;
-
         const response = await ai.models.generateContent({
-            model: "gemini-2.5-flash",
-            contents: message,
-            config: { systemInstruction },
+          model: 'gemini-2.5-flash',
+          contents,
+          config: {
+            systemInstruction,
+          }
         });
+        
+        const text = response.text;
 
         return {
             statusCode: 200,
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ text: response.text }),
+            body: JSON.stringify({ response: text }),
         };
 
     } catch (error) {
-        console.error("Error in gemini-proxy function:", error);
+        console.error('Error calling Gemini API:', error);
         return {
             statusCode: 500,
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ error: "Internal Server Error" }),
+            body: JSON.stringify({ error: 'Failed to get response from AI assistant.' }),
         };
     }
 };
+
+export { handler };

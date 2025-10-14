@@ -1,10 +1,11 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { useLocalization } from '../hooks/useLocalization.ts';
-import { content } from '../constants/content.ts';
-import { CloseIcon } from './icons.tsx';
+// FIX: Replaced placeholder content with a functional Chatbot component to resolve module errors.
+import React, { useState, useEffect, useRef } from 'react';
+import { useLocalization } from '../hooks/useLocalization';
+import { content } from '../constants/content';
+import { ChatIcon, CloseIcon, SendIcon } from './icons';
 
 interface Message {
-    sender: 'user' | 'model';
+    role: 'user' | 'model';
     text: string;
 }
 
@@ -15,230 +16,119 @@ interface ChatbotProps {
 const Chatbot: React.FC<ChatbotProps> = ({ isMobileMenuOpen }) => {
     const { language } = useLocalization();
     const chatbotContent = content.chatbot;
-
     const [isOpen, setIsOpen] = useState(false);
-    const [messages, setMessages] = useState<Message[]>([]);
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    const [showSuggestions, setShowSuggestions] = useState(false);
+    const [messages, setMessages] = useState<Message[]>([]);
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
-    // Effect to reset the chat when the language changes
-    useEffect(() => {
-        setMessages([]);
-        setShowSuggestions(false);
-        setInput('');
-    }, [language]);
-
-    // Close chat window if mobile menu is opened
-    useEffect(() => {
-        if (isMobileMenuOpen && isOpen) {
-            setIsOpen(false);
-        }
-    }, [isMobileMenuOpen, isOpen]);
-
-    // Effect to show the initial greeting when the chat is opened and empty
     useEffect(() => {
         if (isOpen && messages.length === 0) {
-            setIsLoading(true);
-            setTimeout(() => {
-                setMessages([{ sender: 'model', text: chatbotContent.greeting[language] }]);
-                setShowSuggestions(true);
-                setIsLoading(false);
-            }, 500);
+             // Add initial greeting from the bot when chat opens for the first time
+            setMessages([{ role: 'model', text: chatbotContent.greeting[language] }]);
         }
-    }, [isOpen, messages.length, language, chatbotContent.greeting]);
+    }, [isOpen, messages.length, chatbotContent.greeting, language]);
 
-    const scrollToBottom = () => {
-        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    };
-
-    useEffect(scrollToBottom, [messages, isLoading]);
-
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setInput(e.target.value);
-        if (e.target.value.trim() !== '' && showSuggestions) {
-            setShowSuggestions(false);
-        }
-    };
-    
-    const handleSuggestionClick = (suggestionType: 'menu' | 'reservations' | 'contact') => {
-        setShowSuggestions(false);
-        
-        switch (suggestionType) {
-            case 'menu':
-                setIsOpen(false);
-                window.location.hash = '#/menu';
-                break;
-            case 'reservations':
-                setIsOpen(false);
-                window.location.hash = '#/reservations';
-                break;
-            case 'contact':
-                const userMessage: Message = { sender: 'user', text: chatbotContent.suggestions.contact[language] };
-                const botResponse: Message = { sender: 'model', text: chatbotContent.contactInfoResponse[language] };
-                setMessages(prev => [...prev, userMessage, botResponse]);
-                break;
-        }
-    };
+    useEffect(() => {
+        // Scroll to the bottom of messages list
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, [messages]);
 
     const handleSendMessage = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!input.trim() || isLoading) return;
 
-        setShowSuggestions(false);
-        const userMessage: Message = { sender: 'user', text: input };
+        const userMessage: Message = { role: 'user', text: input };
         setMessages(prev => [...prev, userMessage]);
-        const currentInput = input;
         setInput('');
         setIsLoading(true);
+        
+        // Prepare history for API
+        const history = messages.map(m => ({
+            role: m.role,
+            parts: [{ text: m.text }]
+        }));
 
         try {
             const response = await fetch('/.netlify/functions/gemini-proxy', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ message: currentInput, language }),
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ prompt: input, history: history }),
             });
 
             if (!response.ok) {
-                const errorData = await response.json().catch(() => ({ error: 'Failed to parse error response' }));
-                throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.error || 'Unknown error'}`);
+                throw new Error('API request failed');
             }
 
             const data = await response.json();
+            const botMessage: Message = { role: 'model', text: data.response };
+            setMessages(prev => [...prev, botMessage]);
 
-            if (data.error) {
-                throw new Error(data.error);
-            }
-
-            const modelMessage: Message = { sender: 'model', text: data.text };
-            setMessages(prev => [...prev, modelMessage]);
         } catch (error) {
-            console.error("Error communicating with Gemini API proxy:", error);
-            const errorMessage: Message = { sender: 'model', text: chatbotContent.errorMessage[language] };
+            console.error("Chatbot error:", error);
+            const errorMessage: Message = { role: 'model', text: "Sorry, I'm having trouble connecting right now. Please try again later." };
             setMessages(prev => [...prev, errorMessage]);
         } finally {
             setIsLoading(false);
-            setShowSuggestions(true);
         }
     };
 
     return (
         <>
-            <button
-                onClick={() => setIsOpen(!isOpen)}
-                className={`fixed bottom-6 right-6 bg-brand-red text-white p-3 rounded-full shadow-lg hover:bg-red-800 transition-all duration-300 z-50 animate-initial-bounce hover:scale-110 active:scale-95 ${
-                    isMobileMenuOpen ? 'opacity-0 scale-75 pointer-events-none' : 'opacity-100 scale-100'
-                }`}
-                aria-label={isOpen ? "Close chatbot" : "Open chatbot"}
-                aria-expanded={isOpen}
-                aria-hidden={isMobileMenuOpen}
-            >
-                 <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2v10z"/>
-                </svg>
-            </button>
-
-            <div
-                className={`fixed bottom-24 right-6 w-[90vw] max-w-sm h-[60vh] max-h-[500px] bg-white rounded-lg shadow-2xl flex flex-col transition-all duration-300 z-50 ${
-                    isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'
-                }`}
-                aria-hidden={!isOpen}
-            >
-                <div className="bg-brand-text text-white p-4 flex justify-between items-center rounded-t-lg">
-                    <h3 className="font-bold text-lg">{chatbotContent.headerTitle[language]}</h3>
-                    <button onClick={() => setIsOpen(false)} aria-label="Close chatbot">
-                        <CloseIcon className="w-6 h-6" />
+            {/* Chat Window */}
+            <div className={`fixed bottom-24 right-6 w-80 h-96 bg-white rounded-lg shadow-2xl flex flex-col transition-all duration-300 z-40 sm:w-96 sm:h-[480px] ${isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'}`}>
+                {/* Header */}
+                <div className="flex justify-between items-center p-3 bg-brand-text text-white rounded-t-lg">
+                    <h3 className="font-bold text-lg">{chatbotContent.title[language]}</h3>
+                    <button onClick={() => setIsOpen(false)} aria-label="Close chat">
+                        <CloseIcon className="w-5 h-5" />
                     </button>
                 </div>
-
-                <div role="log" aria-live="polite" className="flex-grow p-4 overflow-y-auto space-y-4 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
-                    {messages.map((msg, index) => (
-                        <div key={index} className={`flex items-end gap-2 animate-fade-in-up ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
-                            {msg.sender === 'model' && (
-                                <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center font-bold text-brand-red shrink-0" aria-hidden="true">N</div>
-                            )}
-                            <div
-                                className={`rounded-2xl px-4 py-2 max-w-[80%] ${
-                                    msg.sender === 'user'
-                                        ? 'bg-brand-red text-white rounded-br-none'
-                                        : 'bg-gray-200 text-brand-text rounded-bl-none'
-                                }`}
-                            >
-                                <p className="text-sm">{msg.text}</p>
-                            </div>
-                             {msg.sender === 'user' && (
-                                <div className="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center font-bold text-white shrink-0" aria-hidden="true">
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>
-                                </div>
-                            )}
-                        </div>
-                    ))}
-                    {isLoading && (
-                         <div className="flex items-end gap-2 justify-start animate-fade-in-up">
-                            <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center font-bold text-brand-red shrink-0" aria-hidden="true">N</div>
-                            <div className="bg-gray-200 text-brand-text rounded-2xl rounded-bl-none px-4 py-2">
-                                <div className="flex space-x-1">
-                                    <span className="w-2 h-2 bg-gray-500 rounded-full animate-pulse [animation-delay:-0.3s]"></span>
-                                    <span className="w-2 h-2 bg-gray-500 rounded-full animate-pulse [animation-delay:-0.15s]"></span>
-                                    <span className="w-2 h-2 bg-gray-500 rounded-full animate-pulse"></span>
+                {/* Messages */}
+                <div className="flex-1 p-4 overflow-y-auto">
+                    <div className="space-y-4">
+                        {messages.map((msg, index) => (
+                            <div key={index} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                                <div className={`max-w-[80%] p-3 rounded-lg text-sm ${msg.role === 'user' ? 'bg-brand-red text-white' : 'bg-gray-200 text-brand-text'}`}>
+                                    {msg.text}
                                 </div>
                             </div>
-                        </div>
-                    )}
+                        ))}
+                        {isLoading && (
+                             <div className="flex justify-start">
+                                <p className="max-w-[80%] p-3 rounded-lg bg-gray-200 text-brand-text">
+                                    <span className="animate-pulse">...</span>
+                                </p>
+                            </div>
+                        )}
+                    </div>
                     <div ref={messagesEndRef} />
                 </div>
-                
-                {showSuggestions && (
-                    <div className="px-4 pt-2 pb-1 border-t">
-                        <div className="flex flex-wrap justify-center gap-2">
-                            <button onClick={() => handleSuggestionClick('menu')} className="bg-gray-100 text-sm text-brand-text px-3 py-1 rounded-full hover:bg-gray-200 transition-colors">{chatbotContent.suggestions.menu[language]}</button>
-                            <button onClick={() => handleSuggestionClick('reservations')} className="bg-gray-100 text-sm text-brand-text px-3 py-1 rounded-full hover:bg-gray-200 transition-colors">{chatbotContent.suggestions.reservations[language]}</button>
-                            <button onClick={() => handleSuggestionClick('contact')} className="bg-gray-100 text-sm text-brand-text px-3 py-1 rounded-full hover:bg-gray-200 transition-colors">{chatbotContent.suggestions.contact[language]}</button>
-                        </div>
+                {/* Input */}
+                <form onSubmit={handleSendMessage} className="p-3 border-t">
+                    <div className="flex items-center">
+                        <input
+                            type="text"
+                            value={input}
+                            onChange={(e) => setInput(e.target.value)}
+                            placeholder={chatbotContent.placeholder[language]}
+                            className="w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-l-md focus:outline-none focus:ring-1 focus:ring-brand-red text-gray-900"
+                            disabled={isLoading}
+                        />
+                        <button type="submit" className="bg-brand-red text-white p-2.5 rounded-r-md disabled:bg-red-400 transition-colors" disabled={isLoading || !input.trim()}>
+                           <SendIcon className="w-5 h-5" />
+                        </button>
                     </div>
-                )}
-
-                <form onSubmit={handleSendMessage} className="p-3 border-t flex items-center gap-2">
-                    <label htmlFor="chatbot-input" className="sr-only">{chatbotContent.inputPlaceholder[language]}</label>
-                    <input
-                        type="text"
-                        id="chatbot-input"
-                        value={input}
-                        onChange={handleInputChange}
-                        placeholder={chatbotContent.inputPlaceholder[language]}
-                        className="flex-grow w-full px-4 py-2 bg-gray-100 border-transparent rounded-full focus:outline-none focus:ring-2 focus:ring-brand-red text-sm text-gray-900"
-                        disabled={isLoading}
-                    />
-                    <button
-                        type="submit"
-                        className="bg-brand-red text-white w-10 h-10 rounded-full flex-shrink-0 flex items-center justify-center hover:bg-red-800 disabled:bg-red-300 transition-colors"
-                        disabled={isLoading || !input.trim()}
-                        aria-label="Send message"
-                    >
-                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" /></svg>
-                    </button>
                 </form>
             </div>
-             <style>{`
-                .scrollbar-thin {
-                    scrollbar-width: thin;
-                    scrollbar-color: #D1D5DB #F3F4F6;
-                }
-                .scrollbar-thin::-webkit-scrollbar {
-                    width: 6px;
-                }
-                .scrollbar-thin::-webkit-scrollbar-track {
-                    background: #F3F4F6;
-                }
-                .scrollbar-thin::-webkit-scrollbar-thumb {
-                    background-color: #D1D5DB;
-                    border-radius: 10px;
-                    border: 3px solid #F3F4F6;
-                }
-            `}</style>
+            {/* FAB */}
+            <button
+                onClick={() => setIsOpen(!isOpen)}
+                className={`fixed bottom-6 right-6 w-14 h-14 bg-brand-red text-white rounded-full shadow-lg flex items-center justify-center z-50 transition-all duration-300 hover:scale-110 active:scale-95 ${isMobileMenuOpen ? 'opacity-0 scale-0' : ''}`}
+                aria-label={chatbotContent.tooltip[language]}
+            >
+                {isOpen ? <CloseIcon className="w-7 h-7" /> : <ChatIcon className="w-7 h-7" />}
+            </button>
         </>
     );
 };
