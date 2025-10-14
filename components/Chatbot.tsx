@@ -38,7 +38,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ isHidden }) => {
 
     useEffect(() => {
         // Scroll to the bottom of messages list
-        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+        messagesEndRef.current?.scrollIntoView({ behavior: 'auto' });
     }, [messages, isLoading]);
 
     const handleSendMessage = async (messageText: string) => {
@@ -110,7 +110,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ isHidden }) => {
     return (
         <>
             {/* Chat Window */}
-            <div className={`fixed bottom-24 right-6 w-80 h-96 bg-white dark:bg-brand-surface-dark rounded-lg shadow-2xl flex flex-col transition-all duration-300 z-40 sm:w-96 sm:h-[480px] ${isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'}`}>
+            <div className={`fixed bottom-24 right-4 left-4 h-[70vh] max-h-[550px] bg-white dark:bg-brand-surface-dark rounded-lg shadow-2xl flex flex-col transition-all duration-300 z-40 sm:left-auto sm:right-6 sm:w-96 sm:h-[600px] ${isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'}`}>
                 {/* Header */}
                 <div className="flex justify-between items-center p-3 bg-brand-text dark:bg-black text-white rounded-t-lg">
                     <h3 className="font-bold text-lg">{chatbotContent.title[language]}</h3>

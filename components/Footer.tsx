@@ -12,6 +12,7 @@ const Footer: React.FC = () => {
 
   return (
     <footer className="bg-brand-text text-white dark:bg-black">
+      <div className="h-2 bg-brand-red"></div>
       <div className="container mx-auto px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-y-10 md:gap-y-0 md:gap-x-8">
           
@@ -44,7 +45,7 @@ const Footer: React.FC = () => {
              </div>
           </div>
         </div>
-        <div className="mt-12 border-t border-gray-700 pt-8 text-center text-gray-500">
+        <div className="mt-12 pt-8 text-center text-gray-500">
             <p>&copy; {currentYear} Donde Nando Grill. Todos los derechos reservados.</p>
         </div>
       </div>
