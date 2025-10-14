@@ -44,7 +44,8 @@ interface Content {
     title: LocalizedString;
     subtitle: LocalizedString;
     address: string;
-    phone: string;
+    phoneDisplay: string;
+    phoneTel: string;
     email: string;
     googleMapsUrl: string;
     facebook: string;
@@ -132,9 +133,10 @@ export const content: Content = {
   contact: {
     title: { es: 'Póngase en Contacto', en: 'Get in Touch' },
     subtitle: { es: 'Estamos aquí para servirle. Llámenos, escríbanos o visítenos.', en: 'We are here to serve you. Call us, write to us, or visit us.' },
-    address: 'Rotonda Los Encuentros, 50 metros al Este, Chinandega, Nicaragua',
-    phone: '+505 8888 5555',
-    email: 'reservas@dondenandogrill.com',
+    address: 'Rotonda Los Encuentros, 700 metros al Norte, Chinandega, Nicaragua',
+    phoneDisplay: '8470 9484',
+    phoneTel: '+50584709484',
+    email: 'dondnando@gmail.com',
     googleMapsUrl: 'https://maps.app.goo.gl/VAPF3j9D6aYm5BqM7',
     facebook: 'https://www.facebook.com/dondenandogrill',
     instagram: 'https://www.instagram.com/dondenandogrill',

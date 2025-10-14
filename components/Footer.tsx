@@ -37,7 +37,7 @@ const Footer: React.FC = () => {
                 <a href={contactInfo.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="text-gray-400 hover:text-white transition-all hover:scale-110"><FacebookIcon /></a>
                 <a href={contactInfo.instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-gray-400 hover:text-white transition-all hover:scale-110"><InstagramIcon /></a>
                 <a href={`mailto:${contactInfo.email}`} aria-label="Email" className="text-gray-400 hover:text-white transition-all hover:scale-110"><MailIcon /></a>
-                <a href={`tel:${contactInfo.phone.replace(/\s/g, '')}`} aria-label="Phone" className="text-gray-400 hover:text-white transition-all hover:scale-110"><PhoneIcon /></a>
+                <a href={`tel:${contactInfo.phoneTel}`} aria-label="Phone" className="text-gray-400 hover:text-white transition-all hover:scale-110"><PhoneIcon /></a>
              </div>
           </div>
         </div>

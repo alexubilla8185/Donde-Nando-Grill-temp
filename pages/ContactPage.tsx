@@ -39,9 +39,9 @@ const ContactPage: React.FC = () => {
                 </div>
                 <div className="flex items-center">
                   <p className="font-semibold w-24 shrink-0">Teléfono:</p>
-                  <a href={`tel:${contactContent.phone.replace(/\s/g, '')}`} className="flex items-center hover:text-brand-red transition-colors">
+                  <a href={`tel:${contactContent.phoneTel}`} className="flex items-center hover:text-brand-red transition-colors">
                     <PhoneIcon className="w-4 h-4 mr-2 shrink-0" />
-                    {contactContent.phone}
+                    {contactContent.phoneDisplay}
                   </a>
                 </div>
                 <div className="flex items-center">
