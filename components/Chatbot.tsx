@@ -13,6 +13,13 @@ interface ChatbotProps {
     isHidden: boolean;
 }
 
+// Type for function calls from the backend
+interface FunctionCall {
+    name: string;
+    args: any;
+}
+
+
 const Chatbot: React.FC<ChatbotProps> = ({ isHidden }) => {
     const { language } = useLocalization();
     const chatbotContent = content.chatbot;
@@ -64,6 +71,20 @@ const Chatbot: React.FC<ChatbotProps> = ({ isHidden }) => {
             const responseText = data.response || "I'm sorry, I didn't get that. Could you rephrase?";
             const botMessage: Message = { role: 'model', text: responseText };
             setMessages(prev => [...prev, botMessage]);
+
+            // Handle function calls for navigation
+            if (data.functionCalls && Array.isArray(data.functionCalls)) {
+                for (const call of data.functionCalls as FunctionCall[]) {
+                    if (call.name === 'navigateToPage' && call.args.page) {
+                        // Use a short timeout to let the user read the bot's message before navigating
+                        setTimeout(() => {
+                           window.location.hash = `#/${call.args.page}`;
+                           setIsOpen(false); // Close chat after navigation
+                        }, 1000);
+                    }
+                }
+            }
+
 
         } catch (error) {
             console.error("Chatbot error:", error);
@@ -132,7 +153,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ isHidden }) => {
                 {/* Input */}
                 <form onSubmit={handleFormSubmit} className="p-3 border-t">
                     {/* Suggestion Chips */}
-                    {messages.length <= 1 && !isLoading && (
+                    {!isLoading && (
                         <div className="pb-3 animate-fade-in">
                             <div className="flex flex-wrap justify-start gap-2">
                                 {suggestions.map((suggestion, i) => (

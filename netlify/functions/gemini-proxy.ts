@@ -1,8 +1,7 @@
 // FIX: Replaced placeholder content with a functional Netlify serverless function.
 import { Handler, HandlerEvent } from "@netlify/functions";
-import { GoogleGenAI } from "@google/genai";
+import { GoogleGenAI, FunctionDeclaration, Type } from "@google/genai";
 import menuData from "../../menu_data.json";
-import { content } from "../../constants/content.ts";
 
 if (!process.env.API_KEY) {
     throw new Error("The API_KEY environment variable is not set.");
@@ -37,11 +36,28 @@ const getRestaurantInfo = () => {
     `;
 }
 
+// Function declaration for navigation
+const navigateToPageFunctionDeclaration: FunctionDeclaration = {
+  name: 'navigateToPage',
+  description: 'Navigates the user to a specific page on the website. Use this whenever a user wants to see the menu, make a reservation, or visit the contact or home page.',
+  parameters: {
+    type: Type.OBJECT,
+    properties: {
+      page: {
+        type: Type.STRING,
+        description: 'The page to navigate to.',
+        enum: ['home', 'menu', 'reservations', 'contact'],
+      },
+    },
+    required: ['page'],
+  },
+};
+
 const systemInstruction = `You are a friendly, helpful, and concise virtual assistant for a restaurant called "Donde Nando Grill".
-Your goal is to answer customer questions about the restaurant, its menu, hours, and location.
-You must use ONLY the information provided below to answer questions. Do not make up information.
-If a user asks about making a reservation, tell them they can do it through the "Reservations" page on the website. Do not attempt to take reservation details yourself.
-Keep your answers brief and to the point. Always be polite.
+Your goal is to answer customer questions. You MUST use the provided function 'navigateToPage' when the user expresses clear intent to see the menu, make a reservation, go to the contact page, or go home.
+When using the 'navigateToPage' function, ALSO provide a brief, polite text response confirming the action, for example: "Of course, taking you to the menu page now."
+For all other questions, use ONLY the information provided below to answer. Do not make up information. Do not attempt to take reservation details yourself.
+Keep your answers brief and to the point.
 The current date is ${new Date().toDateString()}.
 
 Here is the restaurant's information:
@@ -63,26 +79,29 @@ const handler: Handler = async (event: HandlerEvent) => {
             return { statusCode: 400, body: 'Bad Request: prompt is required.' };
         }
         
-        const contents = [...history, { role: 'user', parts: [{ text: prompt }] }];
+        const contents = [...(history || []), { role: 'user', parts: [{ text: prompt }] }];
         
         const response = await ai.models.generateContent({
           model: 'gemini-2.5-flash',
           contents,
           config: {
             systemInstruction,
+            tools: [{ functionDeclarations: [navigateToPageFunctionDeclaration] }],
           }
         });
         
         const text = response.text;
+        const functionCalls = response.functionCalls;
 
         return {
             statusCode: 200,
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ response: text }),
+            body: JSON.stringify({ response: text, functionCalls }),
         };
 
-    } catch (error) {
-        console.error('Error calling Gemini API:', error);
+    } catch (e) {
+        // FIX: Renamed the catch block variable from 'error' to 'e' to resolve a 'Cannot find name' compiler error.
+        console.error('Error calling Gemini API:', e);
         return {
             statusCode: 500,
             body: JSON.stringify({ error: 'Failed to get response from AI assistant.' }),
