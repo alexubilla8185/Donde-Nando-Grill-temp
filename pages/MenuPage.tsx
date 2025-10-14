@@ -1,16 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocalization } from '../hooks/useLocalization.ts';
 import { content } from '../constants/content.ts';
 import { ChevronSimpleIcon } from '../components/icons.tsx';
 import ImageViewerModal from '../components/ImageViewerModal.tsx';
 import { menuData } from '../constants/menu.ts';
 
+interface MenuPageProps {
+    onViewerToggle: (isOpen: boolean) => void;
+}
 
-const MenuPage: React.FC = () => {
+const MenuPage: React.FC<MenuPageProps> = ({ onViewerToggle }) => {
     const { language } = useLocalization();
     const menuContent = content.menu;
     const [openCategoryIndex, setOpenCategoryIndex] = useState<number | null>(0);
     const [isViewerOpen, setIsViewerOpen] = useState(false);
+    
+    useEffect(() => {
+        onViewerToggle(isViewerOpen);
+        
+        // On component unmount, ensure FAB is visible again.
+        return () => {
+            onViewerToggle(false);
+        };
+    }, [isViewerOpen, onViewerToggle]);
+
 
     const handleToggleCategory = (index: number) => {
         setOpenCategoryIndex(openCategoryIndex === index ? null : index);

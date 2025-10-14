@@ -1,8 +1,8 @@
 // FIX: Replaced placeholder content with a functional Chatbot component to resolve module errors.
 import React, { useState, useEffect, useRef } from 'react';
-import { useLocalization } from '../hooks/useLocalization';
-import { content } from '../constants/content';
-import { ChatIcon, CloseIcon, SendIcon } from './icons';
+import { useLocalization } from '../hooks/useLocalization.ts';
+import { content } from '../constants/content.ts';
+import { ChatIcon, CloseIcon, SendIcon } from './icons.tsx';
 
 interface Message {
     role: 'user' | 'model';
@@ -10,10 +10,10 @@ interface Message {
 }
 
 interface ChatbotProps {
-    isMobileMenuOpen: boolean;
+    isHidden: boolean;
 }
 
-const Chatbot: React.FC<ChatbotProps> = ({ isMobileMenuOpen }) => {
+const Chatbot: React.FC<ChatbotProps> = ({ isHidden }) => {
     const { language } = useLocalization();
     const chatbotContent = content.chatbot;
     const [isOpen, setIsOpen] = useState(false);
@@ -21,6 +21,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ isMobileMenuOpen }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [messages, setMessages] = useState<Message[]>([]);
     const messagesEndRef = useRef<HTMLDivElement>(null);
+    const suggestionsContainerRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         if (isOpen && messages.length === 0) {
@@ -30,30 +31,31 @@ const Chatbot: React.FC<ChatbotProps> = ({ isMobileMenuOpen }) => {
     }, [isOpen, messages.length, chatbotContent.greeting, language]);
 
     useEffect(() => {
-        // Scroll to the bottom of messages list
-        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }, [messages]);
+        // Scroll to the bottom of messages list, or to suggestions if they appear
+        const targetRef = messages.length === 1 && !isLoading ? suggestionsContainerRef : messagesEndRef;
+        targetRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, [messages, isLoading]);
 
-    const handleSendMessage = async (e: React.FormEvent) => {
-        e.preventDefault();
-        if (!input.trim() || isLoading) return;
+    const handleSendMessage = async (messageText: string) => {
+        if (!messageText.trim() || isLoading) return;
 
-        const userMessage: Message = { role: 'user', text: input };
+        const userMessage: Message = { role: 'user', text: messageText };
         setMessages(prev => [...prev, userMessage]);
-        setInput('');
         setIsLoading(true);
         
-        // Prepare history for API
-        const history = messages.map(m => ({
-            role: m.role,
-            parts: [{ text: m.text }]
-        }));
+        // The conversation history sent to the API must not include the initial UI greeting from the model.
+        // It must always start with a user message.
+        const historyForApi = (messages.length > 0 && messages[0].role === 'model' ? messages.slice(1) : messages)
+            .map(m => ({
+                role: m.role,
+                parts: [{ text: m.text }]
+            }));
 
         try {
             const response = await fetch('/.netlify/functions/gemini-proxy', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ prompt: input, history: history }),
+                body: JSON.stringify({ prompt: messageText, history: historyForApi }),
             });
 
             if (!response.ok) {
@@ -61,7 +63,8 @@ const Chatbot: React.FC<ChatbotProps> = ({ isMobileMenuOpen }) => {
             }
 
             const data = await response.json();
-            const botMessage: Message = { role: 'model', text: data.response };
+            const responseText = data.response || "I'm sorry, I didn't get that. Could you rephrase?";
+            const botMessage: Message = { role: 'model', text: responseText };
             setMessages(prev => [...prev, botMessage]);
 
         } catch (error) {
@@ -72,6 +75,19 @@ const Chatbot: React.FC<ChatbotProps> = ({ isMobileMenuOpen }) => {
             setIsLoading(false);
         }
     };
+    
+    const handleFormSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        handleSendMessage(input);
+        setInput('');
+    };
+
+    const suggestions = [
+        chatbotContent.suggestions.hours[language],
+        chatbotContent.suggestions.menu[language],
+        chatbotContent.suggestions.reservation[language],
+        chatbotContent.suggestions.specials[language],
+    ];
 
     return (
         <>
@@ -101,11 +117,27 @@ const Chatbot: React.FC<ChatbotProps> = ({ isMobileMenuOpen }) => {
                                 </p>
                             </div>
                         )}
+                        {/* Suggestion Chips */}
+                        {messages.length === 1 && !isLoading && (
+                            <div ref={suggestionsContainerRef} className="pt-4 animate-fade-in">
+                                <div className="flex flex-wrap justify-start gap-2">
+                                    {suggestions.map((suggestion, i) => (
+                                        <button
+                                            key={i}
+                                            onClick={() => handleSendMessage(suggestion)}
+                                            className="px-3 py-1.5 bg-gray-100 text-brand-text text-sm rounded-full hover:bg-gray-200 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-red"
+                                        >
+                                            {suggestion}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
                     </div>
                     <div ref={messagesEndRef} />
                 </div>
                 {/* Input */}
-                <form onSubmit={handleSendMessage} className="p-3 border-t">
+                <form onSubmit={handleFormSubmit} className="p-3 border-t">
                     <div className="flex items-center">
                         <input
                             type="text"
@@ -124,7 +156,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ isMobileMenuOpen }) => {
             {/* FAB */}
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className={`fixed bottom-6 right-6 w-14 h-14 bg-brand-red text-white rounded-full shadow-lg flex items-center justify-center z-50 transition-all duration-300 hover:scale-110 active:scale-95 ${isMobileMenuOpen ? 'opacity-0 scale-0' : ''}`}
+                className={`fixed bottom-6 right-6 w-14 h-14 bg-brand-red text-white rounded-full shadow-lg flex items-center justify-center z-50 transition-all duration-300 hover:scale-110 active:scale-95 ${isHidden ? 'opacity-0 scale-0 pointer-events-none' : ''}`}
                 aria-label={chatbotContent.tooltip[language]}
             >
                 {isOpen ? <CloseIcon className="w-7 h-7" /> : <ChatIcon className="w-7 h-7" />}

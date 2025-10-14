@@ -63,6 +63,12 @@ interface Content {
       placeholder: LocalizedString;
       tooltip: LocalizedString;
       title: LocalizedString;
+      suggestions: {
+          hours: LocalizedString;
+          menu: LocalizedString;
+          reservation: LocalizedString;
+          specials: LocalizedString;
+      };
   };
 }
 
@@ -147,5 +153,11 @@ export const content: Content = {
       placeholder: { es: 'Escriba su pregunta...', en: 'Type your question...' },
       tooltip: { es: 'Chatea con nosotros', en: 'Chat with us' },
       title: { es: 'Asistente Virtual', en: 'Virtual Assistant' },
+      suggestions: {
+          hours: { es: '¿Cuál es su horario?', en: 'What are your hours?' },
+          menu: { es: 'Muéstrame el menú', en: 'Show me the menu' },
+          reservation: { es: '¿Cómo puedo reservar?', en: 'How can I make a reservation?' },
+          specials: { es: '¿Cuáles son los especiales?', en: 'What are the specials?' }
+      }
   }
 };

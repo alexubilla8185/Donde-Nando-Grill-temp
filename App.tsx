@@ -16,6 +16,7 @@ const AppContent: React.FC = () => {
     // This overrides any initial URL hash.
     const [route, setRoute] = useState('home');
     const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const [isFabHidden, setFabHidden] = useState(false);
 
     useEffect(() => {
         // Sync the URL hash with the initial state and set up the listener.
@@ -40,7 +41,7 @@ const AppContent: React.FC = () => {
     const renderPage = () => {
         switch (route) {
             case 'menu':
-                return <MenuPage />;
+                return <MenuPage onViewerToggle={setFabHidden} />;
             case 'reservations':
                 return <ReservationsPage />;
             case 'contact':
@@ -62,7 +63,7 @@ const AppContent: React.FC = () => {
                 {renderPage()}
             </main>
             <Footer />
-            <Chatbot isMobileMenuOpen={isMobileMenuOpen} />
+            <Chatbot isHidden={isMobileMenuOpen || isFabHidden} />
         </div>
     );
 };
