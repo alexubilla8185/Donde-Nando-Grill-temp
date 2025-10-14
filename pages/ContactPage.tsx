@@ -1,11 +1,12 @@
 import React from 'react';
 import { useLocalization } from '../hooks/useLocalization.ts';
 import { content } from '../constants/content.ts';
-import { MailIcon, PhoneIcon } from '../components/icons.tsx';
+import { MailIcon, PhoneIcon, ClockIcon } from '../components/icons.tsx';
 
 const ContactPage: React.FC = () => {
   const { language } = useLocalization();
   const contactContent = content.contact;
+  const footerContent = content.footer;
 
   return (
     <>
@@ -50,6 +51,13 @@ const ContactPage: React.FC = () => {
                     <MailIcon className="w-4 h-4 mr-2 shrink-0" />
                     {contactContent.email}
                   </a>
+                </div>
+                 <div className="flex items-center">
+                  <p className="font-semibold w-24 shrink-0">{footerContent.hours[language]}:</p>
+                  <div className="flex items-center">
+                    <ClockIcon className="w-4 h-4 mr-2 shrink-0" />
+                    <span>{footerContent.openingHours[language]}</span>
+                  </div>
                 </div>
               </div>
             </div>
