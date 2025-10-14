@@ -54,14 +54,14 @@ const MenuPage: React.FC<MenuPageProps> = ({ onViewerToggle }) => {
         return (
             <div className="max-w-4xl mx-auto">
                 {menuData.menu_sections.map((category, index) => (
-                    <div key={category.title_en} className="border-b border-gray-300 last:border-b-0">
+                    <div key={category.title_en} className="border-b border-gray-300 dark:border-gray-700 last:border-b-0">
                         <button
                             onClick={() => handleToggleCategory(index)}
                             className="w-full flex justify-between items-center text-left py-6"
                             aria-expanded={openCategoryIndex === index}
                             aria-controls={`category-content-${index}`}
                         >
-                            <h3 className="text-2xl md:text-3xl font-serif font-bold text-brand-text">{language === 'es' ? category.title_es : category.title_en}</h3>
+                            <h3 className="text-2xl md:text-3xl font-serif font-bold text-brand-text dark:text-brand-text-dark">{language === 'es' ? category.title_es : category.title_en}</h3>
                             <ChevronSimpleIcon className={`w-6 h-6 text-brand-red transition-transform duration-300 ${openCategoryIndex === index ? 'rotate-180' : ''}`} />
                         </button>
                         <div
@@ -72,13 +72,13 @@ const MenuPage: React.FC<MenuPageProps> = ({ onViewerToggle }) => {
                                 {category.items.map(item => {
                                     const notes = language === 'es' ? item.notes_es : item.notes_en;
                                     return (
-                                        <div key={item.name_en} className="p-2 -m-2 rounded-lg hover:bg-gray-50 transition-colors duration-200">
-                                            <div className="w-full flex justify-between items-baseline border-b border-dotted border-gray-300 pb-2">
-                                                <p className="text-lg text-gray-800 pr-4">{language === 'es' ? item.name_es : item.name_en}</p>
-                                                <p className="text-lg font-bold text-brand-text whitespace-nowrap">{`C$${item.price}`}</p>
+                                        <div key={item.name_en} className="p-2 -m-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200">
+                                            <div className="w-full flex justify-between items-baseline border-b border-dotted border-gray-300 dark:border-gray-600 pb-2">
+                                                <p className="text-lg text-gray-800 dark:text-gray-300 pr-4">{language === 'es' ? item.name_es : item.name_en}</p>
+                                                <p className="text-lg font-bold text-brand-text dark:text-brand-text-dark whitespace-nowrap">{`C$${item.price}`}</p>
                                             </div>
                                             {notes && (
-                                                <p className="text-sm text-gray-600 pt-1 italic">{notes}</p>
+                                                <p className="text-sm text-gray-600 dark:text-gray-400 pt-1 italic">{notes}</p>
                                             )}
                                         </div>
                                     );
@@ -110,14 +110,14 @@ const MenuPage: React.FC<MenuPageProps> = ({ onViewerToggle }) => {
             </div>
 
             {/* Featured Dishes */}
-            <section id="featured" className="py-20 bg-white">
+            <section id="featured" className="py-20 bg-white dark:bg-brand-surface-dark">
                 <div className="container mx-auto px-6">
-                    <h2 className="text-4xl font-serif font-bold text-brand-text text-center mb-12">{menuContent.featuredTitle[language]}</h2>
+                    <h2 className="text-4xl font-serif font-bold text-brand-text dark:text-brand-text-dark text-center mb-12">{menuContent.featuredTitle[language]}</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                         {featuredDishes.map(dish => (
-                            <div key={dish.key} className="bg-brand-bg rounded-lg shadow-lg overflow-hidden p-8">
-                                <h3 className="text-2xl font-serif font-bold text-brand-text mb-2">{dish[language === 'es' ? 'name_es' : 'name_en']}</h3>
-                                <p className="text-gray-700">{dish[language === 'es' ? 'description_es' : 'description_en']}</p>
+                            <div key={dish.key} className="bg-brand-bg dark:bg-brand-bg-dark rounded-lg shadow-lg overflow-hidden p-8">
+                                <h3 className="text-2xl font-serif font-bold text-brand-text dark:text-brand-text-dark mb-2">{dish[language === 'es' ? 'name_es' : 'name_en']}</h3>
+                                <p className="text-gray-700 dark:text-gray-300">{dish[language === 'es' ? 'description_es' : 'description_en']}</p>
                             </div>
                         ))}
                     </div>
@@ -125,10 +125,10 @@ const MenuPage: React.FC<MenuPageProps> = ({ onViewerToggle }) => {
             </section>
             
             {/* Full Menu */}
-            <section id="full-menu" className="py-20 bg-white">
+            <section id="full-menu" className="py-20 bg-white dark:bg-brand-surface-dark">
                 <div className="container mx-auto px-6">
                     {renderMenuContent()}
-                    <p className="text-center text-gray-600 italic mt-8 text-lg">
+                    <p className="text-center text-gray-600 dark:text-gray-400 italic mt-8 text-lg">
                         * {menuContent.sidesNote[language]}
                     </p>
                 </div>

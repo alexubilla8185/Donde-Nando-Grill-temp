@@ -1,10 +1,11 @@
 
 import React, { useState, useEffect } from 'react';
 import { useLocalization } from '../hooks/useLocalization.ts';
+import { useTheme } from '../hooks/useTheme.ts';
 import { content } from '../constants/content.ts';
 import MobileMenu from './MobileMenu.tsx';
 import ShareModal from './ShareModal.tsx';
-import { MenuIcon, ShareNetworkIcon } from './icons.tsx';
+import { MenuIcon, ShareNetworkIcon, SunIcon, MoonIcon } from './icons.tsx';
 
 interface HeaderProps {
     currentRoute: string;
@@ -14,6 +15,7 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ currentRoute, isMobileMenuOpen, setMobileMenuOpen }) => {
     const { language, setLanguage } = useLocalization();
+    const { theme, toggleTheme } = useTheme();
     const navContent = content.nav;
     const [isShareModalOpen, setShareModalOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
@@ -41,8 +43,8 @@ const Header: React.FC<HeaderProps> = ({ currentRoute, isMobileMenuOpen, setMobi
     };
 
     const isHomePageTop = currentRoute === 'home' && !isScrolled;
-    const headerClasses = `fixed top-0 left-0 w-full z-40 transition-all duration-300 ${isHomePageTop ? 'bg-transparent' : 'bg-white shadow-md'}`;
-    const navLinkClasses = `transition-all duration-300 hover:text-brand-red ${isHomePageTop ? 'text-white' : 'text-brand-text'}`;
+    const headerClasses = `fixed top-0 left-0 w-full z-40 transition-all duration-300 ${isHomePageTop ? 'bg-transparent' : 'bg-white dark:bg-brand-surface-dark shadow-md'}`;
+    const navLinkClasses = `transition-all duration-300 hover:text-brand-red ${isHomePageTop ? 'text-white' : 'text-brand-text dark:text-brand-text-dark'}`;
     const activeLinkClasses = `text-brand-red`;
 
     return (
@@ -73,6 +75,13 @@ const Header: React.FC<HeaderProps> = ({ currentRoute, isMobileMenuOpen, setMobi
                             aria-label={`Switch to ${language === 'es' ? 'English' : 'Español'}`}
                         >
                             {language === 'es' ? 'EN' : 'ES'}
+                        </button>
+                         <button
+                            onClick={toggleTheme}
+                            className={`${navLinkClasses} transition-transform hover:scale-110 rounded-sm`}
+                            aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+                        >
+                            {theme === 'light' ? <MoonIcon className="w-6 h-6" /> : <SunIcon className="w-6 h-6" />}
                         </button>
                         <div className="hidden md:block">
                           <button onClick={() => setShareModalOpen(true)} className="text-brand-red transition-all duration-200 hover:scale-110 hover:-rotate-6 rounded-sm" aria-label="Share this page">

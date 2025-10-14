@@ -73,13 +73,13 @@ const MediaGallery: React.FC = () => {
   }, [currentIndex, nextSlide, resetTimeout]);
 
   return (
-    <section id="gallery" ref={sectionRef} className={`py-20 bg-brand-bg scroll-animate ${isVisible ? 'is-visible' : ''}`}>
+    <section id="gallery" ref={sectionRef} className={`py-20 bg-brand-bg dark:bg-brand-bg-dark scroll-animate ${isVisible ? 'is-visible' : ''}`}>
       <div className="container mx-auto px-6">
         <div className="max-w-4xl mx-auto text-center mb-12">
-          <h2 className="text-4xl font-serif font-bold text-brand-text mb-4">
+          <h2 className="text-4xl font-serif font-bold text-brand-text dark:text-brand-text-dark mb-4">
             {galleryContent.title[language]}
           </h2>
-          <p className="text-lg text-gray-700">
+          <p className="text-lg text-gray-700 dark:text-gray-300">
             {galleryContent.subtitle[language]}
           </p>
         </div>

@@ -197,11 +197,11 @@ const ReservationsPage: React.FC = () => {
               </h1>
           </div>
       </div>
-      <section id="reservations" className="py-20 bg-brand-bg">
+      <section id="reservations" className="py-20 bg-brand-bg dark:bg-brand-bg-dark">
         <div className="container mx-auto px-6">
           <div className="max-w-2xl mx-auto">
             {submitted ? (
-               <div ref={successRef} tabIndex={-1} role="alert" className="text-center bg-green-100 text-green-800 p-4 rounded-lg">
+               <div ref={successRef} tabIndex={-1} role="alert" className="text-center bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 p-4 rounded-lg">
                   <p className="font-bold text-lg">{getSuccessMessage()}</p>
               </div>
             ) : (
@@ -209,19 +209,19 @@ const ReservationsPage: React.FC = () => {
               <input type="hidden" name="form-name" value="reservations" />
               <div className="space-y-6">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700">{resContent.form.name[language]}</label>
-                  <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} required className={`mt-1 block w-full px-3 py-2 bg-white border rounded-md shadow-sm focus:outline-none focus:ring-brand-red focus:border-brand-red text-gray-900 transition-all duration-200 ${errors.name ? 'border-red-500' : 'border-gray-300'}`} aria-invalid={!!errors.name} aria-describedby={errors.name ? 'name-error' : undefined} />
-                  {errors.name && <p id="name-error" className="mt-1 text-sm text-red-600 animate-fade-in">{errors.name}</p>}
+                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">{resContent.form.name[language]}</label>
+                  <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} required className={`mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-700 border rounded-md shadow-sm focus:outline-none focus:ring-brand-red focus:border-brand-red text-gray-900 dark:text-gray-200 transition-all duration-200 ${errors.name ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'}`} aria-invalid={!!errors.name} aria-describedby={errors.name ? 'name-error' : undefined} />
+                  {errors.name && <p id="name-error" className="mt-1 text-sm text-red-600 dark:text-red-400 animate-fade-in">{errors.name}</p>}
                 </div>
                 <div>
-                  <label htmlFor="contact" className="block text-sm font-medium text-gray-700">{resContent.form.contact[language]}</label>
-                  <input type="text" id="contact" name="contact" value={formData.contact} onChange={handleChange} required className={`mt-1 block w-full px-3 py-2 bg-white border rounded-md shadow-sm focus:outline-none focus:ring-brand-red focus:border-brand-red text-gray-900 transition-all duration-200 ${errors.contact ? 'border-red-500' : 'border-gray-300'}`} aria-invalid={!!errors.contact} aria-describedby={errors.contact ? 'contact-error' : undefined}/>
-                  {errors.contact && <p id="contact-error" className="mt-1 text-sm text-red-600 animate-fade-in">{errors.contact}</p>}
+                  <label htmlFor="contact" className="block text-sm font-medium text-gray-700 dark:text-gray-300">{resContent.form.contact[language]}</label>
+                  <input type="text" id="contact" name="contact" value={formData.contact} onChange={handleChange} required className={`mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-700 border rounded-md shadow-sm focus:outline-none focus:ring-brand-red focus:border-brand-red text-gray-900 dark:text-gray-200 transition-all duration-200 ${errors.contact ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'}`} aria-invalid={!!errors.contact} aria-describedby={errors.contact ? 'contact-error' : undefined}/>
+                  {errors.contact && <p id="contact-error" className="mt-1 text-sm text-red-600 dark:text-red-400 animate-fade-in">{errors.contact}</p>}
                 </div>
                 
                 <div>
                   <fieldset>
-                    <legend className="block text-sm font-medium text-gray-700">{resContent.form.reservationType[language]}</legend>
+                    <legend className="block text-sm font-medium text-gray-700 dark:text-gray-300">{resContent.form.reservationType[language]}</legend>
                     <div className="mt-2 flex space-x-6">
                       <label className="flex items-center cursor-pointer">
                         <input
@@ -230,9 +230,9 @@ const ReservationsPage: React.FC = () => {
                           value="dine-in"
                           checked={reservationType === 'dine-in'}
                           onChange={handleRadioChange}
-                          className="h-4 w-4 text-brand-red border-gray-300 focus:ring-brand-red"
+                          className="h-4 w-4 text-brand-red border-gray-300 dark:border-gray-600 focus:ring-brand-red"
                         />
-                        <span className="ml-2 text-gray-700">{resContent.form.dineIn[language]}</span>
+                        <span className="ml-2 text-gray-700 dark:text-gray-300">{resContent.form.dineIn[language]}</span>
                       </label>
                       <label className="flex items-center cursor-pointer">
                         <input
@@ -241,9 +241,9 @@ const ReservationsPage: React.FC = () => {
                           value="takeout"
                           checked={reservationType === 'takeout'}
                           onChange={handleRadioChange}
-                          className="h-4 w-4 text-brand-red border-gray-300 focus:ring-brand-red"
+                          className="h-4 w-4 text-brand-red border-gray-300 dark:border-gray-600 focus:ring-brand-red"
                         />
-                        <span className="ml-2 text-gray-700">{resContent.form.takeout[language]}</span>
+                        <span className="ml-2 text-gray-700 dark:text-gray-300">{resContent.form.takeout[language]}</span>
                       </label>
                     </div>
                   </fieldset>
@@ -252,20 +252,20 @@ const ReservationsPage: React.FC = () => {
                 <div className={`grid grid-cols-1 ${reservationType === 'dine-in' ? 'md:grid-cols-3' : 'md:grid-cols-2'} gap-6`}>
                   {reservationType === 'dine-in' && (
                       <div>
-                        <label htmlFor="partySize" className="block text-sm font-medium text-gray-700">{resContent.form.partySize[language]}</label>
-                        <input type="number" id="partySize" name="partySize" value={formData.partySize} onChange={handleChange} required={reservationType === 'dine-in'} min="1" className={`mt-1 block w-full px-3 py-2 bg-white border rounded-md shadow-sm focus:outline-none focus:ring-brand-red focus:border-brand-red text-gray-900 transition-all duration-200 ${errors.partySize ? 'border-red-500' : 'border-gray-300'}`} aria-invalid={!!errors.partySize} aria-describedby={errors.partySize ? 'partySize-error' : undefined} />
-                        {errors.partySize && <p id="partySize-error" className="mt-1 text-sm text-red-600 animate-fade-in">{errors.partySize}</p>}
+                        <label htmlFor="partySize" className="block text-sm font-medium text-gray-700 dark:text-gray-300">{resContent.form.partySize[language]}</label>
+                        <input type="number" id="partySize" name="partySize" value={formData.partySize} onChange={handleChange} required={reservationType === 'dine-in'} min="1" className={`mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-700 border rounded-md shadow-sm focus:outline-none focus:ring-brand-red focus:border-brand-red text-gray-900 dark:text-gray-200 transition-all duration-200 ${errors.partySize ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'}`} aria-invalid={!!errors.partySize} aria-describedby={errors.partySize ? 'partySize-error' : undefined} />
+                        {errors.partySize && <p id="partySize-error" className="mt-1 text-sm text-red-600 dark:text-red-400 animate-fade-in">{errors.partySize}</p>}
                       </div>
                   )}
                   <div>
-                    <label htmlFor="date" className="block text-sm font-medium text-gray-700">{resContent.form.date[language]}</label>
-                    <input type="date" id="date" name="date" value={formData.date} onChange={handleChange} required className={`mt-1 block w-full px-3 py-2 bg-white border rounded-md shadow-sm focus:outline-none focus:ring-brand-red focus:border-brand-red text-gray-900 transition-all duration-200 ${errors.date ? 'border-red-500' : 'border-gray-300'}`} aria-invalid={!!errors.date} aria-describedby={errors.date ? 'date-error' : undefined} />
-                    {errors.date && <p id="date-error" className="mt-1 text-sm text-red-600 animate-fade-in">{errors.date}</p>}
+                    <label htmlFor="date" className="block text-sm font-medium text-gray-700 dark:text-gray-300">{resContent.form.date[language]}</label>
+                    <input type="date" id="date" name="date" value={formData.date} onChange={handleChange} required className={`mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-700 border rounded-md shadow-sm focus:outline-none focus:ring-brand-red focus:border-brand-red text-gray-900 dark:text-gray-200 transition-all duration-200 ${errors.date ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'}`} aria-invalid={!!errors.date} aria-describedby={errors.date ? 'date-error' : undefined} />
+                    {errors.date && <p id="date-error" className="mt-1 text-sm text-red-600 dark:text-red-400 animate-fade-in">{errors.date}</p>}
                   </div>
                   <div>
-                    <label htmlFor="time" className="block text-sm font-medium text-gray-700">{resContent.form.time[language]}</label>
-                    <input type="time" id="time" name="time" value={formData.time} onChange={handleChange} required className={`mt-1 block w-full px-3 py-2 bg-white border rounded-md shadow-sm focus:outline-none focus:ring-brand-red focus:border-brand-red text-gray-900 transition-all duration-200 ${errors.time ? 'border-red-500' : 'border-gray-300'}`} aria-invalid={!!errors.time} aria-describedby={errors.time ? 'time-error' : undefined} />
-                    {errors.time && <p id="time-error" className="mt-1 text-sm text-red-600 animate-fade-in">{errors.time}</p>}
+                    <label htmlFor="time" className="block text-sm font-medium text-gray-700 dark:text-gray-300">{resContent.form.time[language]}</label>
+                    <input type="time" id="time" name="time" value={formData.time} onChange={handleChange} required className={`mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-700 border rounded-md shadow-sm focus:outline-none focus:ring-brand-red focus:border-brand-red text-gray-900 dark:text-gray-200 transition-all duration-200 ${errors.time ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'}`} aria-invalid={!!errors.time} aria-describedby={errors.time ? 'time-error' : undefined} />
+                    {errors.time && <p id="time-error" className="mt-1 text-sm text-red-600 dark:text-red-400 animate-fade-in">{errors.time}</p>}
                   </div>
                 </div>
                 <div>

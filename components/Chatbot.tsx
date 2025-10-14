@@ -110,9 +110,9 @@ const Chatbot: React.FC<ChatbotProps> = ({ isHidden }) => {
     return (
         <>
             {/* Chat Window */}
-            <div className={`fixed bottom-24 right-6 w-80 h-96 bg-white rounded-lg shadow-2xl flex flex-col transition-all duration-300 z-40 sm:w-96 sm:h-[480px] ${isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'}`}>
+            <div className={`fixed bottom-24 right-6 w-80 h-96 bg-white dark:bg-brand-surface-dark rounded-lg shadow-2xl flex flex-col transition-all duration-300 z-40 sm:w-96 sm:h-[480px] ${isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'}`}>
                 {/* Header */}
-                <div className="flex justify-between items-center p-3 bg-brand-text text-white rounded-t-lg">
+                <div className="flex justify-between items-center p-3 bg-brand-text dark:bg-black text-white rounded-t-lg">
                     <h3 className="font-bold text-lg">{chatbotContent.title[language]}</h3>
                     <button onClick={() => setIsOpen(false)} aria-label="Close chat">
                         <CloseIcon className="w-5 h-5" />
@@ -128,7 +128,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ isHidden }) => {
                                       <AssistantAvatarIcon className="w-5 h-5 text-white" />
                                     </div>
                                 )}
-                                <div className={`max-w-[80%] px-3 py-2 rounded-xl text-sm ${msg.role === 'user' ? 'bg-brand-red text-white rounded-br-none' : 'bg-gray-200 text-brand-text rounded-bl-none'}`}>
+                                <div className={`max-w-[80%] px-3 py-2 rounded-xl text-sm ${msg.role === 'user' ? 'bg-brand-red text-white rounded-br-none' : 'bg-gray-200 dark:bg-gray-700 text-brand-text dark:text-brand-text-dark rounded-bl-none'}`}>
                                     {msg.text}
                                 </div>
                             </div>
@@ -138,7 +138,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ isHidden }) => {
                                 <div className="w-8 h-8 rounded-full bg-brand-red flex items-center justify-center shrink-0" aria-hidden="true">
                                     <AssistantAvatarIcon className="w-5 h-5 text-white" />
                                 </div>
-                                <div className="max-w-[80%] px-4 py-3 rounded-xl bg-gray-200 text-brand-text rounded-bl-none">
+                                <div className="max-w-[80%] px-4 py-3 rounded-xl bg-gray-200 dark:bg-gray-700 text-brand-text dark:text-brand-text-dark rounded-bl-none">
                                     <div className="flex items-center justify-center space-x-1.5">
                                       <span className="typing-dot w-2 h-2 bg-gray-500 rounded-full"></span>
                                       <span className="typing-dot w-2 h-2 bg-gray-500 rounded-full"></span>
@@ -151,7 +151,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ isHidden }) => {
                     <div ref={messagesEndRef} />
                 </div>
                 {/* Input */}
-                <form onSubmit={handleFormSubmit} className="p-3 border-t">
+                <form onSubmit={handleFormSubmit} className="p-3 border-t dark:border-gray-700">
                     {/* Suggestion Chips */}
                     {!isLoading && (
                         <div className="pb-3 animate-fade-in">
@@ -161,7 +161,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ isHidden }) => {
                                         key={i}
                                         type="button"
                                         onClick={() => handleSendMessage(suggestion.prompt)}
-                                        className="px-3 py-1.5 bg-gray-100 text-brand-text text-sm rounded-full hover:bg-gray-200 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-red"
+                                        className="px-3 py-1.5 bg-gray-100 dark:bg-gray-800 text-brand-text dark:text-brand-text-dark text-sm rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-red"
                                     >
                                         {suggestion.chip}
                                     </button>
@@ -175,7 +175,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ isHidden }) => {
                             value={input}
                             onChange={(e) => setInput(e.target.value)}
                             placeholder={chatbotContent.placeholder[language]}
-                            className="w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-l-md focus:outline-none focus:ring-1 focus:ring-brand-red text-gray-900"
+                            className="w-full px-3 py-2 bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-l-md focus:outline-none focus:ring-1 focus:ring-brand-red text-gray-900 dark:text-gray-200"
                             disabled={isLoading}
                         />
                         <button type="submit" className="bg-brand-red text-white p-2.5 rounded-r-md disabled:bg-red-400 transition-colors" disabled={isLoading || !input.trim()}>

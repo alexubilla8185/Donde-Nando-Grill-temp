@@ -31,13 +31,13 @@ const About: React.FC = () => {
   }, []);
 
   return (
-    <section id="about" ref={sectionRef} className={`py-20 bg-white scroll-animate ${isVisible ? 'is-visible' : ''}`}>
+    <section id="about" ref={sectionRef} className={`py-20 bg-white dark:bg-brand-surface-dark scroll-animate ${isVisible ? 'is-visible' : ''}`}>
       <div className="container mx-auto px-6">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl font-serif font-bold text-brand-text mb-6">
+          <h2 className="text-4xl font-serif font-bold text-brand-text dark:text-brand-text-dark mb-6">
             {aboutContent.title[language]}
           </h2>
-          <p className="text-lg text-gray-700 leading-relaxed">
+          <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
             {aboutContent.text[language]}
           </p>
         </div>

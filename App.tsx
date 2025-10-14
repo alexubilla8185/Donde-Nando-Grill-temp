@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { LocalizationProvider } from './context/LocalizationContext.tsx';
+import { ThemeProvider } from './context/ThemeContext.tsx';
 import Header from './components/Header.tsx';
 import Footer from './components/Footer.tsx';
 import HomePage from './pages/HomePage.tsx';
@@ -53,7 +54,7 @@ const AppContent: React.FC = () => {
     };
 
     return (
-        <div className="flex flex-col min-h-screen bg-brand-bg">
+        <div className="flex flex-col min-h-screen bg-brand-bg dark:bg-brand-bg-dark">
             <Header
               currentRoute={route}
               isMobileMenuOpen={isMobileMenuOpen}
@@ -70,9 +71,11 @@ const AppContent: React.FC = () => {
 
 
 const App: React.FC = () => (
-    <LocalizationProvider>
-        <AppContent />
-    </LocalizationProvider>
+    <ThemeProvider>
+        <LocalizationProvider>
+            <AppContent />
+        </LocalizationProvider>
+    </ThemeProvider>
 );
 
 export default App;

@@ -51,7 +51,7 @@ const ShareModal: React.FC<ShareModalProps> = ({ isOpen, onClose, url }) => {
     >
       <div 
         ref={modalRef}
-        className="bg-white p-6 rounded-lg shadow-xl max-w-md w-full relative animate-pop-in"
+        className="bg-white dark:bg-brand-surface-dark p-6 rounded-lg shadow-xl max-w-md w-full relative animate-pop-in"
         onClick={(e) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
@@ -59,16 +59,16 @@ const ShareModal: React.FC<ShareModalProps> = ({ isOpen, onClose, url }) => {
       >
         <button 
           onClick={onClose} 
-          className="absolute top-3 right-3 text-gray-400 hover:text-gray-800"
+          className="absolute top-3 right-3 text-gray-400 hover:text-gray-800 dark:hover:text-white"
           aria-label="Close modal"
         >
           <CloseIcon className="w-6 h-6" />
         </button>
         
-        <h2 id="share-modal-title" className="text-2xl font-serif font-bold text-brand-text text-center mb-2">
+        <h2 id="share-modal-title" className="text-2xl font-serif font-bold text-brand-text dark:text-brand-text-dark text-center mb-2">
           {modalContent.title[language]}
         </h2>
-        <p className="text-gray-600 mb-6 text-center">{modalContent.subTitle[language]}</p>
+        <p className="text-gray-600 dark:text-gray-300 mb-6 text-center">{modalContent.subTitle[language]}</p>
         
         <div className="flex justify-center items-start space-x-6 mb-6">
           {shareOptions.map(opt => (
@@ -77,9 +77,9 @@ const ShareModal: React.FC<ShareModalProps> = ({ isOpen, onClose, url }) => {
               href={opt.href} 
               target="_blank" 
               rel="noopener noreferrer" 
-              className="flex flex-col items-center space-y-2 text-brand-text hover:text-brand-red transition-colors"
+              className="flex flex-col items-center space-y-2 text-brand-text dark:text-brand-text-dark hover:text-brand-red transition-colors"
             >
-              <div className="w-16 h-16 bg-brand-bg rounded-full flex items-center justify-center text-brand-text">
+              <div className="w-16 h-16 bg-brand-bg dark:bg-gray-700 rounded-full flex items-center justify-center text-brand-text dark:text-brand-text-dark">
                 {opt.icon}
               </div>
               <span className="text-xs font-medium">{opt.name}</span>
@@ -87,13 +87,13 @@ const ShareModal: React.FC<ShareModalProps> = ({ isOpen, onClose, url }) => {
           ))}
         </div>
 
-        <p className="text-gray-600 mb-2 text-center text-sm font-medium">{modalContent.copyLabel[language]}</p>
+        <p className="text-gray-600 dark:text-gray-300 mb-2 text-center text-sm font-medium">{modalContent.copyLabel[language]}</p>
         <div className="flex">
           <input 
             type="text" 
             readOnly 
             value={url}
-            className="w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-l-md focus:outline-none text-sm text-gray-800"
+            className="w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-l-md focus:outline-none text-sm text-gray-800 dark:text-gray-200"
             aria-label="Shareable link"
           />
           <button 
