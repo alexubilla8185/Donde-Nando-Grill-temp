@@ -31,7 +31,7 @@ const getRestaurantInfo = () => {
         Name: Donde Nando Grill
         Address: Rotonda Los Encuentros, 700 metros al Norte, Chinandega, Nicaragua
         Phone: +50584709484
-        Hours: Monday: 12 PM - 9 PM, Tuesday: 12 PM - 9 PM, Wednesday: 12 PM - 9 PM, Thursday: 12 PM - 11 PM, Friday: 12 PM - 11 PM, Saturday: 12 PM - 11 PM, Sunday: 10 AM - 9 PM
+        Hours: Sunday to Wednesday 12:00 PM to 9:00 PM; Thursday to Saturday 12:00 PM to 11:00 PM
         Specialties: High-quality grilled meats, Nicaraguan classic dishes.
     `;
 }

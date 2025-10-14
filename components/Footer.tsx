@@ -30,7 +30,7 @@ const Footer: React.FC = () => {
           
           <div className="md:col-span-2 flex flex-col items-center text-center">
             <h3 className="font-bold text-lg mb-4">{footerContent.hours[language]}</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-1 text-gray-400 sm:text-left w-full max-w-md">
+            <div className="flex flex-col gap-y-1 text-gray-400">
                  {footerContent.openingHours[language].map(line => (
                     <p key={line}>{line}</p>
                  ))}

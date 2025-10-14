@@ -79,56 +79,28 @@ const ReservationsPage: React.FC = () => {
         const hour = selectedDateTime.getHours();
 
         let openHour: number | null = null;
-        let closeHour: number | null = null; // Represents the last hour of service (e.g., 21 for 9 PM)
+        let closeHour: number | null = null; 
 
-        switch (dayOfWeek) {
-            case 0: // Sunday
-                openHour = 10;
-                closeHour = 21;
-                break;
-            case 1: // Monday
-            case 2: // Tuesday
-            case 3: // Wednesday
-                openHour = 12;
-                closeHour = 21;
-                break;
-            case 4: // Thursday
-            case 5: // Friday
-            case 6: // Saturday
-                openHour = 12;
-                closeHour = 23;
-                break;
-            default:
-                break;
+        // New grouped hours logic: Sun-Wed (12-9), Thu-Sat (12-11)
+        if ([0, 1, 2, 3].includes(dayOfWeek)) { // Sunday to Wednesday
+            openHour = 12;
+            closeHour = 21; // 9 PM
+        } else if ([4, 5, 6].includes(dayOfWeek)) { // Thursday to Saturday
+            openHour = 12;
+            closeHour = 23; // 11 PM
         }
+
 
         if (openHour !== null && closeHour !== null) {
             if (hour < openHour || hour >= closeHour) {
                 if (!newErrors.time) {
-                    const hoursMap = {
-                        es: {
-                            0: 'Domingo (10 AM - 9 PM)',
-                            1: 'Lunes (12 PM - 9 PM)',
-                            2: 'Martes (12 PM - 9 PM)',
-                            3: 'Miércoles (12 PM - 9 PM)',
-                            4: 'Jueves (12 PM - 11 PM)',
-                            5: 'Viernes (12 PM - 11 PM)',
-                            6: 'Sábado (12 PM - 11 PM)',
-                        },
-                        en: {
-                            0: 'Sunday (10 AM - 9 PM)',
-                            1: 'Monday (12 PM - 9 PM)',
-                            2: 'Tuesday (12 PM - 9 PM)',
-                            3: 'Wednesday (12 PM - 9 PM)',
-                            4: 'Thursday (12 PM - 11 PM)',
-                            5: 'Friday (12 PM - 11 PM)',
-                            6: 'Saturday (12 PM - 11 PM)',
-                        }
-                    };
-                    const dayHours = hoursMap[language][dayOfWeek as keyof typeof hoursMap['en']];
+                     const hoursText = ([0, 1, 2, 3].includes(dayOfWeek))
+                        ? (language === 'es' ? 'Domingo a Miércoles (12 PM - 9 PM)' : 'Sunday to Wednesday (12 PM - 9 PM)')
+                        : (language === 'es' ? 'Jueves a Sábado (12 PM - 11 PM)' : 'Thursday to Saturday (12 PM - 11 PM)');
+
                     newErrors.time = language === 'es' 
-                        ? `El horario para ${dayHours} no es válido.`
-                        : `The selected time is outside our hours for ${dayHours}.`;
+                        ? `El horario seleccionado está fuera de nuestro horario de atención para ${hoursText}.`
+                        : `The selected time is outside our hours for ${hoursText}.`;
                 }
             }
         }

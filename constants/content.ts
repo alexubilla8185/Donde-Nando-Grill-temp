@@ -1,3 +1,5 @@
+import React from 'react';
+
 // FIX: Replaced placeholder with a complete content object to resolve module errors.
 type LocalizedString = {
   es: string;
@@ -149,22 +151,12 @@ export const content: Content = {
     hours: { es: 'Horario', en: 'Hours' },
     openingHours: {
         es: [
-            'Lunes: 12 PM - 9 PM',
-            'Martes: 12 PM - 9 PM',
-            'Miércoles: 12 PM - 9 PM',
-            'Jueves: 12 PM - 11 PM',
-            'Viernes: 12 PM - 11 PM',
-            'Sábado: 12 PM - 11 PM',
-            'Domingo: 10 AM - 9 PM',
+            'Domingo a Miércoles: 12:00 PM - 9:00 PM',
+            'Jueves a Sábado: 12:00 PM - 11:00 PM',
         ],
         en: [
-            'Monday: 12 PM - 9 PM',
-            'Tuesday: 12 PM - 9 PM',
-            'Wednesday: 12 PM - 9 PM',
-            'Thursday: 12 PM - 11 PM',
-            'Friday: 12 PM - 11 PM',
-            'Saturday: 12 PM - 11 PM',
-            'Sunday: 10 AM - 9 PM',
+            'Sunday to Wednesday: 12:00 PM - 9:00 PM',
+            'Thursday to Saturday: 12:00 PM - 11:00 PM',
         ],
     },
   },
