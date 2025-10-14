@@ -4,6 +4,11 @@ type LocalizedString = {
   en: string;
 };
 
+interface LocalizedSuggestion {
+    chip: LocalizedString;
+    prompt: LocalizedString;
+}
+
 interface Content {
   appUrl: string;
   nav: Record<'home' | 'menu' | 'reservations' | 'contact', LocalizedString>;
@@ -64,10 +69,9 @@ interface Content {
       tooltip: LocalizedString;
       title: LocalizedString;
       suggestions: {
-          hours: LocalizedString;
-          menu: LocalizedString;
-          reservation: LocalizedString;
-          specials: LocalizedString;
+          menu: LocalizedSuggestion;
+          hours: LocalizedSuggestion;
+          reservation: LocalizedSuggestion;
       };
   };
 }
@@ -152,12 +156,20 @@ export const content: Content = {
       greeting: { es: '¡Hola! Soy el asistente de Donde Nando Grill. ¿Cómo puedo ayudarte hoy? Puedes preguntarme sobre el menú, horarios o hacer una reservación.', en: 'Hi! I am the assistant for Donde Nando Grill. How can I help you today? You can ask me about the menu, hours, or make a reservation.' },
       placeholder: { es: 'Escriba su pregunta...', en: 'Type your question...' },
       tooltip: { es: 'Chatea con nosotros', en: 'Chat with us' },
-      title: { es: 'Asistente Virtual', en: 'Virtual Assistant' },
+      title: { es: 'Asistente de Nando', en: "Nando's Assistant" },
       suggestions: {
-          hours: { es: '¿Cuál es su horario?', en: 'What are your hours?' },
-          menu: { es: 'Muéstrame el menú', en: 'Show me the menu' },
-          reservation: { es: '¿Cómo puedo reservar?', en: 'How can I make a reservation?' },
-          specials: { es: '¿Cuáles son los especiales?', en: 'What are the specials?' }
+          menu: {
+              chip: { es: 'Menú', en: 'Menu' },
+              prompt: { es: 'Muéstrame el menú', en: 'Show me the menu' }
+          },
+          hours: {
+              chip: { es: 'Horario', en: 'Hours' },
+              prompt: { es: '¿Cuál es su horario?', en: 'What are your hours?' }
+          },
+          reservation: {
+              chip: { es: 'Reservación', en: 'Reservation' },
+              prompt: { es: '¿Cómo puedo reservar?', en: 'How can I make a reservation?' }
+          }
       }
   }
 };

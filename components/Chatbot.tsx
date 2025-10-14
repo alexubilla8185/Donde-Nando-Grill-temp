@@ -21,7 +21,6 @@ const Chatbot: React.FC<ChatbotProps> = ({ isHidden }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [messages, setMessages] = useState<Message[]>([]);
     const messagesEndRef = useRef<HTMLDivElement>(null);
-    const suggestionsContainerRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         if (isOpen && messages.length === 0) {
@@ -31,9 +30,8 @@ const Chatbot: React.FC<ChatbotProps> = ({ isHidden }) => {
     }, [isOpen, messages.length, chatbotContent.greeting, language]);
 
     useEffect(() => {
-        // Scroll to the bottom of messages list, or to suggestions if they appear
-        const targetRef = messages.length === 1 && !isLoading ? suggestionsContainerRef : messagesEndRef;
-        targetRef.current?.scrollIntoView({ behavior: 'smooth' });
+        // Scroll to the bottom of messages list
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, [messages, isLoading]);
 
     const handleSendMessage = async (messageText: string) => {
@@ -83,10 +81,9 @@ const Chatbot: React.FC<ChatbotProps> = ({ isHidden }) => {
     };
 
     const suggestions = [
-        chatbotContent.suggestions.hours[language],
-        chatbotContent.suggestions.menu[language],
-        chatbotContent.suggestions.reservation[language],
-        chatbotContent.suggestions.specials[language],
+        { chip: chatbotContent.suggestions.menu.chip[language], prompt: chatbotContent.suggestions.menu.prompt[language] },
+        { chip: chatbotContent.suggestions.hours.chip[language], prompt: chatbotContent.suggestions.hours.prompt[language] },
+        { chip: chatbotContent.suggestions.reservation.chip[language], prompt: chatbotContent.suggestions.reservation.prompt[language] },
     ];
 
     return (
@@ -117,27 +114,28 @@ const Chatbot: React.FC<ChatbotProps> = ({ isHidden }) => {
                                 </p>
                             </div>
                         )}
-                        {/* Suggestion Chips */}
-                        {messages.length === 1 && !isLoading && (
-                            <div ref={suggestionsContainerRef} className="pt-4 animate-fade-in">
-                                <div className="flex flex-wrap justify-start gap-2">
-                                    {suggestions.map((suggestion, i) => (
-                                        <button
-                                            key={i}
-                                            onClick={() => handleSendMessage(suggestion)}
-                                            className="px-3 py-1.5 bg-gray-100 text-brand-text text-sm rounded-full hover:bg-gray-200 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-red"
-                                        >
-                                            {suggestion}
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-                        )}
                     </div>
                     <div ref={messagesEndRef} />
                 </div>
                 {/* Input */}
                 <form onSubmit={handleFormSubmit} className="p-3 border-t">
+                    {/* Suggestion Chips */}
+                    {messages.length === 1 && !isLoading && (
+                        <div className="pb-3 animate-fade-in">
+                            <div className="flex flex-wrap justify-start gap-2">
+                                {suggestions.map((suggestion, i) => (
+                                    <button
+                                        key={i}
+                                        type="button"
+                                        onClick={() => handleSendMessage(suggestion.prompt)}
+                                        className="px-3 py-1.5 bg-gray-100 text-brand-text text-sm rounded-full hover:bg-gray-200 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-red"
+                                    >
+                                        {suggestion.chip}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    )}
                     <div className="flex items-center">
                         <input
                             type="text"
