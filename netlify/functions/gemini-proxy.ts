@@ -53,11 +53,12 @@ const navigateToPageFunctionDeclaration: FunctionDeclaration = {
   },
 };
 
-const systemInstruction = `You are a friendly, helpful, and concise virtual assistant for a restaurant called "Donde Nando Grill".
+const getSystemInstruction = (language: string = 'en') => `You are a friendly, helpful, and concise virtual assistant for a restaurant called "Donde Nando Grill".
 Your goal is to answer customer questions. You MUST use the provided function 'navigateToPage' when the user expresses clear intent to see the menu, make a reservation, go to the contact page, or go home.
 When using the 'navigateToPage' function, ALSO provide a brief, polite text response confirming the action, for example: "Of course, taking you to the menu page now."
 For all other questions, use ONLY the information provided below to answer. Do not make up information. Do not attempt to take reservation details yourself.
 Keep your answers brief and to the point.
+IMPORTANT: You MUST respond in the following language: ${language === 'es' ? 'Spanish' : 'English'}.
 The current date is ${new Date().toDateString()}.
 
 Here is the restaurant's information:
@@ -73,7 +74,7 @@ const handler: Handler = async (event: HandlerEvent) => {
     }
 
     try {
-        const { history, prompt } = JSON.parse(event.body || '{}');
+        const { history, prompt, language } = JSON.parse(event.body || '{}');
 
         if (!prompt) {
             return { statusCode: 400, body: 'Bad Request: prompt is required.' };
@@ -85,7 +86,7 @@ const handler: Handler = async (event: HandlerEvent) => {
           model: 'gemini-2.5-flash',
           contents,
           config: {
-            systemInstruction,
+            systemInstruction: getSystemInstruction(language),
             tools: [{ functionDeclarations: [navigateToPageFunctionDeclaration] }],
           }
         });

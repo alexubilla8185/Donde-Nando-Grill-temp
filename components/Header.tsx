@@ -71,7 +71,7 @@ const Header: React.FC<HeaderProps> = ({ currentRoute, isMobileMenuOpen, setMobi
                     <div className="flex items-center space-x-4">
                         <button 
                             onClick={() => setLanguage(language === 'es' ? 'en' : 'es')} 
-                            className={`text-sm font-bold ${navLinkClasses} transition-transform hover:scale-110 rounded-sm`}
+                            className={`text-sm font-bold ${navLinkClasses} transition-transform hover:scale-110 rounded-sm hidden md:block`}
                             aria-label={`Switch to ${language === 'es' ? 'English' : 'Español'}`}
                         >
                             {language === 'es' ? 'EN' : 'ES'}

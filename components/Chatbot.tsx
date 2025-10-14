@@ -60,7 +60,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ isHidden }) => {
             const response = await fetch('/.netlify/functions/gemini-proxy', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ prompt: messageText, history: historyForApi }),
+                body: JSON.stringify({ prompt: messageText, history: historyForApi, language }),
             });
 
             if (!response.ok) {
@@ -109,6 +109,13 @@ const Chatbot: React.FC<ChatbotProps> = ({ isHidden }) => {
 
     return (
         <>
+            {/* Backdrop */}
+            <div
+                className={`fixed inset-0 bg-black/30 dark:bg-black/50 backdrop-blur-sm z-30 transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+                onClick={() => setIsOpen(false)}
+                aria-hidden="true"
+            ></div>
+
             {/* Chat Window */}
             <div className={`fixed bottom-24 right-4 left-4 h-[70vh] max-h-[550px] bg-white dark:bg-brand-surface-dark rounded-lg shadow-2xl flex flex-col transition-all duration-300 z-40 sm:left-auto sm:right-6 sm:w-96 sm:h-[600px] ${isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'}`}>
                 {/* Header */}
@@ -153,7 +160,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ isHidden }) => {
                 {/* Input */}
                 <form onSubmit={handleFormSubmit} className="p-3 border-t dark:border-gray-700">
                     {/* Suggestion Chips */}
-                    {!isLoading && (
+                    {!isLoading && messages.length > 0 && (
                         <div className="pb-3 animate-fade-in">
                             <div className="flex flex-wrap justify-start gap-2">
                                 {suggestions.map((suggestion, i) => (

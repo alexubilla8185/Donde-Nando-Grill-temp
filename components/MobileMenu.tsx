@@ -52,7 +52,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose, onShareClick }
                 role="dialog"
                 aria-modal="true"
                 aria-labelledby="mobile-menu-title"
-                className={`fixed top-0 right-0 h-full w-4/5 max-w-sm bg-white dark:bg-brand-surface-dark shadow-lg transform transition-transform duration-300 ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}
+                className={`fixed top-0 right-0 h-full w-4/5 max-w-sm bg-gray-50 dark:bg-brand-surface-dark shadow-lg transform transition-transform duration-300 ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}
                 onClick={(e) => e.stopPropagation()}
             >
                 <div className="p-6 flex flex-col h-full">
@@ -64,9 +64,15 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose, onShareClick }
                             <CloseIcon className="w-6 h-6"/>
                         </button>
                     </div>
-                    <nav className="flex flex-col space-y-6 text-xl text-brand-text dark:text-brand-text-dark flex-grow">
-                        {navLinks.map(link => (
-                            <a key={link.key} href={link.href} onClick={(e) => handleNavClick(e, link.href)} className="hover:text-brand-red transition-all duration-200 hover:translate-x-2">
+                    <nav className="flex flex-col space-y-4 text-2xl text-brand-text dark:text-brand-text-dark flex-grow">
+                        {navLinks.map((link, index) => (
+                            <a 
+                                key={link.key} 
+                                href={link.href} 
+                                onClick={(e) => handleNavClick(e, link.href)} 
+                                className={`block py-2 hover:text-brand-red transition-all duration-300 transform ${isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+                                style={{ transitionDelay: isOpen ? `${150 + index * 50}ms` : '0ms' }}
+                            >
                                 {link.text}
                             </a>
                         ))}
