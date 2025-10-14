@@ -1,8 +1,8 @@
 // FIX: Replaced placeholder content with a functional Netlify serverless function.
 import { Handler, HandlerEvent } from "@netlify/functions";
 import { GoogleGenAI } from "@google/genai";
-import { menuData } from "../../src/constants/menu";
-import { content } from "../../src/constants/content";
+import { menuData } from "../../constants/menu.ts";
+import { content } from "../../constants/content.ts";
 
 if (!process.env.API_KEY) {
     throw new Error("The API_KEY environment variable is not set.");
