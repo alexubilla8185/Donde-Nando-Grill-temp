@@ -98,7 +98,7 @@ const ShareModal: React.FC<ShareModalProps> = ({ isOpen, onClose, url }) => {
           />
           <button 
             onClick={copyToClipboard}
-            className={`w-32 text-white font-bold px-4 py-2 rounded-r-md transition-all duration-300 active:scale-95 ${copied ? 'bg-green-600' : 'bg-brand-red hover:bg-red-800'}`}
+            className={`w-32 text-white font-bold px-4 py-2 rounded-r-md transition-all duration-300 active:scale-95 ${copied ? 'bg-green-600' : 'bg-brand-red hover:bg-brand-red-dark'}`}
           >
             {copied ? modalContent.copiedButton[language] : modalContent.copyButton[language]}
           </button>

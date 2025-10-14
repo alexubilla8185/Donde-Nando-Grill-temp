@@ -52,11 +52,15 @@ const ContactPage: React.FC = () => {
                     {contactContent.email}
                   </a>
                 </div>
-                 <div className="flex items-center">
+                 <div className="flex items-start">
                   <p className="font-semibold w-24 shrink-0">{footerContent.hours[language]}:</p>
-                  <div className="flex items-center">
-                    <ClockIcon className="w-4 h-4 mr-2 shrink-0" />
-                    <span>{footerContent.openingHours[language]}</span>
+                  <div className="flex">
+                    <ClockIcon className="w-4 h-4 mr-2 shrink-0 mt-1" />
+                    <div className="flex flex-col">
+                      {footerContent.openingHours[language].map(line => (
+                        <span key={line}>{line}</span>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>

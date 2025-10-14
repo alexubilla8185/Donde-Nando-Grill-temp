@@ -75,17 +75,62 @@ const ReservationsPage: React.FC = () => {
     // Date/Time validation against opening hours
     if (formData.date && formData.time) {
         const selectedDateTime = new Date(`${formData.date}T${formData.time}`);
-        const dayOfWeek = selectedDateTime.getDay(); // Sunday - 0, Monday - 1
+        const dayOfWeek = selectedDateTime.getDay(); // Sunday - 0, Monday - 1, ..., Saturday - 6
         const hour = selectedDateTime.getHours();
 
-        if (dayOfWeek === 1) { // Monday
-             if (!newErrors.date) {
-                newErrors.date = language === 'es' ? 'El restaurante está cerrado los Lunes.' : 'The restaurant is closed on Mondays.';
-             }
-        } else if (hour < 12 || hour >= 22) {
-             if (!newErrors.time) {
-                newErrors.time = language === 'es' ? 'El horario de atención es de 12:00 PM a 10:00 PM.' : 'Booking hours are from 12:00 PM to 10:00 PM.';
-             }
+        let openHour: number | null = null;
+        let closeHour: number | null = null; // Represents the last hour of service (e.g., 21 for 9 PM)
+
+        switch (dayOfWeek) {
+            case 0: // Sunday
+                openHour = 10;
+                closeHour = 21;
+                break;
+            case 1: // Monday
+            case 2: // Tuesday
+            case 3: // Wednesday
+                openHour = 12;
+                closeHour = 21;
+                break;
+            case 4: // Thursday
+            case 5: // Friday
+            case 6: // Saturday
+                openHour = 12;
+                closeHour = 23;
+                break;
+            default:
+                break;
+        }
+
+        if (openHour !== null && closeHour !== null) {
+            if (hour < openHour || hour >= closeHour) {
+                if (!newErrors.time) {
+                    const hoursMap = {
+                        es: {
+                            0: 'Domingo (10 AM - 9 PM)',
+                            1: 'Lunes (12 PM - 9 PM)',
+                            2: 'Martes (12 PM - 9 PM)',
+                            3: 'Miércoles (12 PM - 9 PM)',
+                            4: 'Jueves (12 PM - 11 PM)',
+                            5: 'Viernes (12 PM - 11 PM)',
+                            6: 'Sábado (12 PM - 11 PM)',
+                        },
+                        en: {
+                            0: 'Sunday (10 AM - 9 PM)',
+                            1: 'Monday (12 PM - 9 PM)',
+                            2: 'Tuesday (12 PM - 9 PM)',
+                            3: 'Wednesday (12 PM - 9 PM)',
+                            4: 'Thursday (12 PM - 11 PM)',
+                            5: 'Friday (12 PM - 11 PM)',
+                            6: 'Saturday (12 PM - 11 PM)',
+                        }
+                    };
+                    const dayHours = hoursMap[language][dayOfWeek as keyof typeof hoursMap['en']];
+                    newErrors.time = language === 'es' 
+                        ? `El horario para ${dayHours} no es válido.`
+                        : `The selected time is outside our hours for ${dayHours}.`;
+                }
+            }
         }
     }
 
@@ -224,7 +269,7 @@ const ReservationsPage: React.FC = () => {
                   </div>
                 </div>
                 <div>
-                  <button type="submit" className="w-full bg-brand-red text-white font-bold py-3 px-6 rounded-md hover:bg-red-800 transition-all duration-300 hover:scale-105 active:scale-95">
+                  <button type="submit" className="w-full bg-brand-red text-white font-bold py-3 px-6 rounded-md hover:bg-brand-red-dark transition-all duration-300 hover:scale-105 active:scale-95">
                     {resContent.form.submit[language]}
                   </button>
                 </div>

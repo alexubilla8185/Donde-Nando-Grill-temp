@@ -54,7 +54,10 @@ interface Content {
   footer: {
     address: LocalizedString;
     hours: LocalizedString;
-    openingHours: LocalizedString;
+    openingHours: {
+        es: string[];
+        en: string[];
+    };
   };
   shareModal: {
     title: LocalizedString;
@@ -144,7 +147,26 @@ export const content: Content = {
   footer: {
     address: { es: 'Dirección', en: 'Address' },
     hours: { es: 'Horario', en: 'Hours' },
-    openingHours: { es: 'Mar - Dom: 12:00 PM - 10:00 PM', en: 'Tue - Sun: 12:00 PM - 10:00 PM' },
+    openingHours: {
+        es: [
+            'Lunes: 12 PM - 9 PM',
+            'Martes: 12 PM - 9 PM',
+            'Miércoles: 12 PM - 9 PM',
+            'Jueves: 12 PM - 11 PM',
+            'Viernes: 12 PM - 11 PM',
+            'Sábado: 12 PM - 11 PM',
+            'Domingo: 10 AM - 9 PM',
+        ],
+        en: [
+            'Monday: 12 PM - 9 PM',
+            'Tuesday: 12 PM - 9 PM',
+            'Wednesday: 12 PM - 9 PM',
+            'Thursday: 12 PM - 11 PM',
+            'Friday: 12 PM - 11 PM',
+            'Saturday: 12 PM - 11 PM',
+            'Sunday: 10 AM - 9 PM',
+        ],
+    },
   },
   shareModal: {
     title: { es: 'Compartir', en: 'Share' },
