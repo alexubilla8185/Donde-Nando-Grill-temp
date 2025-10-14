@@ -43,7 +43,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose, onShareClick }
 
     return (
         <div 
-            className={`fixed inset-0 bg-black bg-opacity-70 z-50 transition-opacity duration-300 md:hidden ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+            className={`fixed inset-0 bg-black/30 backdrop-blur-lg z-50 transition-opacity duration-300 md:hidden ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
             onClick={onClose} // Close on overlay click
         >
             <div 
@@ -52,7 +52,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose, onShareClick }
                 role="dialog"
                 aria-modal="true"
                 aria-labelledby="mobile-menu-title"
-                className={`fixed top-0 right-0 h-full w-4/5 max-w-sm bg-gray-50 dark:bg-brand-surface-dark shadow-lg transform transition-transform duration-300 ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}
+                className={`fixed top-0 right-0 h-full w-4/5 max-w-sm bg-white/80 dark:bg-brand-surface-dark/80 border-l border-white/20 shadow-lg transform transition-transform duration-300 ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}
                 onClick={(e) => e.stopPropagation()}
             >
                 <div className="p-6 flex flex-col h-full">

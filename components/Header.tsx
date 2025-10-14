@@ -43,7 +43,7 @@ const Header: React.FC<HeaderProps> = ({ currentRoute, isMobileMenuOpen, setMobi
     };
 
     const isHomePageTop = currentRoute === 'home' && !isScrolled;
-    const headerClasses = `fixed top-0 left-0 w-full z-40 transition-all duration-300 ${isHomePageTop ? 'bg-transparent' : 'bg-white dark:bg-brand-surface-dark shadow-md'}`;
+    const headerClasses = `fixed top-0 left-0 w-full z-40 transition-all duration-300 ${isHomePageTop ? 'bg-transparent' : 'bg-white/80 dark:bg-brand-surface-dark/80 shadow-md backdrop-blur-lg'}`;
     const navLinkClasses = `transition-all duration-300 hover:text-brand-red ${isHomePageTop ? 'text-white' : 'text-brand-text dark:text-brand-text-dark'}`;
     const activeLinkClasses = `text-brand-red`;
 

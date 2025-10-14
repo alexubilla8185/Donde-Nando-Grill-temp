@@ -1,3 +1,4 @@
+
 // FIX: Replaced placeholder content with a functional Chatbot component to resolve module errors.
 import React, { useState, useEffect, useRef } from 'react';
 import { useLocalization } from '../hooks/useLocalization.ts';
@@ -111,13 +112,13 @@ const Chatbot: React.FC<ChatbotProps> = ({ isHidden }) => {
         <>
             {/* Backdrop */}
             <div
-                className={`fixed inset-0 bg-black/30 dark:bg-black/50 backdrop-blur-sm z-30 transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+                className={`fixed inset-0 bg-black/30 dark:bg-black/50 backdrop-blur-lg z-30 transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
                 onClick={() => setIsOpen(false)}
                 aria-hidden="true"
             ></div>
 
             {/* Chat Window */}
-            <div className={`fixed bottom-24 right-4 left-4 h-[70vh] max-h-[550px] bg-white dark:bg-brand-surface-dark rounded-lg shadow-2xl flex flex-col transition-all duration-300 z-40 sm:left-auto sm:right-6 sm:w-96 sm:h-[600px] ${isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'}`}>
+            <div className={`fixed bottom-24 right-4 left-4 h-[70vh] max-h-[550px] bg-white/80 dark:bg-brand-surface-dark/80 border border-white/20 rounded-lg shadow-2xl flex flex-col transition-all duration-300 z-40 sm:left-auto sm:right-6 sm:w-96 sm:h-[600px] ${isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'}`}>
                 {/* Header */}
                 <div className="flex justify-between items-center p-3 bg-brand-text dark:bg-black text-white rounded-t-lg">
                     <h3 className="font-bold text-lg">{chatbotContent.title[language]}</h3>

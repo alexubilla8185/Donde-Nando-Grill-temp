@@ -46,12 +46,12 @@ const ShareModal: React.FC<ShareModalProps> = ({ isOpen, onClose, url }) => {
 
   return (
     <div 
-      className="fixed inset-0 bg-black bg-opacity-60 z-50 flex justify-center items-center p-4 transition-opacity duration-300"
+      className="fixed inset-0 bg-black/30 backdrop-blur-lg z-50 flex justify-center items-center p-4 transition-opacity duration-300"
       onClick={onClose}
     >
       <div 
         ref={modalRef}
-        className="bg-white dark:bg-brand-surface-dark p-6 rounded-lg shadow-xl max-w-md w-full relative animate-pop-in"
+        className="bg-white/80 dark:bg-brand-surface-dark/80 border border-white/20 p-6 rounded-lg shadow-xl max-w-md w-full relative animate-pop-in"
         onClick={(e) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
