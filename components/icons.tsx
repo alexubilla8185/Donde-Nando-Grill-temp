@@ -92,3 +92,10 @@ export const ChatIcon: React.FC<IconProps> = ({ className = "w-6 h-6" }) => (
 export const SendIcon: React.FC<IconProps> = ({ className = "w-6 h-6" }) => (
     <svg className={className} fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path></svg>
 );
+
+// FIX: Added AssistantAvatarIcon for the chatbot.
+export const AssistantAvatarIcon: React.FC<IconProps> = ({ className = "w-6 h-6" }) => (
+    <svg className={className} fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M10.333 7.5v9h1.334v-4.667l3 4.667h1.333v-9h-1.334v4.667l-3-4.667H10.333z" />
+    </svg>
+);

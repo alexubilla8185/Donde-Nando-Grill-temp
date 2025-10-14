@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useLocalization } from '../hooks/useLocalization.ts';
 import { content } from '../constants/content.ts';
-import { ChatIcon, CloseIcon, SendIcon } from './icons.tsx';
+import { ChatIcon, CloseIcon, SendIcon, AssistantAvatarIcon } from './icons.tsx';
 
 interface Message {
     role: 'user' | 'model';
@@ -101,17 +101,29 @@ const Chatbot: React.FC<ChatbotProps> = ({ isHidden }) => {
                 <div className="flex-1 p-4 overflow-y-auto">
                     <div className="space-y-4">
                         {messages.map((msg, index) => (
-                            <div key={index} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                                <div className={`max-w-[80%] p-3 rounded-lg text-sm ${msg.role === 'user' ? 'bg-brand-red text-white' : 'bg-gray-200 text-brand-text'}`}>
+                            <div key={index} className={`flex items-end gap-2.5 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                                {msg.role === 'model' && (
+                                    <div className="w-8 h-8 rounded-full bg-brand-red flex items-center justify-center shrink-0" aria-hidden="true">
+                                      <AssistantAvatarIcon className="w-5 h-5 text-white" />
+                                    </div>
+                                )}
+                                <div className={`max-w-[80%] px-3 py-2 rounded-xl text-sm ${msg.role === 'user' ? 'bg-brand-red text-white rounded-br-none' : 'bg-gray-200 text-brand-text rounded-bl-none'}`}>
                                     {msg.text}
                                 </div>
                             </div>
                         ))}
                         {isLoading && (
-                             <div className="flex justify-start">
-                                <p className="max-w-[80%] p-3 rounded-lg bg-gray-200 text-brand-text">
-                                    <span className="animate-pulse">...</span>
-                                </p>
+                             <div className="flex items-end gap-2.5 justify-start animate-fade-in">
+                                <div className="w-8 h-8 rounded-full bg-brand-red flex items-center justify-center shrink-0" aria-hidden="true">
+                                    <AssistantAvatarIcon className="w-5 h-5 text-white" />
+                                </div>
+                                <div className="max-w-[80%] px-4 py-3 rounded-xl bg-gray-200 text-brand-text rounded-bl-none">
+                                    <div className="flex items-center justify-center space-x-1.5">
+                                      <span className="typing-dot w-2 h-2 bg-gray-500 rounded-full"></span>
+                                      <span className="typing-dot w-2 h-2 bg-gray-500 rounded-full"></span>
+                                      <span className="typing-dot w-2 h-2 bg-gray-500 rounded-full"></span>
+                                    </div>
+                                </div>
                             </div>
                         )}
                     </div>
@@ -120,7 +132,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ isHidden }) => {
                 {/* Input */}
                 <form onSubmit={handleFormSubmit} className="p-3 border-t">
                     {/* Suggestion Chips */}
-                    {messages.length === 1 && !isLoading && (
+                    {messages.length <= 1 && !isLoading && (
                         <div className="pb-3 animate-fade-in">
                             <div className="flex flex-wrap justify-start gap-2">
                                 {suggestions.map((suggestion, i) => (

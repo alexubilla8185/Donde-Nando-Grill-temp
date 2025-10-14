@@ -1,7 +1,7 @@
 // FIX: Replaced placeholder content with a functional Netlify serverless function.
 import { Handler, HandlerEvent } from "@netlify/functions";
 import { GoogleGenAI } from "@google/genai";
-import { menuData } from "../../constants/menu.ts";
+import menuData from "../../menu_data.json";
 import { content } from "../../constants/content.ts";
 
 if (!process.env.API_KEY) {
@@ -13,9 +13,9 @@ const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 // Helper function to create a simplified text version of the menu
 const getMenuAsText = () => {
     let menuText = "MENU:\n\n";
-    menuData.menu_sections.forEach(section => {
+    menuData.menu_sections.forEach((section: any) => {
         menuText += `--- ${section.title_en} / ${section.title_es} ---\n`;
-        section.items.forEach(item => {
+        section.items.forEach((item: any) => {
             menuText += `- ${item.name_en} / ${item.name_es}: C$${item.price}\n`;
             if (item.notes_en) {
                 menuText += `  (${item.notes_en})\n`;
@@ -27,11 +27,12 @@ const getMenuAsText = () => {
 };
 
 const getRestaurantInfo = () => {
+    // FIX: Hardcode info to prevent build issues with importing complex TS files.
     return `
         Name: Donde Nando Grill
-        Address: ${content.contact.address}
-        Phone: ${content.contact.phone}
-        Hours: ${content.footer.openingHours.en}
+        Address: Rotonda Los Encuentros, 50 metros al Este, Chinandega, Nicaragua
+        Phone: +505 8888 5555
+        Hours: Tue - Sun: 12:00 PM - 10:00 PM
         Specialties: High-quality grilled meats, Nicaraguan classic dishes.
     `;
 }
