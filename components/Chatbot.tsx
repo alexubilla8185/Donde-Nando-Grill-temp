@@ -1,4 +1,3 @@
-
 // FIX: Replaced placeholder content with a functional Chatbot component to resolve module errors.
 import React, { useState, useEffect, useRef } from 'react';
 import { useLocalization } from '../hooks/useLocalization.ts';
@@ -19,6 +18,43 @@ interface FunctionCall {
     name: string;
     args: any;
 }
+
+// Simple markdown parser for bold and list items
+const parseMarkdown = (text: string) => {
+    const lines = text.split('\n');
+    let html = '';
+    let inList = false;
+
+    for (const line of lines) {
+        // Process bold tags within any line first
+        let processedLine = line.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
+        if (processedLine.startsWith('* ') || processedLine.startsWith('- ')) {
+            if (!inList) {
+                html += '<ul>';
+                inList = true;
+            }
+            // Remove the markdown for the list item and wrap in <li>
+            html += `<li>${processedLine.substring(2)}</li>`;
+        } else {
+            if (inList) {
+                html += '</ul>';
+                inList = false;
+            }
+            // Wrap non-empty, non-list lines in <p> tags
+            if (processedLine.trim()) {
+                html += `<p>${processedLine}</p>`;
+            }
+        }
+    }
+
+    // Close any list that might be open at the end of the message
+    if (inList) {
+        html += '</ul>';
+    }
+
+    return html;
+};
 
 
 const Chatbot: React.FC<ChatbotProps> = ({ isHidden }) => {
@@ -136,9 +172,16 @@ const Chatbot: React.FC<ChatbotProps> = ({ isHidden }) => {
                                       <AssistantAvatarIcon className="w-5 h-5 text-white" />
                                     </div>
                                 )}
-                                <div className={`max-w-[80%] px-3 py-2 rounded-xl text-sm ${msg.role === 'user' ? 'bg-brand-red text-white rounded-br-none' : 'bg-gray-200 dark:bg-gray-700 text-brand-text dark:text-brand-text-dark rounded-bl-none'}`}>
-                                    {msg.text}
-                                </div>
+                                {msg.role === 'user' ? (
+                                     <div className={`max-w-[80%] px-3 py-2 rounded-xl text-sm bg-brand-red text-white rounded-br-none`}>
+                                        {msg.text}
+                                     </div>
+                                ) : (
+                                    <div 
+                                        className={`max-w-[80%] px-3 py-2 rounded-xl text-sm chatbot-response bg-gray-200 dark:bg-gray-700 text-brand-text dark:text-brand-text-dark rounded-bl-none`}
+                                        dangerouslySetInnerHTML={{ __html: parseMarkdown(msg.text) }}
+                                    />
+                                )}
                             </div>
                         ))}
                         {isLoading && (

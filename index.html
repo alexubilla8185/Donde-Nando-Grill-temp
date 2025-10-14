@@ -131,6 +131,28 @@
       }
       .typing-dot:nth-child(1) { animation-delay: -0.32s; }
       .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+      
+      /* Chatbot response markdown styling */
+      .chatbot-response p {
+        padding: 0;
+        margin: 0;
+      }
+      .chatbot-response p:not(:last-child) {
+        margin-bottom: 0.75rem;
+      }
+      .chatbot-response ul {
+        list-style-type: disc;
+        list-style-position: inside;
+        padding-left: 0.5rem;
+        margin-top: 0.5rem;
+        margin-bottom: 0.75rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+      .chatbot-response ul:last-child, .chatbot-response p:last-child {
+        margin-bottom: 0;
+      }
     </style>
   <script type="importmap">
 {
