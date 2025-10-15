@@ -4,6 +4,12 @@ import { useLocalization } from '../hooks/useLocalization.ts';
 import { content } from '../constants/content.ts';
 import { ChatIcon, CloseIcon, SendIcon, AssistantAvatarIcon } from './icons.tsx';
 
+// FOR LOCAL DEVELOPMENT ONLY:
+// Replace this with your Gemini API key to test the chatbot in this environment.
+// IMPORTANT: DO NOT commit this key to your repository. The live site uses a secure
+// server-side environment variable and will ignore this.
+const DEV_API_KEY = 'AIzaSyCK6S8CyjsAu8nqK1hstt23Xsg818SZB1o';
+
 interface Message {
     role: 'user' | 'model';
     text: string;
@@ -97,14 +103,22 @@ const Chatbot: React.FC<ChatbotProps> = ({ isHidden }) => {
             const response = await fetch('/.netlify/functions/gemini-proxy', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ prompt: messageText, history: historyForApi, language }),
+                body: JSON.stringify({ 
+                    prompt: messageText, 
+                    history: historyForApi, 
+                    language,
+                    apiKey: DEV_API_KEY // Pass the key for local dev
+                }),
             });
 
+            // The data is now always expected to be JSON.
+            const data = await response.json();
+
             if (!response.ok) {
-                throw new Error('API request failed');
+                 // Use the error message from the backend if available
+                throw new Error(data.response || data.error || 'API request failed');
             }
 
-            const data = await response.json();
             const responseText = data.response || "I'm sorry, I didn't get that. Could you rephrase?";
             const botMessage: Message = { role: 'model', text: responseText };
             setMessages(prev => [...prev, botMessage]);
@@ -124,8 +138,9 @@ const Chatbot: React.FC<ChatbotProps> = ({ isHidden }) => {
 
 
         } catch (error) {
-            console.error("Chatbot error:", error);
-            const errorMessage: Message = { role: 'model', text: "Sorry, I'm having trouble connecting right now. Please try again later." };
+            const errorMessageText = error instanceof Error ? error.message : "Sorry, I'm having trouble connecting right now. Please try again later.";
+            console.error("Chatbot error:", errorMessageText);
+            const errorMessage: Message = { role: 'model', text: errorMessageText };
             setMessages(prev => [...prev, errorMessage]);
         } finally {
             setIsLoading(false);

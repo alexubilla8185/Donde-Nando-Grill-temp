@@ -3,11 +3,19 @@ import { Handler, HandlerEvent } from "@netlify/functions";
 import { GoogleGenAI, FunctionDeclaration, Type } from "@google/genai";
 import menuData from "../../menu_data.json";
 
-if (!process.env.API_KEY) {
-    throw new Error("The API_KEY environment variable is not set.");
+// The live site will use the environment variable. This function allows a
+// fallback for local development where environment variables might not be set.
+const getApiKey = (eventBody: string | null): string | undefined => {
+    if (process.env.API_KEY) {
+        return process.env.API_KEY;
+    }
+    try {
+        const body = JSON.parse(eventBody || '{}');
+        return body.apiKey;
+    } catch (e) {
+        return undefined;
+    }
 }
-
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
 // Helper function to create a simplified text version of the menu
 const getMenuAsText = () => {
@@ -72,6 +80,17 @@ const handler: Handler = async (event: HandlerEvent) => {
     if (event.httpMethod !== 'POST') {
         return { statusCode: 405, body: 'Method Not Allowed' };
     }
+    
+    const apiKey = getApiKey(event.body);
+    if (!apiKey || apiKey === 'REPLACE_WITH_YOUR_GEMINI_API_KEY') {
+        const errorMessage = 'API key is missing. Please add your key to the DEV_API_KEY constant in components/Chatbot.tsx for local testing.';
+        return { 
+            statusCode: 400, 
+            body: JSON.stringify({ response: errorMessage })
+        };
+    }
+    
+    const ai = new GoogleGenAI({ apiKey });
 
     try {
         const { history, prompt, language } = JSON.parse(event.body || '{}');
@@ -103,9 +122,10 @@ const handler: Handler = async (event: HandlerEvent) => {
     } catch (e) {
         // FIX: Renamed the catch block variable from 'error' to 'e' to resolve a 'Cannot find name' compiler error.
         console.error('Error calling Gemini API:', e);
+        const friendlyError = e instanceof Error ? e.message : 'An unknown error occurred.';
         return {
             statusCode: 500,
-            body: JSON.stringify({ error: 'Failed to get response from AI assistant.' }),
+            body: JSON.stringify({ response: `Sorry, there was an error with the AI assistant: ${friendlyError}` }),
         };
     }
 };
