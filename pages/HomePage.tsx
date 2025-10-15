@@ -1,12 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Hero from '../components/Hero.tsx';
 import About from '../components/About.tsx';
 import MediaGallery from '../components/MediaGallery.tsx';
 
-const HomePage: React.FC = () => {
+interface HomePageProps {
+  onVisibilityChange: (isHidden: boolean) => void;
+}
+
+const HomePage: React.FC<HomePageProps> = ({ onVisibilityChange }) => {
+  useEffect(() => {
+    // When the component unmounts, ensure it no longer dictates the FAB's visibility.
+    return () => {
+      onVisibilityChange(false);
+    };
+  }, [onVisibilityChange]);
+
   return (
     <>
-      <Hero />
+      <Hero onVisibilityChange={onVisibilityChange} />
       <About />
       <MediaGallery />
     </>

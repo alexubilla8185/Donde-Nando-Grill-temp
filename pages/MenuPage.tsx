@@ -6,23 +6,23 @@ import ImageViewerModal from '../components/ImageViewerModal.tsx';
 import { menuData } from '../constants/menu.ts';
 
 interface MenuPageProps {
-    onViewerToggle: (isOpen: boolean) => void;
+    onVisibilityChange: (isHidden: boolean) => void;
 }
 
-const MenuPage: React.FC<MenuPageProps> = ({ onViewerToggle }) => {
+const MenuPage: React.FC<MenuPageProps> = ({ onVisibilityChange }) => {
     const { language } = useLocalization();
     const menuContent = content.menu;
     const [openCategoryIndex, setOpenCategoryIndex] = useState<number | null>(0);
     const [isViewerOpen, setIsViewerOpen] = useState(false);
     
     useEffect(() => {
-        onViewerToggle(isViewerOpen);
+        onVisibilityChange(isViewerOpen);
         
         // On component unmount, ensure FAB is visible again.
         return () => {
-            onViewerToggle(false);
+            onVisibilityChange(false);
         };
-    }, [isViewerOpen, onViewerToggle]);
+    }, [isViewerOpen, onVisibilityChange]);
 
 
     const handleToggleCategory = (index: number) => {

@@ -42,14 +42,14 @@ const AppContent: React.FC = () => {
     const renderPage = () => {
         switch (route) {
             case 'menu':
-                return <MenuPage onViewerToggle={setFabHidden} />;
+                return <MenuPage onVisibilityChange={setFabHidden} />;
             case 'reservations':
                 return <ReservationsPage />;
             case 'contact':
                 return <ContactPage />;
             case 'home':
             default:
-                return <HomePage />;
+                return <HomePage onVisibilityChange={setFabHidden} />;
         }
     };
 
