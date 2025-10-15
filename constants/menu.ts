@@ -23,7 +23,7 @@ export const menuData: MenuData = {
       "title_es": "Entradas",
       "title_en": "Starters/Appetizers",
       "items": [
-        {"name_es": "Glándulas de Timo", "name_en": "Thymus Glands", "price": 255, "notes_es": "Mollejas salteadas con limón, sal y salsa de aguacate.", "notes_en": "Sautéed thymus glands with lime, salt, and avocado sauce."},
+        {"name_es": "Glándulas de Timo", "name_en": "Sweetbreads", "price": 255, "notes_es": "Mollejas salteadas con limón, sal y salsa de aguacate.", "notes_en": "Sautéed sweetbreads with lime, salt, and avocado sauce."},
         {"name_es": "La Tablita", "name_en": "The Board", "price": 385, "notes_es": "Tortillas fritas, frijoles molidos, carne picada y pico de gallo.", "notes_en": "Fried tortillas, refried beans, minced meat, and pico de gallo."},
         {"name_es": "Tuétano", "name_en": "Bone Marrow", "price": 265, "notes_es": "Sorprendentemente delicioso y nutritivo.", "notes_en": "Surprisingly delicious and nutritious."},
         {"name_es": "Ceviche La Flaca", "name_en": "La Flaca Ceviche", "price": 305, "notes_es": "Camarón, cebolla morada, culantro, chile jalapeño y limón.", "notes_en": "Shrimp, red onion, cilantro, jalapeño pepper, and lime."},

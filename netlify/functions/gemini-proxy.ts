@@ -1,7 +1,9 @@
 // FIX: Replaced placeholder content with a functional Netlify serverless function.
 import { Handler, HandlerEvent } from "@netlify/functions";
 import { GoogleGenAI, FunctionDeclaration, Type } from "@google/genai";
-import menuData from "../../menu_data.json";
+// FIX: Switched from fragile JSON import to robust TS module import.
+// This establishes a single source of truth for menu data.
+import { menuData } from "../../constants/menu.ts";
 
 if (!process.env.API_KEY) {
     throw new Error("The API_KEY environment variable is not set.");
