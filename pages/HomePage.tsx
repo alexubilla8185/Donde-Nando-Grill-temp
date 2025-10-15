@@ -9,7 +9,11 @@ interface HomePageProps {
 
 const HomePage: React.FC<HomePageProps> = ({ onVisibilityChange }) => {
   useEffect(() => {
-    // When the component unmounts, ensure it no longer dictates the FAB's visibility.
+    // On mount, hide the FAB since the hero section's CTAs are in view.
+    // The IntersectionObserver in the Hero component will then manage visibility on scroll.
+    onVisibilityChange(true);
+
+    // When the component unmounts, ensure the FAB is visible again for other pages.
     return () => {
       onVisibilityChange(false);
     };
