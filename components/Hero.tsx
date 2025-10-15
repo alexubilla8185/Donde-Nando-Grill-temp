@@ -60,12 +60,12 @@ const Hero: React.FC<HeroProps> = ({ onVisibilityChange }) => {
             
             {/* --- Logo Image --- */}
             <div className="animate-fade-in-grow" style={{ animationDelay: '300ms' }}>
-                <img src={logoUrl} alt="Donde Nando Grill Logo" className="w-full h-auto max-w-[12rem] sm:max-w-[14rem] md:max-w-xs lg:max-w-sm" />
+                <img src={logoUrl} alt="Donde Nando Grill Logo" className="w-full h-auto max-w-[13rem] sm:max-w-[15rem] md:max-w-[22rem] lg:max-w-[26rem]" />
             </div>
             
             {/* --- Text Content --- */}
             <div className="text-center">
-                <h1 className="text-5xl sm:text-6xl lg:text-7xl font-serif font-bold text-brand-text mb-4 animate-fade-in-grow" style={{ animationDelay: '200ms' }}>
+                <h1 className="text-5xl sm:text-[3.5rem] lg:text-[4rem] font-serif font-bold text-brand-text mb-4 animate-fade-in-grow" style={{ animationDelay: '200ms' }}>
                    <span>{heroContent.headline[language]}</span>
                 </h1>
                 <p className="text-lg md:text-xl max-w-3xl mx-auto text-gray-700 mb-8 animate-fade-in-grow" style={{ animationDelay: '400ms' }}>
