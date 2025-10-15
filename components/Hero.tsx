@@ -53,20 +53,25 @@ const Hero: React.FC<HeroProps> = ({ onVisibilityChange }) => {
 
   return (
     <section 
-      className="relative min-h-screen bg-[#fbfbfb] flex items-center pt-24 pb-12"
+      className="relative min-h-screen bg-[#fbfbfb] flex items-center justify-center pt-24 pb-12"
     >
       <div className="container mx-auto px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-y-8 lg:gap-y-12 lg:gap-x-16 w-full">
+        <div className="flex flex-col items-center gap-y-6 md:gap-y-8 w-full">
+            
+            {/* --- Logo Image --- */}
+            <div className="animate-fade-in-grow" style={{ animationDelay: '300ms' }}>
+                <img src={logoUrl} alt="Donde Nando Grill Logo" className="w-full h-auto max-w-[12rem] sm:max-w-[14rem] md:max-w-xs lg:max-w-sm" />
+            </div>
             
             {/* --- Text Content --- */}
-            <div className="text-center lg:text-left order-2 lg:order-1">
-                <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-serif font-bold text-brand-text mb-4 animate-fade-in-grow" style={{ animationDelay: '200ms' }}>
+            <div className="text-center">
+                <h1 className="text-5xl sm:text-6xl lg:text-7xl font-serif font-bold text-brand-text mb-4 animate-fade-in-grow" style={{ animationDelay: '200ms' }}>
                    <span>{heroContent.headline[language]}</span>
                 </h1>
-                <p className="text-xl md:text-2xl max-w-xl mx-auto lg:mx-0 text-gray-700 mb-6 sm:mb-8 animate-fade-in-grow" style={{ animationDelay: '400ms' }}>
+                <p className="text-lg md:text-xl max-w-3xl mx-auto text-gray-700 mb-8 animate-fade-in-grow" style={{ animationDelay: '400ms' }}>
                     {heroContent.subheadline[language]}
                 </p>
-                <div ref={ctaRef} className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 animate-fade-in-grow" style={{ animationDelay: '600ms' }}>
+                <div ref={ctaRef} className="flex flex-col sm:flex-row justify-center gap-4 animate-fade-in-grow" style={{ animationDelay: '600ms' }}>
                     <a href="#/menu" onClick={(e) => handleNavClick(e, '#/menu')} className="bg-brand-red text-white font-bold py-3 px-8 rounded-md transition-all duration-300 hover:scale-105 hover:shadow-lg active:scale-95">
                         {heroContent.ctaMenu[language]}
                     </a>
@@ -74,11 +79,6 @@ const Hero: React.FC<HeroProps> = ({ onVisibilityChange }) => {
                         {heroContent.ctaReserve[language]}
                     </a>
                 </div>
-            </div>
-
-            {/* --- Logo Image --- */}
-            <div className="order-1 lg:order-2 flex justify-center animate-fade-in-grow" style={{ animationDelay: '300ms' }}>
-                <img src={logoUrl} alt="Donde Nando Grill Logo" className="w-full h-auto max-w-[15rem] sm:max-w-xs md:max-w-sm lg:max-w-md" />
             </div>
 
         </div>
