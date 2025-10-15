@@ -27,8 +27,8 @@ export const ShareNetworkIcon: React.FC<IconProps> = ({ className }) => (
 );
 
 
-export const ChevronDownIcon: React.FC<IconProps> = () => (
-    <svg className="w-8 h-8 text-white animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+export const ChevronDownIcon: React.FC<IconProps> = ({ className = "w-8 h-8 text-white animate-bounce" }) => (
+    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
     </svg>
 );
