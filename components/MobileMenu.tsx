@@ -1,20 +1,18 @@
 
 import React, { useRef } from 'react';
 import { useLocalization } from '../hooks/useLocalization.ts';
-import { useTheme } from '../hooks/useTheme.ts';
 import { content } from '../constants/content.ts';
-import { CloseIcon, ShareNetworkIcon, SunIcon, MoonIcon } from './icons.tsx';
+import { CloseIcon, ShareNetworkIcon } from './icons.tsx';
 import { useFocusTrap } from '../hooks/useFocusTrap.ts';
 
 interface MobileMenuProps {
   isOpen: boolean;
   onClose: () => void;
-  onShareClick: () => void;
+  onShare: () => void;
 }
 
-const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose, onShareClick }) => {
+const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose, onShare }) => {
     const { language, setLanguage } = useLocalization();
-    const { theme, toggleTheme } = useTheme();
     const navContent = content.nav;
     const menuRef = useRef<HTMLDivElement>(null);
 
@@ -27,18 +25,17 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose, onShareClick }
         { key: 'contact', href: '#/contact', text: navContent.contact[language] },
     ];
     
-    const handleShare = () => {
-        onClose();
-        // A slight delay to allow the menu close animation to start
-        setTimeout(onShareClick, 150);
-    }
-
     const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, newHash: string) => {
         e.preventDefault();
         if (window.location.hash !== newHash) {
             window.location.hash = newHash;
         }
         onClose(); // Close menu after navigation
+    };
+
+    const handleShareClick = () => {
+        onClose();
+        onShare();
     };
 
     return (
@@ -79,12 +76,12 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose, onShareClick }
                     </nav>
                      <div className="border-t dark:border-gray-700 pt-6 flex items-center justify-between">
                          <button
-                            onClick={toggleTheme}
+                            onClick={handleShareClick}
                             className="flex items-center text-lg text-brand-text dark:text-brand-text-dark hover:text-brand-red dark:hover:text-brand-red transition-colors"
-                            aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+                            aria-label={content.shareModal.title[language]}
                          >
-                            {theme === 'light' ? <MoonIcon className="w-5 h-5 mr-2"/> : <SunIcon className="w-5 h-5 mr-2" />}
-                            {theme === 'light' ? (language === 'es' ? 'Oscuro' : 'Dark') : (language === 'es' ? 'Claro' : 'Light')}
+                            <ShareNetworkIcon className="w-5 h-5 mr-2"/>
+                            {content.shareModal.title[language]}
                         </button>
                          <button 
                             onClick={() => setLanguage(language === 'es' ? 'en' : 'es')} 
@@ -96,11 +93,6 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose, onShareClick }
                                 <div className={`w-4 h-4 bg-white rounded-full shadow-md transform transition-transform duration-300 ${language === 'es' ? 'translate-x-0' : 'translate-x-5'}`}></div>
                             </div>
                             <span className={`font-bold transition-colors ${language === 'en' ? 'text-brand-red' : 'text-gray-400'}`}>EN</span>
-                        </button>
-                    </div>
-                    <div className="border-t dark:border-gray-700 pt-6 mt-6 flex items-center justify-between">
-                        <button onClick={handleShare} className="flex items-center text-lg text-brand-text dark:text-brand-text-dark hover:text-brand-red dark:hover:text-brand-red transition-colors">
-                           <ShareNetworkIcon className="w-5 h-5 mr-2"/> {language === 'es' ? 'Compartir' : 'Share'}
                         </button>
                     </div>
                 </div>

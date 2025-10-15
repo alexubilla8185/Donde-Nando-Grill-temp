@@ -83,11 +83,9 @@ const Header: React.FC<HeaderProps> = ({ currentRoute, isMobileMenuOpen, setMobi
                         >
                             {theme === 'light' ? <MoonIcon className="w-6 h-6" /> : <SunIcon className="w-6 h-6" />}
                         </button>
-                        <div className="hidden md:block">
-                          <button onClick={() => setShareModalOpen(true)} className="text-brand-red transition-all duration-200 hover:scale-110 hover:-rotate-6 rounded-sm" aria-label="Share this page">
+                        <button onClick={() => setShareModalOpen(true)} className={`hidden md:inline-block text-brand-red transition-all duration-200 hover:scale-110 hover:-rotate-6 rounded-sm`} aria-label="Share this page">
                             <ShareNetworkIcon className="w-6 h-6" />
-                          </button>
-                        </div>
+                        </button>
                         <div className="md:hidden">
                             <button 
                                 onClick={() => setMobileMenuOpen(true)} 
@@ -105,10 +103,7 @@ const Header: React.FC<HeaderProps> = ({ currentRoute, isMobileMenuOpen, setMobi
             <MobileMenu 
                 isOpen={isMobileMenuOpen} 
                 onClose={() => setMobileMenuOpen(false)}
-                onShareClick={() => {
-                    setMobileMenuOpen(false);
-                    setShareModalOpen(true);
-                }}
+                onShare={() => setShareModalOpen(true)}
             />
             <ShareModal isOpen={isShareModalOpen} onClose={() => setShareModalOpen(false)} url={content.appUrl} />
         </>
