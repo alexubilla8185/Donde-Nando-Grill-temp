@@ -11,7 +11,7 @@ const Hero: React.FC<HeroProps> = ({ onVisibilityChange }) => {
   const { language } = useLocalization();
   const heroContent = content.hero;
   const logoUrl = 'https://i.ibb.co/zhtsqYp3/logo.png';
-  const ctaRef = useRef<HTMLDivElement>(null);
+  const heroRef = useRef<HTMLElement>(null);
 
   const handleScroll = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -31,28 +31,29 @@ const Hero: React.FC<HeroProps> = ({ onVisibilityChange }) => {
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        // We want to hide the FAB when the CTAs are visible on screen.
+        // Hide the FAB when the hero section is visible on screen.
+        // When 'isIntersecting' is true, the FAB should be hidden.
         onVisibilityChange(entry.isIntersecting);
       },
       {
-        // Use a negative bottom margin to trigger the change just before the element scrolls completely off-screen.
-        // This makes the FAB appear as the user scrolls past the CTAs.
-        rootMargin: '0px 0px -150px 0px',
+        // threshold: 0 means the callback will fire as soon as the element is no longer visible at all.
+        // This ensures the FAB only appears after the entire Hero section has been scrolled past.
         threshold: 0,
       }
     );
 
-    const currentCtaRef = ctaRef.current;
-    if (currentCtaRef) observer.observe(currentCtaRef);
+    const currentHeroRef = heroRef.current;
+    if (currentHeroRef) observer.observe(currentHeroRef);
 
     return () => {
-      if (currentCtaRef) observer.unobserve(currentCtaRef);
+      if (currentHeroRef) observer.unobserve(currentHeroRef);
     };
   }, [onVisibilityChange]);
 
 
   return (
     <section 
+      ref={heroRef}
       className="relative min-h-screen bg-[#fbfbfb] flex items-center justify-center pt-24 pb-12"
     >
       <div className="container mx-auto px-6">
@@ -71,7 +72,7 @@ const Hero: React.FC<HeroProps> = ({ onVisibilityChange }) => {
                 <p className="text-lg md:text-xl max-w-3xl mx-auto text-gray-700 mb-8 animate-fade-in-grow" style={{ animationDelay: '400ms' }}>
                     {heroContent.subheadline[language]}
                 </p>
-                <div ref={ctaRef} className="flex flex-col sm:flex-row justify-center gap-4 animate-fade-in-grow" style={{ animationDelay: '600ms' }}>
+                <div className="flex flex-col sm:flex-row justify-center gap-4 animate-fade-in-grow" style={{ animationDelay: '600ms' }}>
                     <a href="#/menu" onClick={(e) => handleNavClick(e, '#/menu')} className="bg-brand-red text-white font-bold py-3 px-8 rounded-md transition-all duration-300 hover:scale-105 hover:shadow-lg active:scale-95">
                         {heroContent.ctaMenu[language]}
                     </a>
