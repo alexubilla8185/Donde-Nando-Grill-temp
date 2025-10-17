@@ -21,9 +21,9 @@ export const menuData: MenuData = {
   "menu_sections": [
     {
       "title_es": "Entradas",
-      "title_en": "Starters/Appetizers",
+      "title_en": "Starters",
       "items": [
-        {"name_es": "Glándulas de Timo", "name_en": "Sweetbreads", "price": 255, "notes_es": "Mollejas salteadas con limón, sal y salsa de aguacate.", "notes_en": "Sautéed sweetbreads with lime, salt, and avocado sauce."},
+        {"name_es": "Glándulas de Timo", "name_en": "Thymus Glands", "price": 255, "notes_es": "Mollejas salteadas con limón, sal y salsa de aguacate.", "notes_en": "Sautéed thymus glands with lime, salt, and avocado sauce."},
         {"name_es": "La Tablita", "name_en": "The Board", "price": 385, "notes_es": "Tortillas fritas, frijoles molidos, carne picada y pico de gallo.", "notes_en": "Fried tortillas, refried beans, minced meat, and pico de gallo."},
         {"name_es": "Tuétano", "name_en": "Bone Marrow", "price": 265, "notes_es": "Sorprendentemente delicioso y nutritivo.", "notes_en": "Surprisingly delicious and nutritious."},
         {"name_es": "Ceviche La Flaca", "name_en": "La Flaca Ceviche", "price": 305, "notes_es": "Camarón, cebolla morada, culantro, chile jalapeño y limón.", "notes_en": "Shrimp, red onion, cilantro, jalapeño pepper, and lime."},
@@ -54,7 +54,7 @@ export const menuData: MenuData = {
     },
     {
       "title_es": "Platos Principales",
-      "title_en": "Main Dishes (Beef/Mixed)",
+      "title_en": "Main Dishes",
       "items": [
         {"name_es": "Short Rib", "name_en": "Short Rib", "price": 685, "notes_es": "Corte de carne con marmoleado abundante, jugoso.", "notes_en": "A cut of meat with abundant, juicy marbling."},
         {"name_es": "Entraña", "name_en": "Skirt Steak", "price": 875, "notes_es": "Uno de los cortes más populares, gran sabor.", "notes_en": "One of the most popular cuts, great flavor."},
@@ -72,7 +72,7 @@ export const menuData: MenuData = {
     },
     {
       "title_es": "Cortes Especiales",
-      "title_en": "Special Cuts (Premium)",
+      "title_en": "Special Cuts",
       "items": [
         {"name_es": "Tomahawk", "name_en": "Tomahawk", "price": 1815, "notes_es": "Incluye dos guarniciones.", "notes_en": "Includes two side dishes."},
         {"name_es": "Porterhouse", "name_en": "Porterhouse", "price": 1425, "notes_es": "Incluye dos guarniciones.", "notes_en": "Includes two side dishes."},
@@ -98,7 +98,7 @@ export const menuData: MenuData = {
     },
     {
       "title_es": "Pollo Y Cerdo",
-      "title_en": "Chicken & Pork Mains",
+      "title_en": "Chicken & Pork",
       "items": [
         {"name_es": "Cochinita", "name_en": "Marinated Pork", "price": 775, "notes_es": "Trozos de cerdo marinados, acompañados de frijoles y tortilla.", "notes_en": "Marinated pork pieces, served with beans and tortilla."},
         {"name_es": "Filete de Pollo", "name_en": "Chicken Fillet", "price": 685, "notes_es": "A la parrilla con salsa de ajo y limón.", "notes_en": "Grilled with garlic and lime sauce."},

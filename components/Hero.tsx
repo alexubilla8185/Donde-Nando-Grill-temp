@@ -57,11 +57,11 @@ const Hero: React.FC<HeroProps> = ({ onVisibilityChange }) => {
       className="relative min-h-screen bg-[#fbfbfb] flex items-center justify-center pt-24 pb-12"
     >
       <div className="container mx-auto px-6">
-        <div className="flex flex-col items-center gap-y-6 md:gap-y-8 w-full">
+        <div className="flex flex-col items-center gap-y-6 w-full">
             
             {/* --- Logo Image --- */}
             <div className="animate-fade-in-grow" style={{ animationDelay: '300ms' }}>
-                <img src={logoUrl} alt="Donde Nando Grill Logo" className="w-full h-auto max-w-[13rem] sm:max-w-[15rem] md:max-w-[22rem] lg:max-w-[26rem]" />
+                <img src={logoUrl} alt="Donde Nando Grill Logo" className="w-full h-auto max-w-[13rem] sm:max-w-[15rem] md:max-w-[18rem] lg:max-w-[20rem]" />
             </div>
             
             {/* --- Text Content --- */}
