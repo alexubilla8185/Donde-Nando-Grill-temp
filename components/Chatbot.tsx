@@ -11,6 +11,7 @@ interface Message {
 
 interface ChatbotProps {
     isHidden: boolean;
+    currentRoute: string;
 }
 
 // Type for function calls from the backend
@@ -57,7 +58,7 @@ const parseMarkdown = (text: string) => {
 };
 
 
-const Chatbot: React.FC<ChatbotProps> = ({ isHidden }) => {
+const Chatbot: React.FC<ChatbotProps> = ({ isHidden, currentRoute }) => {
     const { language } = useLocalization();
     const chatbotContent = content.chatbot;
     const [isOpen, setIsOpen] = useState(false);
@@ -65,6 +66,24 @@ const Chatbot: React.FC<ChatbotProps> = ({ isHidden }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [messages, setMessages] = useState<Message[]>([]);
     const messagesEndRef = useRef<HTMLDivElement>(null);
+    const [isNudgeVisible, setNudgeVisible] = useState(false);
+    const [nudgeDismissed, setNudgeDismissed] = useState(
+        () => sessionStorage.getItem('nudgeDismissed') === 'true'
+    );
+    
+    const handleDismissNudge = (e?: React.MouseEvent) => {
+        e?.stopPropagation(); // Prevent FAB click if clicking close button
+        setNudgeVisible(false);
+        if (!nudgeDismissed) {
+            setNudgeDismissed(true);
+            sessionStorage.setItem('nudgeDismissed', 'true');
+        }
+    };
+    
+    const handleOpenChat = () => {
+        setIsOpen(true);
+        handleDismissNudge(); // Dismiss nudge permanently for the session once chat is opened
+    };
 
     useEffect(() => {
         if (isOpen && messages.length === 0) {
@@ -72,6 +91,22 @@ const Chatbot: React.FC<ChatbotProps> = ({ isHidden }) => {
             setMessages([{ role: 'model', text: chatbotContent.greeting[language] }]);
         }
     }, [isOpen, messages.length, chatbotContent.greeting, language]);
+
+    useEffect(() => {
+        // Proactive nudge timer
+        if (isHidden || isOpen || nudgeDismissed || currentRoute !== 'home') {
+            if (isNudgeVisible) setNudgeVisible(false);
+            return;
+        }
+        
+        const timer = setTimeout(() => {
+            if (!isOpen && !nudgeDismissed && currentRoute === 'home') {
+                setNudgeVisible(true);
+            }
+        }, 10000); // 10-second delay
+
+        return () => clearTimeout(timer);
+    }, [isOpen, nudgeDismissed, isHidden, currentRoute, isNudgeVisible]);
 
     useEffect(() => {
         // Scroll to the bottom of messages list
@@ -235,9 +270,37 @@ const Chatbot: React.FC<ChatbotProps> = ({ isHidden }) => {
                     </div>
                 </form>
             </div>
+            
+             {/* Proactive Nudge */}
+            {isNudgeVisible && (
+                <div
+                    onClick={handleOpenChat}
+                    className="fixed bottom-24 right-4 sm:right-6 w-64 cursor-pointer rounded-lg bg-white dark:bg-brand-surface-dark shadow-2xl p-4 z-40 animate-pop-in"
+                    role="alert"
+                    aria-live="polite"
+                >
+                    <button 
+                        onClick={handleDismissNudge} 
+                        className="absolute -top-2 -right-2 w-6 h-6 bg-gray-200 dark:bg-gray-600 rounded-full flex items-center justify-center text-gray-600 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-500 transition-colors" 
+                        aria-label="Dismiss"
+                    >
+                        <CloseIcon className="w-4 h-4" />
+                    </button>
+                    <div className="flex items-start gap-3">
+                        <div className="w-10 h-10 rounded-full bg-brand-red flex items-center justify-center shrink-0 mt-1" aria-hidden="true">
+                            <ChatIcon className="w-6 h-6 text-white" />
+                        </div>
+                        <div>
+                            <p className="font-bold text-brand-text dark:text-brand-text-dark">{chatbotContent.proactive.title[language]}</p>
+                            <p className="text-sm text-gray-600 dark:text-gray-300">{chatbotContent.proactive.message[language]}</p>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             {/* FAB */}
             <button
-                onClick={() => setIsOpen(!isOpen)}
+                onClick={() => isOpen ? setIsOpen(false) : handleOpenChat()}
                 className={`fixed bottom-6 right-6 w-14 h-14 bg-brand-red text-white rounded-full shadow-lg flex items-center justify-center z-50 transition-all duration-300 hover:scale-110 active:scale-95 ${isHidden ? 'opacity-0 scale-0 pointer-events-none' : ''}`}
                 aria-label={chatbotContent.tooltip[language]}
             >

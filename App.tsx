@@ -64,7 +64,7 @@ const AppContent: React.FC = () => {
                 {renderPage()}
             </main>
             <Footer />
-            <Chatbot isHidden={isMobileMenuOpen || isFabHidden} />
+            <Chatbot isHidden={isMobileMenuOpen || isFabHidden} currentRoute={route} />
         </div>
     );
 };

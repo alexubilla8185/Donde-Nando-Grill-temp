@@ -85,6 +85,10 @@ interface Content {
           hours: LocalizedSuggestion;
           reservation: LocalizedSuggestion;
       };
+      proactive: {
+        title: LocalizedString;
+        message: LocalizedString;
+      };
   };
 }
 
@@ -198,6 +202,10 @@ export const content: Content = {
               chip: { es: 'Reservación', en: 'Reservation' },
               prompt: { es: '¿Cómo puedo reservar?', en: 'How can I make a reservation?' }
           }
-      }
+      },
+      proactive: {
+        title: { es: '¡Hola!', en: 'Hi there!' },
+        message: { es: '¿Tiene alguna pregunta? ¡Estoy aquí para ayudar!', en: "Have a question? I'm here to help!" },
+      },
   }
 };
