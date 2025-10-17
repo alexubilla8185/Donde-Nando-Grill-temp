@@ -30,8 +30,8 @@ interface Content {
     title: LocalizedString;
     subtitle: LocalizedString;
     viewOriginalMenu: LocalizedString;
-    featuredTitle: LocalizedString;
     sidesNote: LocalizedString;
+    searchPlaceholder: LocalizedString;
     menuImages: string[];
   };
   reservations: {
@@ -115,8 +115,8 @@ export const content: Content = {
     title: { es: 'Nuestro Menú', en: 'Our Menu' },
     subtitle: { es: 'Cortes selectos y sabores auténticos, preparados con los ingredientes más frescos.', en: 'Select cuts and authentic flavors, prepared with the freshest ingredients.' },
     viewOriginalMenu: { es: 'Ver Menú Original', en: 'View Original Menu' },
-    featuredTitle: { es: 'Platos Destacados', en: 'Featured Dishes' },
     sidesNote: { es: 'Todos los platos principales incluyen dos guarniciones a su elección.', en: 'All main courses include two side dishes of your choice.' },
+    searchPlaceholder: { es: 'Buscar un plato...', en: 'Search for a dish...' },
     menuImages: [
         'https://i.ibb.co/JRSqQ2Wv/Entradas.jpg',
         'https://i.ibb.co/39jFsRK4/Platos-Principales.jpg',
